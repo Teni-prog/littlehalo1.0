@@ -24,3 +24,33 @@ How do you want user's to use it ?
 
 -----------
 Dev process
+Frontend brand colors:
+* **#EFA59A**
+* **#FF775E**
+* **#FFE5B4**
+* **#E56B6F**
+* **#FF9A8A**
+
+My Tech stack:
+- Next.js
+- TailwindCSS
+- Shadcn UI
+- Supabase
+
+## RULE for Coding my project
+For first version release
+focus on
+- Matching algo
+- Micro-adventure lib
+- Filtering system
+- Make the reviews and rating dummy data
+- Verification dummy
+- Geo-map location system dummy
+- use postgres for database with supabase
+- Ensure a good adventure matching logic
+- Booking server actions
+- Focus on a clean code
+- Dont over commit
+- Dont repeat yourself
+- Follow proper standard practice
+- Dont over engineer out of the box... build strictly MVP
