@@ -6,11 +6,14 @@ import { Testimonials } from "@/components/homepage/Testimonials";
 import { PricingFAQ } from "@/components/homepage/Pricing";
 import { DualCTA } from "@/components/homepage/DualCTA";
 import { SiteFooter } from "@/components/homepage/Footer";
+import { PublicNavbar } from "@/components/layout/PublicNavbar";
 
 export default function Home() {
   return (
     <>
-      {/* Animated Background Blobs - Exact match to HTML */}
+      <PublicNavbar />
+
+      {/* Animated Background Blobs */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#FFE5B4] rounded-full mix-blend-multiply filter blur-[80px] opacity-40 animate-blob" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#EFA59A] rounded-full mix-blend-multiply filter blur-[80px] opacity-40 animate-blob animation-delay-2000" />

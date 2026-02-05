@@ -1,43 +1,65 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { 
-  Grid3x3, Palette, BookOpen, FlaskConical, TreePine, Globe, 
-  Puzzle, Music, ChefHat, Clock, Users, TrendingUp, Sparkles 
-} from 'lucide-react';
-import { activityCategories, mockActivities } from '@/lib/mock-data/activities';
+import { useState } from "react";
+import {
+  Grid3x3,
+  Palette,
+  BookOpen,
+  FlaskConical,
+  TreePine,
+  Globe,
+  Puzzle,
+  Music,
+  ChefHat,
+  Clock,
+  Users,
+  TrendingUp,
+  Sparkles,
+} from "lucide-react";
+import { activityCategories, mockActivities } from "@/lib/mock-data/activities";
 
 const iconMap = {
-  Grid3x3, Palette, BookOpen, FlaskConical, TreePine, 
-  Globe, Puzzle, Music, ChefHat
+  Grid3x3,
+  Palette,
+  BookOpen,
+  FlaskConical,
+  TreePine,
+  Globe,
+  Puzzle,
+  Music,
+  ChefHat,
 };
 
 export function ActivityLibrary() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedAge, setSelectedAge] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedAge, setSelectedAge] = useState("all");
 
-  const filteredActivities = mockActivities.filter(activity => {
-    const categoryMatch = selectedCategory === 'all' || activity.category === selectedCategory;
-    const ageMatch = selectedAge === 'all' || 
-      (parseInt(selectedAge) >= activity.ageMin && parseInt(selectedAge) <= activity.ageMax);
+  const filteredActivities = mockActivities.filter((activity) => {
+    const categoryMatch =
+      selectedCategory === "all" || activity.category === selectedCategory;
+    const ageMatch =
+      selectedAge === "all" ||
+      (parseInt(selectedAge) >= activity.ageMin &&
+        parseInt(selectedAge) <= activity.ageMax);
     return categoryMatch && ageMatch;
   });
 
   const difficultyColors = {
-    'Beginner': 'bg-green-100 text-green-700 border-green-200',
-    'Intermediate': 'bg-orange-100 text-orange-700 border-orange-200',
-    'Advanced': 'bg-red-100 text-red-700 border-red-200'
+    Beginner: "bg-green-100 text-green-700 border-green-200",
+    Intermediate: "bg-orange-100 text-orange-700 border-orange-200",
+    Advanced: "bg-red-100 text-red-700 border-red-200",
   };
 
   return (
-    <section id="activities" className="py-20 bg-gray-50">
+    <section id="activities" className="py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             Browse Our Activity Library
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Choose from 50+ educational activities or let your sitter customize based on your child's interests
+            Choose from 50+ educational activities or let your sitter customize
+            based on your child's interests
           </p>
         </div>
 
@@ -53,15 +75,17 @@ export function ActivityLibrary() {
                   onClick={() => setSelectedCategory(category.id)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all whitespace-nowrap ${
                     isActive
-                      ? 'bg-gradient-to-r from-[#E5533D] to-[#D4442C] text-white shadow-md'
-                      : 'bg-white text-gray-700 border border-gray-200 hover:border-gray-300 hover:shadow-sm'
+                      ? "bg-gradient-to-r from-[#E5533D] to-[#D4442C] text-white shadow-md"
+                      : "bg-white text-gray-700 border border-gray-200 hover:border-gray-300 hover:shadow-sm"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
                   <span>{category.name}</span>
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${
-                    isActive ? 'bg-white/20' : 'bg-gray-100'
-                  }`}>
+                  <span
+                    className={`text-xs px-2 py-0.5 rounded-full ${
+                      isActive ? "bg-white/20" : "bg-gray-100"
+                    }`}
+                  >
                     {category.count}
                   </span>
                 </button>
@@ -72,7 +96,10 @@ export function ActivityLibrary() {
 
         {/* Age Filter */}
         <div className="mb-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <label htmlFor="age-filter" className="text-sm font-medium text-gray-700">
+          <label
+            htmlFor="age-filter"
+            className="text-sm font-medium text-gray-700"
+          >
             Filter by child's age:
           </label>
           <select
@@ -99,15 +126,23 @@ export function ActivityLibrary() {
         {/* Results Count */}
         <div className="text-center mb-8">
           <p className="text-sm text-gray-600">
-            Showing <strong className="text-gray-900">{filteredActivities.length}</strong> activities
+            Showing{" "}
+            <strong className="text-gray-900">
+              {filteredActivities.length}
+            </strong>{" "}
+            activities
           </p>
         </div>
 
         {/* Activities Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredActivities.map((activity) => {
-            const CategoryIcon = iconMap[activityCategories.find(c => c.id === activity.category)?.icon || 'Grid3x3'];
-            
+            const CategoryIcon =
+              iconMap[
+                activityCategories.find((c) => c.id === activity.category)
+                  ?.icon || "Grid3x3"
+              ];
+
             return (
               <div
                 key={activity.id}
@@ -121,7 +156,9 @@ export function ActivityLibrary() {
                         <div className="w-8 h-8 bg-gradient-to-br from-[#E5533D] to-[#D4442C] rounded-lg flex items-center justify-center">
                           <CategoryIcon className="w-4 h-4 text-white" />
                         </div>
-                        <span className={`text-xs px-2 py-1 rounded-full border font-medium ${difficultyColors[activity.difficulty]}`}>
+                        <span
+                          className={`text-xs px-2 py-1 rounded-full border font-medium ${difficultyColors[activity.difficulty]}`}
+                        >
                           {activity.difficulty}
                         </span>
                       </div>
@@ -169,7 +206,9 @@ export function ActivityLibrary() {
                   {activity.specialFeature && (
                     <div className="mb-4 flex items-center gap-1.5 text-xs text-[#E5533D]">
                       <Sparkles className="w-3.5 h-3.5" />
-                      <span className="font-medium">{activity.specialFeature}</span>
+                      <span className="font-medium">
+                        {activity.specialFeature}
+                      </span>
                     </div>
                   )}
 
@@ -177,7 +216,13 @@ export function ActivityLibrary() {
                   <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                     <div className="flex items-center gap-1.5 text-xs text-gray-500">
                       <TrendingUp className="w-3.5 h-3.5 text-green-600" />
-                      <span>Used in <strong className="text-gray-900">{activity.popularity}</strong> bookings</span>
+                      <span>
+                        Used in{" "}
+                        <strong className="text-gray-900">
+                          {activity.popularity}
+                        </strong>{" "}
+                        bookings
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -186,19 +231,29 @@ export function ActivityLibrary() {
                 <div className="px-6 pb-6">
                   <details className="group/details">
                     <summary className="cursor-pointer text-sm font-semibold text-[#E5533D] hover:text-[#D4442C] transition-colors list-none">
-                      <span className="group-open/details:hidden">View Details →</span>
-                      <span className="hidden group-open/details:inline">Hide Details ←</span>
+                      <span className="group-open/details:hidden">
+                        View Details →
+                      </span>
+                      <span className="hidden group-open/details:inline">
+                        Hide Details ←
+                      </span>
                     </summary>
                     <div className="mt-4 pt-4 border-t border-gray-100 space-y-3">
                       {/* Full Description */}
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-900 mb-1">Full Description</h4>
-                        <p className="text-sm text-gray-600">{activity.fullDescription}</p>
+                        <h4 className="text-xs font-semibold text-gray-900 mb-1">
+                          Full Description
+                        </h4>
+                        <p className="text-sm text-gray-600">
+                          {activity.fullDescription}
+                        </p>
                       </div>
 
                       {/* Materials */}
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-900 mb-1">Materials Needed</h4>
+                        <h4 className="text-xs font-semibold text-gray-900 mb-1">
+                          Materials Needed
+                        </h4>
                         <ul className="text-sm text-gray-600 space-y-1">
                           {activity.materials.map((material, idx) => (
                             <li key={idx} className="flex items-start gap-2">
@@ -213,12 +268,18 @@ export function ActivityLibrary() {
                       <div className="grid grid-cols-2 gap-2 text-xs">
                         <div>
                           <span className="text-gray-500">Mess Level:</span>
-                          <span className="ml-1 font-medium text-gray-900">{activity.messLevel}</span>
+                          <span className="ml-1 font-medium text-gray-900">
+                            {activity.messLevel}
+                          </span>
                         </div>
                         <div>
                           <span className="text-gray-500">Location:</span>
                           <span className="ml-1 font-medium text-gray-900">
-                            {activity.indoor && activity.outdoor ? 'Indoor/Outdoor' : activity.indoor ? 'Indoor' : 'Outdoor'}
+                            {activity.indoor && activity.outdoor
+                              ? "Indoor/Outdoor"
+                              : activity.indoor
+                                ? "Indoor"
+                                : "Outdoor"}
                           </span>
                         </div>
                       </div>
@@ -233,11 +294,13 @@ export function ActivityLibrary() {
         {/* No Results */}
         {filteredActivities.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-600 mb-4">No activities match your filters</p>
+            <p className="text-gray-600 mb-4">
+              No activities match your filters
+            </p>
             <button
               onClick={() => {
-                setSelectedCategory('all');
-                setSelectedAge('all');
+                setSelectedCategory("all");
+                setSelectedAge("all");
               }}
               className="text-[#E5533D] font-semibold hover:text-[#D4442C]"
             >
