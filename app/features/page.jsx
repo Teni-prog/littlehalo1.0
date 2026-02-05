@@ -25,9 +25,9 @@ export default function FeaturesPage() {
 
       {/* Animated Background Blobs - Features pattern */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[20%] left-[15%] w-[500px] h-[500px] bg-[#FFE5B4] rounded-full mix-blend-multiply filter blur-[80px] opacity-30 animate-blob" />
-        <div className="absolute top-[10%] right-[10%] w-[450px] h-[450px] bg-[#EFA59A] rounded-full mix-blend-multiply filter blur-[80px] opacity-35 animate-blob animation-delay-4000" />
-        <div className="absolute bottom-[15%] left-[45%] w-[480px] h-[480px] bg-[#FFE5B4]/35 rounded-full mix-blend-multiply filter blur-[80px] opacity-25 animate-blob animation-delay-2000" />
+        <div className="absolute top-[20%] left-[15%] w-[500px] h-[500px] bg-peach rounded-full mix-blend-multiply filter blur-[80px] opacity-30 animate-blob" />
+        <div className="absolute top-[10%] right-[10%] w-[450px] h-[450px] bg-coral rounded-full mix-blend-multiply filter blur-[80px] opacity-35 animate-blob animation-delay-4000" />
+        <div className="absolute bottom-[15%] left-[45%] w-[480px] h-[480px] bg-peach/35 rounded-full mix-blend-multiply filter blur-[80px] opacity-25 animate-blob animation-delay-2000" />
       </div>
 
       {/* Main Content */}
@@ -52,9 +52,9 @@ export default function FeaturesPage() {
             {/* Feature 1: Cultural & Language Matching */}
             <section className="glass-card rounded-3xl p-10 md:p-12 lg:grid lg:grid-cols-2 lg:gap-12 lg:items-start">
               <div>
-                <div className="w-16 h-16 rounded-2xl bg-[#E5533D]/10 flex items-center justify-center mb-6">
+                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
                   <MessageCircle
-                    className="w-7 h-7 text-[#E5533D]"
+                    className="w-7 h-7 text-primary"
                     strokeWidth={1.5}
                   />
                 </div>
@@ -68,19 +68,19 @@ export default function FeaturesPage() {
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                    <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                     <span className="text-gray-700">
                       Filter by language (15+ languages available)
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                    <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                     <span className="text-gray-700">
                       Match with sitters from your cultural background
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                    <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                     <span className="text-gray-700">
                       Dietary, religious, and cultural preferences respected
                     </span>
@@ -122,7 +122,7 @@ export default function FeaturesPage() {
 
             {/* Feature 2: Micro-Adventures Library */}
             <section className="glass-card rounded-3xl p-10 md:p-12 lg:grid lg:grid-cols-2 lg:gap-12 lg:items-start">
-              <div className="bg-gradient-to-br from-[#EFA59A]/10 to-transparent rounded-2xl p-8 mb-8 lg:mb-0">
+              <div className="bg-gradient-to-br from-coral/10 to-transparent rounded-2xl p-8 mb-8 lg:mb-0">
                 <h3 className="font-semibold text-[#111827] mb-4">
                   Popular Activities
                 </h3>
@@ -164,9 +164,9 @@ export default function FeaturesPage() {
               </div>
 
               <div>
-                <div className="w-16 h-16 rounded-2xl bg-[#EFA59A]/20 flex items-center justify-center mb-6">
+                <div className="w-16 h-16 rounded-2xl bg-coral/20 flex items-center justify-center mb-6">
                   <Rocket
-                    className="w-7 h-7 text-[#D4442C]"
+                    className="w-7 h-7 text-primary-dark"
                     strokeWidth={1.5}
                   />
                 </div>
@@ -180,19 +180,19 @@ export default function FeaturesPage() {
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                    <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                     <span className="text-gray-700">
                       50+ age-appropriate activities
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                    <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                     <span className="text-gray-700">
                       Materials list and instructions included
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                    <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                     <span className="text-gray-700">
                       Track your child's learning journey
                     </span>
@@ -362,7 +362,7 @@ export default function FeaturesPage() {
             </p>
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2 bg-[#E5533D] hover:bg-[#D4442C] text-white text-lg font-semibold px-8 py-4 rounded-lg transition-all hover:shadow-lg hover:shadow-[#E5533D]/30"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-lg font-semibold px-8 py-4 rounded-lg transition-all hover:shadow-lg hover:shadow-primary/30"
             >
               Find Your Sitter
               <svg

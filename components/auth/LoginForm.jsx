@@ -23,7 +23,7 @@ export function LoginForm() {
             name="email"
             autoComplete="email"
             required
-            className="w-full px-4 py-3.5 bg-white rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#E5533D] focus:ring-2 focus:ring-[#E5533D]/20 transition-all shadow-sm"
+            className="w-full px-4 py-3.5 bg-white rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
             placeholder="you@example.com"
           />
         </div>
@@ -39,7 +39,7 @@ export function LoginForm() {
             </label>
             <Link
               href="/forgot-password"
-              className="text-sm text-[#E5533D] font-semibold hover:text-[#D4442C] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5533D] focus-visible:ring-offset-2 rounded px-1"
+              className="text-sm text-primary font-semibold hover:text-primary-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded px-1"
             >
               Forgot password?
             </Link>
@@ -50,7 +50,7 @@ export function LoginForm() {
             name="password"
             autoComplete="current-password"
             required
-            className="w-full px-4 py-3.5 bg-white rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#E5533D] focus:ring-2 focus:ring-[#E5533D]/20 transition-all shadow-sm"
+            className="w-full px-4 py-3.5 bg-white rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
             placeholder="••••••••"
           />
         </div>
@@ -61,7 +61,7 @@ export function LoginForm() {
             type="checkbox"
             id="remember"
             name="remember"
-            className="w-4 h-4 rounded border-gray-300 text-[#E5533D] focus:ring-[#E5533D] focus:ring-offset-0"
+            className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0"
           />
           <label htmlFor="remember" className="text-sm text-gray-600">
             Remember me for 30 days
@@ -71,7 +71,7 @@ export function LoginForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-[#E5533D] to-[#D4442C] text-white py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-[#E5533D]/30 transition-all mt-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5533D] focus-visible:ring-offset-2"
+          className="w-full bg-gradient-to-r from-primary to-primary-dark text-white py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all mt-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         >
           Log in
         </button>

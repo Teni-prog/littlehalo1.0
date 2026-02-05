@@ -35,7 +35,7 @@ export function ComparisonTable() {
               <th className="text-center pb-4 text-gray-500 font-semibold">
                 Informal Sitter
               </th>
-              <th className="text-center pb-4 text-[#E5533D] font-semibold">
+              <th className="text-center pb-4 text-primary font-semibold">
                 littlëHALO
               </th>
             </tr>
@@ -141,9 +141,9 @@ export function ComparisonTable() {
               <span className="text-sm text-gray-600">Informal Sitter</span>
               <span className="text-sm font-medium">None</span>
             </div>
-            <div className="flex items-center justify-between py-2 bg-[#FFE5B4]/30 -mx-3 px-3 rounded-lg">
+            <div className="flex items-center justify-between py-2 bg-peach/30 -mx-3 px-3 rounded-lg">
               <span className="text-sm font-semibold">littlëHALO</span>
-              <span className="text-sm font-bold text-[#E5533D]">
+              <span className="text-sm font-bold text-primary">
                 None (Instant)
               </span>
             </div>
@@ -164,7 +164,7 @@ export function ComparisonTable() {
               <span className="text-sm text-gray-600">Informal Sitter</span>
               <X className="w-5 h-5 text-red-600" />
             </div>
-            <div className="flex items-center justify-between py-2 bg-[#FFE5B4]/30 -mx-3 px-3 rounded-lg">
+            <div className="flex items-center justify-between py-2 bg-peach/30 -mx-3 px-3 rounded-lg">
               <span className="text-sm font-semibold">littlëHALO</span>
               <div className="flex items-center gap-1">
                 <Check className="w-5 h-5 text-emerald-600" />
@@ -188,7 +188,7 @@ export function ComparisonTable() {
               <span className="text-sm text-gray-600">Informal Sitter</span>
               <span className="text-sm font-medium">Luck-based</span>
             </div>
-            <div className="flex items-center justify-between py-2 bg-[#FFE5B4]/30 -mx-3 px-3 rounded-lg">
+            <div className="flex items-center justify-between py-2 bg-peach/30 -mx-3 px-3 rounded-lg">
               <span className="text-sm font-semibold">littlëHALO</span>
               <div className="flex items-center gap-1">
                 <Check className="w-5 h-5 text-emerald-600" />
@@ -212,7 +212,7 @@ export function ComparisonTable() {
               <span className="text-sm text-gray-600">Informal Sitter</span>
               <span className="text-sm font-medium">No</span>
             </div>
-            <div className="flex items-center justify-between py-2 bg-[#FFE5B4]/30 -mx-3 px-3 rounded-lg">
+            <div className="flex items-center justify-between py-2 bg-peach/30 -mx-3 px-3 rounded-lg">
               <span className="text-sm font-semibold">littlëHALO</span>
               <div className="flex items-center gap-1">
                 <Check className="w-5 h-5 text-emerald-600" />
@@ -236,9 +236,9 @@ export function ComparisonTable() {
               <span className="text-sm text-gray-600">Informal Sitter</span>
               <span className="text-sm font-medium">$15-25/hr</span>
             </div>
-            <div className="flex items-center justify-between py-2 bg-[#FFE5B4]/30 -mx-3 px-3 rounded-lg">
+            <div className="flex items-center justify-between py-2 bg-peach/30 -mx-3 px-3 rounded-lg">
               <span className="text-sm font-semibold">littlëHALO</span>
-              <span className="text-sm font-bold text-[#E5533D]">
+              <span className="text-sm font-bold text-primary">
                 $18-28/hr
               </span>
             </div>

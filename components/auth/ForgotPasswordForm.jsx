@@ -29,14 +29,14 @@ export function ForgotPasswordForm() {
             autoComplete="email"
             required
             placeholder="you@example.com"
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#E5533D] focus:ring-2 focus:ring-[#E5533D]/20 focus:outline-none transition-all text-gray-900 placeholder:text-gray-400"
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all text-gray-900 placeholder:text-gray-400"
           />
         </div>
 
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-[#E5533D] to-[#D4442C] text-white py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-[#E5533D]/30 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5533D] focus-visible:ring-offset-2"
+          className="w-full bg-gradient-to-r from-primary to-primary-dark text-white py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         >
           Send Reset Link
         </button>

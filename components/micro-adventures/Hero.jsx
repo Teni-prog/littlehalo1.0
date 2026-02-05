@@ -5,14 +5,14 @@ export function ActivitiesHero() {
   return (
     <section className="relative pt-20 pb-16 overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute top-20 right-10 w-72 h-72 bg-[#E5533D]/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-10 left-10 w-96 h-96 bg-[#FFE5B4]/30 rounded-full blur-3xl" />
+      <div className="absolute top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-10 left-10 w-96 h-96 bg-peach/30 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full mb-6 shadow-sm">
-            <Sparkles className="w-4 h-4 text-[#E5533D]" />
+            <Sparkles className="w-4 h-4 text-primary" />
             <span className="text-sm font-medium text-gray-700">
               50+ Educational Activities Included
             </span>
@@ -21,7 +21,7 @@ export function ActivitiesHero() {
           {/* Main Headline */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
             More Than Babysitting—
-            <span className="block mt-2 bg-gradient-to-r from-[#E5533D] to-[#D4442C] bg-clip-text text-transparent">
+            <span className="block mt-2 bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
               Adventures in Learning
             </span>
           </h1>
@@ -40,19 +40,19 @@ export function ActivitiesHero() {
           {/* Stats */}
           <div className="grid grid-cols-3 gap-6 max-w-2xl mx-auto mb-10">
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-[#E5533D] mb-1">
+              <div className="text-3xl sm:text-4xl font-bold text-primary mb-1">
                 50+
               </div>
               <div className="text-sm text-gray-600">Activities Available</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-[#E5533D] mb-1">
+              <div className="text-3xl sm:text-4xl font-bold text-primary mb-1">
                 8
               </div>
               <div className="text-sm text-gray-600">Categories</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-[#E5533D] mb-1">
+              <div className="text-3xl sm:text-4xl font-bold text-primary mb-1">
                 500+
               </div>
               <div className="text-sm text-gray-600">Hours Delivered</div>
@@ -63,7 +63,7 @@ export function ActivitiesHero() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="#activities"
-              className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-[#E5533D] to-[#D4442C] text-white font-semibold rounded-lg hover:shadow-lg transition-all"
+              className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-primary to-primary-dark text-white font-semibold rounded-lg hover:shadow-lg transition-all"
             >
               Browse Activities
             </Link>
@@ -78,14 +78,14 @@ export function ActivitiesHero() {
           {/* Trust Indicators */}
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-gray-600">
             <div className="flex items-center gap-2">
-              <Users className="w-5 h-5 text-[#E5533D]" />
+              <Users className="w-5 h-5 text-primary" />
               <span>
                 Used in <strong>1,200+ bookings</strong>
               </span>
             </div>
             <div className="hidden sm:block w-1 h-1 bg-gray-300 rounded-full" />
             <div className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-[#E5533D]" />
+              <TrendingUp className="w-5 h-5 text-primary" />
               <span>
                 Average <strong>4.9-star ratings</strong>
               </span>

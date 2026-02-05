@@ -53,13 +53,13 @@ export function PricingFAQ() {
             <div className="space-y-6">
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full bg-[#FFE5B4] flex items-center justify-center shrink-0 mt-0.5">
-                    <Check className="w-3.5 h-3.5 text-[#E5533D]" />
+                  <div className="w-5 h-5 rounded-full bg-peach flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3.5 h-3.5 text-primary" />
                   </div>
                   <div>
                     <p className="text-gray-700">
                       Average Rate:{" "}
-                      <span className="font-bold text-[#E5533D]">
+                      <span className="font-bold text-primary">
                         $18 - $28 / hr
                       </span>
                     </p>
@@ -67,8 +67,8 @@ export function PricingFAQ() {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full bg-[#FFE5B4] flex items-center justify-center shrink-0 mt-0.5">
-                    <Check className="w-3.5 h-3.5 text-[#E5533D]" />
+                  <div className="w-5 h-5 rounded-full bg-peach flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3.5 h-3.5 text-primary" />
                   </div>
                   <div>
                     <p className="text-gray-700">Includes Insurance Coverage</p>
@@ -76,8 +76,8 @@ export function PricingFAQ() {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full bg-[#FFE5B4] flex items-center justify-center shrink-0 mt-0.5">
-                    <Check className="w-3.5 h-3.5 text-[#E5533D]" />
+                  <div className="w-5 h-5 rounded-full bg-peach flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3.5 h-3.5 text-primary" />
                   </div>
                   <div>
                     <p className="text-gray-700">
@@ -108,14 +108,14 @@ export function PricingFAQ() {
 
               <div className="flex items-center justify-between pt-4 border-t border-gray-200 mb-6">
                 <span className="font-semibold text-gray-900">Total</span>
-                <span className="text-2xl font-bold text-[#E5533D]">
+                <span className="text-2xl font-bold text-primary">
                   $66.00
                 </span>
               </div>
 
               <Link
                 href="/signup"
-                className="block w-full text-center px-6 py-4 rounded-xl bg-linear-to-r from-[#E5533D] to-[#D4442C] text-white font-semibold hover:shadow-lg hover:shadow-[#E5533D]/30 transition-all"
+                className="block w-full text-center px-6 py-4 rounded-xl bg-linear-to-r from-primary to-primary-dark text-white font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all"
               >
                 Start Searching
               </Link>
@@ -155,7 +155,7 @@ export function PricingFAQ() {
                 <span className="font-semibold text-[#111827] pr-4">
                   {faq.question}
                 </span>
-                <ChevronDown className="w-5 h-5 text-[#E5533D] shrink-0 transition-transform group-open:rotate-180" />
+                <ChevronDown className="w-5 h-5 text-primary shrink-0 transition-transform group-open:rotate-180" />
               </summary>
               <div className="px-5 pb-5 text-gray-600 leading-relaxed">
                 {faq.answer}

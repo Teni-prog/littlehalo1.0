@@ -33,8 +33,8 @@ export function FeaturesPreview() {
         {/* Smart Matching */}
         <div className="glass-card rounded-3xl p-8 space-y-5 hover:shadow-xl transition-shadow">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-[#FFE5B4] flex items-center justify-center">
-              <Heart className="w-[22px] h-[22px] text-[#E5533D]" />
+            <div className="w-11 h-11 rounded-xl bg-peach flex items-center justify-center">
+              <Heart className="w-[22px] h-[22px] text-primary" />
             </div>
             <h3 className="text-xl font-semibold text-[#111827]">
               Smart Matching
@@ -65,8 +65,8 @@ export function FeaturesPreview() {
         {/* Cultural & Language */}
         <div className="glass-card rounded-3xl p-8 space-y-5 hover:shadow-xl transition-shadow">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-[#FFE5B4] flex items-center justify-center">
-              <Globe className="w-[22px] h-[22px] text-[#E5533D]" />
+            <div className="w-11 h-11 rounded-xl bg-peach flex items-center justify-center">
+              <Globe className="w-[22px] h-[22px] text-primary" />
             </div>
             <h3 className="text-xl font-semibold text-[#111827]">
               Cultural Match
@@ -103,8 +103,8 @@ export function FeaturesPreview() {
         {/* Safety & Verification */}
         <div className="glass-card rounded-3xl p-8 space-y-5 hover:shadow-xl transition-shadow">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-[#FFE5B4] flex items-center justify-center">
-              <ShieldCheck className="w-[22px] h-[22px] text-[#E5533D]" />
+            <div className="w-11 h-11 rounded-xl bg-peach flex items-center justify-center">
+              <ShieldCheck className="w-[22px] h-[22px] text-primary" />
             </div>
             <h3 className="text-xl font-semibold text-[#111827]">
               100% Verified
@@ -117,15 +117,15 @@ export function FeaturesPreview() {
           <div className="pt-3 border-t border-gray-100">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm text-gray-700">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#E5533D]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                 Government ID Verification
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-700">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#E5533D]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                 Criminal Record Check
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-700">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#E5533D]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                 Reference Verification
               </div>
             </div>
@@ -133,9 +133,9 @@ export function FeaturesPreview() {
         </div>
 
         {/* Micro-Adventures - Highlighted */}
-        <div className="glass-card rounded-3xl p-8 space-y-5 hover:shadow-xl transition-shadow border border-[#E5533D]/10">
+        <div className="glass-card rounded-3xl p-8 space-y-5 hover:shadow-xl transition-shadow border border-primary/10">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-[#E5533D] flex items-center justify-center">
+            <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center">
               <Rocket className="w-[22px] h-[22px] text-white" />
             </div>
             <h3 className="text-xl font-semibold text-[#111827]">
@@ -151,13 +151,13 @@ export function FeaturesPreview() {
               Activity categories
             </div>
             <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1.5 rounded-lg bg-[#FFE5B4]/50 text-[#111827] font-medium text-sm">
+              <span className="px-3 py-1.5 rounded-lg bg-peach/50 text-[#111827] font-medium text-sm">
                 STEM
               </span>
-              <span className="px-3 py-1.5 rounded-lg bg-[#FFE5B4]/50 text-[#111827] font-medium text-sm">
+              <span className="px-3 py-1.5 rounded-lg bg-peach/50 text-[#111827] font-medium text-sm">
                 Arts & Crafts
               </span>
-              <span className="px-3 py-1.5 rounded-lg bg-[#FFE5B4]/50 text-[#111827] font-medium text-sm">
+              <span className="px-3 py-1.5 rounded-lg bg-peach/50 text-[#111827] font-medium text-sm">
                 Cooking
               </span>
             </div>
@@ -169,7 +169,7 @@ export function FeaturesPreview() {
       <div className="text-center pt-4">
         <Link
           href="/features"
-          className="inline-flex items-center gap-2 text-[#E5533D] font-semibold hover:gap-3 transition-all"
+          className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
         >
           <span>Explore All Features</span>
           <ArrowRight className="w-5 h-5" />

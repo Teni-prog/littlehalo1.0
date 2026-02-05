@@ -12,7 +12,7 @@ export function AuthNavbar({
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-[#E5533D] flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
               <svg
                 className="w-5 h-5 text-white"
                 viewBox="0 0 24 24"
@@ -25,7 +25,7 @@ export function AuthNavbar({
             </div>
             <div className="flex items-baseline gap-0.5 text-lg font-bold tracking-tight">
               <span className="text-[#111827]">littlë</span>
-              <span className="text-[#E5533D]">HALO</span>
+              <span className="text-primary">HALO</span>
             </div>
           </Link>
 

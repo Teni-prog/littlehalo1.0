@@ -6,7 +6,7 @@ export function SitterTestimonials() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFE5B4] text-[#111827] text-sm font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-peach text-[#111827] text-sm font-semibold mb-4">
             Testimonials
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-[#111827] mb-4">
@@ -23,7 +23,7 @@ export function SitterTestimonials() {
           <div className="glass-card rounded-2xl p-8">
             <div className="flex gap-1 mb-4">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 text-[#E5533D] fill-[#E5533D]" />
+                <Star key={i} className="w-5 h-5 text-primary fill-primary" />
               ))}
             </div>
             <p className="text-gray-700 mb-6 italic">
@@ -31,7 +31,7 @@ export function SitterTestimonials() {
               I'm making 40% more than my previous babysitting jobs and doing what I love!"
             </p>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#E5533D] to-[#D4442C] flex items-center justify-center text-white font-bold">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white font-bold">
                 EC
               </div>
               <div>
@@ -45,7 +45,7 @@ export function SitterTestimonials() {
           <div className="glass-card rounded-2xl p-8">
             <div className="flex gap-1 mb-4">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 text-[#E5533D] fill-[#E5533D]" />
+                <Star key={i} className="w-5 h-5 text-primary fill-primary" />
               ))}
             </div>
             <p className="text-gray-700 mb-6 italic">
@@ -53,7 +53,7 @@ export function SitterTestimonials() {
               I choose when I work, and payment is always on time."
             </p>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#E5533D] to-[#D4442C] flex items-center justify-center text-white font-bold">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white font-bold">
                 MR
               </div>
               <div>
@@ -67,7 +67,7 @@ export function SitterTestimonials() {
           <div className="glass-card rounded-2xl p-8">
             <div className="flex gap-1 mb-4">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 text-[#E5533D] fill-[#E5533D]" />
+                <Star key={i} className="w-5 h-5 text-primary fill-primary" />
               ))}
             </div>
             <p className="text-gray-700 mb-6 italic">
@@ -75,7 +75,7 @@ export function SitterTestimonials() {
               The platform is reliable, families are amazing, and I'm earning more than I did teaching."
             </p>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#E5533D] to-[#D4442C] flex items-center justify-center text-white font-bold">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white font-bold">
                 JP
               </div>
               <div>

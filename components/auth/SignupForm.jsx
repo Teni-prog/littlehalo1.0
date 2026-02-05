@@ -17,9 +17,9 @@ export function SignupForm() {
           <button
             type="button"
             onClick={() => setAccountType("parent")}
-            className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5533D] focus-visible:ring-offset-2 ${
+            className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
               accountType === "parent"
-                ? "border-[#E5533D] bg-gradient-to-r from-[#E5533D] to-[#D4442C] text-white"
+                ? "border-primary bg-gradient-to-r from-primary to-primary-dark text-white"
                 : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
             }`}
           >
@@ -29,9 +29,9 @@ export function SignupForm() {
           <button
             type="button"
             onClick={() => setAccountType("sitter")}
-            className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5533D] focus-visible:ring-offset-2 ${
+            className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
               accountType === "sitter"
-                ? "border-[#E5533D] bg-gradient-to-r from-[#E5533D] to-[#D4442C] text-white"
+                ? "border-primary bg-gradient-to-r from-primary to-primary-dark text-white"
                 : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
             }`}
           >
@@ -56,7 +56,7 @@ export function SignupForm() {
             name="fullName"
             autoComplete="name"
             required
-            className="w-full px-4 py-3.5 bg-white rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#E5533D] focus:ring-2 focus:ring-[#E5533D]/20 transition-all shadow-sm"
+            className="w-full px-4 py-3.5 bg-white rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
             placeholder="Enter your full name"
           />
         </div>
@@ -75,7 +75,7 @@ export function SignupForm() {
             name="email"
             autoComplete="email"
             required
-            className="w-full px-4 py-3.5 bg-white rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#E5533D] focus:ring-2 focus:ring-[#E5533D]/20 transition-all shadow-sm"
+            className="w-full px-4 py-3.5 bg-white rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
             placeholder="you@example.com"
           />
         </div>
@@ -94,7 +94,7 @@ export function SignupForm() {
             name="password"
             autoComplete="new-password"
             required
-            className="w-full px-4 py-3.5 bg-white rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#E5533D] focus:ring-2 focus:ring-[#E5533D]/20 transition-all shadow-sm"
+            className="w-full px-4 py-3.5 bg-white rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
             placeholder="Create a strong password"
           />
           <p className="text-xs text-gray-500 mt-1.5">
@@ -109,15 +109,15 @@ export function SignupForm() {
             id="terms"
             name="terms"
             required
-            className="mt-0.5 w-4 h-4 rounded border-gray-300 text-[#E5533D] focus:ring-[#E5533D] focus:ring-offset-0"
+            className="mt-0.5 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0"
           />
           <label htmlFor="terms" className="text-sm text-gray-600">
             I agree to the{" "}
-            <a href="#" className="text-[#E5533D] hover:underline">
+            <a href="#" className="text-primary hover:underline">
               Terms of Service
             </a>{" "}
             and{" "}
-            <a href="#" className="text-[#E5533D] hover:underline">
+            <a href="#" className="text-primary hover:underline">
               Privacy Policy
             </a>
           </label>
@@ -126,7 +126,7 @@ export function SignupForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-[#E5533D] to-[#D4442C] text-white py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-[#E5533D]/30 transition-all mt-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5533D] focus-visible:ring-offset-2"
+          className="w-full bg-gradient-to-r from-primary to-primary-dark text-white py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all mt-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         >
           Create account
         </button>

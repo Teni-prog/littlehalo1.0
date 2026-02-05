@@ -41,3 +41,10 @@ yarn-error.log*
 next-env.d.ts
 
 /doc
+CONVERSION-INSTRUCTIONS.md
+CONVERSION-PROGRESS.md
+INSTALL-SKILLS.md
+/littlehalopages
+
+.agents/skills
+.claude/skills

@@ -39,12 +39,12 @@ export function ResetPasswordForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter new password"
-            className="w-full px-4 py-3 pr-12 rounded-xl border border-gray-300 focus:border-[#E5533D] focus:ring-2 focus:ring-[#E5533D]/20 focus:outline-none transition-all text-gray-900 placeholder:text-gray-400"
+            className="w-full px-4 py-3 pr-12 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all text-gray-900 placeholder:text-gray-400"
           />
           <button
             type="button"
             onClick={() => setShowNewPassword(!showNewPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5533D] rounded p-1"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded p-1"
           >
             {showNewPassword ? (
               <EyeOff className="w-5 h-5" />
@@ -73,12 +73,12 @@ export function ResetPasswordForm() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Re-enter new password"
-            className="w-full px-4 py-3 pr-12 rounded-xl border border-gray-300 focus:border-[#E5533D] focus:ring-2 focus:ring-[#E5533D]/20 focus:outline-none transition-all text-gray-900 placeholder:text-gray-400"
+            className="w-full px-4 py-3 pr-12 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all text-gray-900 placeholder:text-gray-400"
           />
           <button
             type="button"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5533D] rounded p-1"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded p-1"
           >
             {showConfirmPassword ? (
               <EyeOff className="w-5 h-5" />
@@ -111,7 +111,7 @@ export function ResetPasswordForm() {
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full bg-gradient-to-r from-[#E5533D] to-[#D4442C] text-white py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-[#E5533D]/30 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5533D] focus-visible:ring-offset-2"
+        className="w-full bg-gradient-to-r from-primary to-primary-dark text-white py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       >
         Reset Password
       </button>

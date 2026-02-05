@@ -3,12 +3,12 @@ import { CheckCircle2, Sparkles } from "lucide-react";
 export function AuthVisual({ badge, title, description, features }) {
   return (
     <div className="hidden lg:block relative">
-      <div className="relative bg-gradient-to-br from-[#E5533D] via-[#D4442C] to-[#E5533D] rounded-3xl p-12 overflow-hidden shadow-2xl border border-[#D4442C]">
+      <div className="relative bg-gradient-to-br from-primary via-primary-dark to-primary rounded-3xl p-12 overflow-hidden shadow-2xl border border-primary-dark">
         {/* Decorative Elements */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 right-10 w-64 h-64 bg-[#FFE5B4] rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 left-10 w-48 h-48 bg-[#EFA59A] rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 w-40 h-40 bg-[#FFE5B4] rounded-full blur-2xl"></div>
+          <div className="absolute top-10 right-10 w-64 h-64 bg-peach rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 left-10 w-48 h-48 bg-coral rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 w-40 h-40 bg-peach rounded-full blur-2xl"></div>
         </div>
 
         {/* Dotted Pattern Overlay */}

@@ -17,10 +17,10 @@ export default function HowItWorksPage() {
 
       {/* Animated Background Blobs - How It Works pattern */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[8%] right-[12%] w-[460px] h-[460px] bg-[#FFE5B4] rounded-full mix-blend-multiply filter blur-[80px] opacity-35 animate-blob animation-delay-2000" />
-        <div className="absolute top-[45%] left-[8%] w-[500px] h-[500px] bg-[#EFA59A] rounded-full mix-blend-multiply filter blur-[80px] opacity-30 animate-blob animation-delay-6000" />
-        <div className="absolute bottom-[20%] left-[50%] w-[420px] h-[420px] bg-[#FFE5B4]/30 rounded-full mix-blend-multiply filter blur-[80px] opacity-35 animate-blob" />
-        <div className="absolute bottom-[5%] right-[20%] w-[480px] h-[480px] bg-[#EFA59A]/25 rounded-full mix-blend-multiply filter blur-[80px] opacity-25 animate-blob animation-delay-4000" />
+        <div className="absolute top-[8%] right-[12%] w-[460px] h-[460px] bg-peach rounded-full mix-blend-multiply filter blur-[80px] opacity-35 animate-blob animation-delay-2000" />
+        <div className="absolute top-[45%] left-[8%] w-[500px] h-[500px] bg-coral rounded-full mix-blend-multiply filter blur-[80px] opacity-30 animate-blob animation-delay-6000" />
+        <div className="absolute bottom-[20%] left-[50%] w-[420px] h-[420px] bg-peach/30 rounded-full mix-blend-multiply filter blur-[80px] opacity-35 animate-blob" />
+        <div className="absolute bottom-[5%] right-[20%] w-[480px] h-[480px] bg-coral/25 rounded-full mix-blend-multiply filter blur-[80px] opacity-25 animate-blob animation-delay-4000" />
       </div>
 
       {/* Main Content */}
@@ -30,7 +30,7 @@ export default function HowItWorksPage() {
           <section className="text-center mb-20">
             <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-[#111827] mb-6">
               Book Trusted Care in{" "}
-              <span className="text-[#E5533D]">3 Simple Steps</span>
+              <span className="text-primary">3 Simple Steps</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               From signing up to your first booking, we've made it simple, safe,
@@ -45,7 +45,7 @@ export default function HowItWorksPage() {
                 Step One
               </div>
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-[#E5533D] text-white flex items-center justify-center text-2xl font-bold shrink-0">
+                <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-2xl font-bold shrink-0">
                   1
                 </div>
                 <div>
@@ -61,19 +61,19 @@ export default function HowItWorksPage() {
               </div>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-gray-700">
                     Takes just 5 minutes to complete
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-gray-700">
                     Add multiple children to one profile
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-gray-700">
                     Specify cultural and dietary preferences
                   </span>
@@ -112,7 +112,7 @@ export default function HowItWorksPage() {
                   </label>
                   <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#E5533D] text-white flex items-center justify-center font-bold">
+                      <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold">
                         A
                       </div>
                       <span className="text-gray-700">Age 5</span>
@@ -128,7 +128,7 @@ export default function HowItWorksPage() {
             <div className="order-2 lg:order-1 mt-8 lg:mt-0">
               <div className="space-y-4">
                 {/* Sitter Card 1 */}
-                <div className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-[#E5533D] transition-colors cursor-pointer">
+                <div className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-primary transition-colors cursor-pointer">
                   <div className="flex items-start gap-4">
                     <Image
                       src="https://i.pravatar.cc/80?img=47"
@@ -169,7 +169,7 @@ export default function HowItWorksPage() {
                 </div>
 
                 {/* Sitter Card 2 */}
-                <div className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-[#E5533D] transition-colors cursor-pointer">
+                <div className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-primary transition-colors cursor-pointer">
                   <div className="flex items-start gap-4">
                     <Image
                       src="https://i.pravatar.cc/80?img=32"
@@ -208,7 +208,7 @@ export default function HowItWorksPage() {
                 Step Two
               </div>
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-[#D4442C] text-white flex items-center justify-center text-2xl font-bold shrink-0">
+                <div className="w-12 h-12 rounded-full bg-primary-dark text-white flex items-center justify-center text-2xl font-bold shrink-0">
                   2
                 </div>
                 <div>
@@ -224,23 +224,23 @@ export default function HowItWorksPage() {
               </div>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-gray-700">Filter by 15+ languages</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-gray-700">
                     See verified credentials and certifications
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-gray-700">
                     Read reviews from families like yours
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-gray-700">
                     Schedule a free 15-min video interview
                   </span>
@@ -256,7 +256,7 @@ export default function HowItWorksPage() {
                 Step Three
               </div>
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-[#EFA59A] text-white flex items-center justify-center text-2xl font-bold shrink-0">
+                <div className="w-12 h-12 rounded-full bg-coral text-white flex items-center justify-center text-2xl font-bold shrink-0">
                   3
                 </div>
                 <div>
@@ -272,25 +272,25 @@ export default function HowItWorksPage() {
               </div>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-gray-700">
                     Secure payment via Stripe
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-gray-700">
                     Full insurance coverage included
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-gray-700">
                     Free cancellation (24h notice)
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-gray-700">24/7 support available</span>
                 </li>
               </ul>
@@ -319,7 +319,7 @@ export default function HowItWorksPage() {
                   <span>$66.00</span>
                 </div>
               </div>
-              <button className="w-full bg-[#E5533D] hover:bg-[#D4442C] text-white font-semibold py-3 rounded-lg transition-colors">
+              <button className="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3 rounded-lg transition-colors">
                 Confirm Booking
               </button>
               <p className="text-xs text-gray-500 text-center mt-3">
@@ -356,7 +356,7 @@ export default function HowItWorksPage() {
             </p>
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#E5533D] to-[#D4442C] text-white text-lg font-semibold px-8 py-4 rounded-lg transition-all hover:shadow-lg hover:shadow-[#E5533D]/30"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-primary-dark text-white text-lg font-semibold px-8 py-4 rounded-lg transition-all hover:shadow-lg hover:shadow-primary/30"
             >
               <UserPlus className="w-5 h-5" />
               Create Free Account

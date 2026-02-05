@@ -18,7 +18,7 @@ export function ParentCTA() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/signup"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#E5533D] to-[#D4442C] text-white px-8 py-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-[#E5533D]/25 transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-dark text-white px-8 py-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/25 transition-all"
               >
                 Get Started Free
               </Link>

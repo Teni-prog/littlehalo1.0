@@ -6,7 +6,7 @@ export function SitterHowItWorks() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFE5B4] text-[#111827] text-sm font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-peach text-[#111827] text-sm font-semibold mb-4">
             How It Works
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-[#111827] mb-4">
@@ -21,14 +21,14 @@ export function SitterHowItWorks() {
         <div className="grid md:grid-cols-3 gap-8 relative">
           {/* Step 1 */}
           <div className="glass-card rounded-2xl p-8 text-center transition-all hover:shadow-xl relative">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to-br from-[#E5533D] to-[#D4442C] text-white font-bold flex items-center justify-center text-lg">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-dark text-white font-bold flex items-center justify-center text-lg">
               01
             </div>
             <h3 className="text-2xl font-bold text-[#111827] mb-3 mt-4">Create Your Profile</h3>
             <p className="text-gray-600 mb-4">
               Share your experience, certifications, availability, and the micro-adventures you offer
             </p>
-            <div className="inline-flex items-center gap-2 text-sm text-[#E5533D] font-medium">
+            <div className="inline-flex items-center gap-2 text-sm text-primary font-medium">
               <Clock className="w-4 h-4" />
               Takes 5 minutes
             </div>
@@ -36,29 +36,29 @@ export function SitterHowItWorks() {
 
           {/* Step 2 */}
           <div className="glass-card rounded-2xl p-8 text-center transition-all hover:shadow-xl relative">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to-br from-[#E5533D] to-[#D4442C] text-white font-bold flex items-center justify-center text-lg">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-dark text-white font-bold flex items-center justify-center text-lg">
               02
             </div>
             <h3 className="text-2xl font-bold text-[#111827] mb-3 mt-4">Get Verified</h3>
             <p className="text-gray-600 mb-4">
               Complete a quick background check and identity verification to build trust with families
             </p>
-            <div className="inline-flex items-center gap-2 text-sm text-[#E5533D] font-medium">
+            <div className="inline-flex items-center gap-2 text-sm text-primary font-medium">
               <ShieldCheck className="w-4 h-4" />
               24-48 hour approval
             </div>
           </div>
 
           {/* Step 3 */}
-          <div className="glass-card rounded-2xl p-8 text-center transition-all hover:shadow-xl border-2 border-[#E5533D] relative">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to-br from-[#E5533D] to-[#D4442C] text-white font-bold flex items-center justify-center text-lg">
+          <div className="glass-card rounded-2xl p-8 text-center transition-all hover:shadow-xl border-2 border-primary relative">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-dark text-white font-bold flex items-center justify-center text-lg">
               03
             </div>
             <h3 className="text-2xl font-bold text-[#111827] mb-3 mt-4">Start Booking</h3>
             <p className="text-gray-600 mb-4">
               Accept jobs that fit your schedule, meet families, and start earning
             </p>
-            <div className="inline-flex items-center gap-2 text-sm text-[#E5533D] font-medium">
+            <div className="inline-flex items-center gap-2 text-sm text-primary font-medium">
               <Check className="w-4 h-4" />
               Start earning today
             </div>

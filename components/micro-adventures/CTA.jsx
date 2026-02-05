@@ -32,7 +32,7 @@ export function ActivitiesCTA() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <Link 
               href="/signup"
-              className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-[#E5533D] to-[#D4442C] text-white font-bold rounded-lg hover:shadow-xl hover:shadow-[#E5533D]/25 transition-all flex items-center justify-center gap-2 group"
+              className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-white font-bold rounded-lg hover:shadow-xl hover:shadow-primary/25 transition-all flex items-center justify-center gap-2 group"
             >
               <UserPlus className="w-5 h-5 group-hover:scale-110 transition-transform" />
               <span>Get Started Free</span>

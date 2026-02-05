@@ -34,11 +34,11 @@ export function HowItWorksPreview() {
       <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
         {/* Step 1 */}
         <div className="glass-card rounded-3xl p-8 relative overflow-hidden group hover:shadow-xl transition-shadow">
-          <div className="absolute top-4 right-4 text-6xl font-bold text-gray-100 group-hover:text-[#FFE5B4] transition-colors">
+          <div className="absolute top-4 right-4 text-6xl font-bold text-gray-100 group-hover:text-peach transition-colors">
             01
           </div>
           <div className="relative z-10 space-y-5">
-            <div className="w-12 h-12 rounded-xl bg-[#E5533D] flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center shadow-lg">
               <UserPlus className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -59,11 +59,11 @@ export function HowItWorksPreview() {
 
         {/* Step 2 */}
         <div className="glass-card rounded-3xl p-8 relative overflow-hidden group hover:shadow-xl transition-shadow">
-          <div className="absolute top-4 right-4 text-6xl font-bold text-gray-100 group-hover:text-[#FFE5B4] transition-colors">
+          <div className="absolute top-4 right-4 text-6xl font-bold text-gray-100 group-hover:text-peach transition-colors">
             02
           </div>
           <div className="relative z-10 space-y-5">
-            <div className="w-12 h-12 rounded-xl bg-[#E5533D] flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center shadow-lg">
               <Users className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -83,12 +83,12 @@ export function HowItWorksPreview() {
         </div>
 
         {/* Step 3 - Highlighted */}
-        <div className="glass-card rounded-3xl p-8 relative overflow-hidden group hover:shadow-xl transition-shadow border border-[#E5533D]/10">
-          <div className="absolute top-4 right-4 text-6xl font-bold text-gray-100 group-hover:text-[#FFE5B4] transition-colors">
+        <div className="glass-card rounded-3xl p-8 relative overflow-hidden group hover:shadow-xl transition-shadow border border-primary/10">
+          <div className="absolute top-4 right-4 text-6xl font-bold text-gray-100 group-hover:text-peach transition-colors">
             03
           </div>
           <div className="relative z-10 space-y-5">
-            <div className="w-12 h-12 rounded-xl bg-[#E5533D] flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center shadow-lg">
               <CalendarCheck className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -100,7 +100,7 @@ export function HowItWorksPreview() {
                 hands. Track everything in-app.
               </p>
             </div>
-            <div className="flex items-center gap-2 text-sm text-[#E5533D] pt-2">
+            <div className="flex items-center gap-2 text-sm text-primary pt-2">
               <ShieldCheck className="w-4 h-4" />
               <span className="font-medium">Fully insured</span>
             </div>
@@ -110,15 +110,15 @@ export function HowItWorksPreview() {
 
       {/* Visual Flow - Desktop Only */}
       <div className="hidden md:flex items-center justify-center gap-8 max-w-2xl mx-auto pt-8">
-        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[#FFE5B4] text-[#111827] font-bold text-lg">
+        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-peach text-[#111827] font-bold text-lg">
           1
         </div>
-        <div className="w-20 h-px bg-linear-to-r from-[#FFE5B4] to-gray-200" />
-        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[#FFE5B4] text-[#111827] font-bold text-lg">
+        <div className="w-20 h-px bg-linear-to-r from-peach to-gray-200" />
+        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-peach text-[#111827] font-bold text-lg">
           2
         </div>
-        <div className="w-20 h-px bg-linear-to-r from-[#FFE5B4] to-gray-200" />
-        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[#E5533D] shadow-lg">
+        <div className="w-20 h-px bg-linear-to-r from-peach to-gray-200" />
+        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-primary shadow-lg">
           <Check className="w-7 h-7 text-white" />
         </div>
       </div>
@@ -127,7 +127,7 @@ export function HowItWorksPreview() {
       <div className="text-center pt-4">
         <Link
           href="/how-it-works"
-          className="inline-flex items-center gap-2 text-[#E5533D] font-semibold hover:gap-3 transition-all"
+          className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
         >
           <span>Learn More About Our Process</span>
           <ArrowRight className="w-5 h-5" />

@@ -10,8 +10,8 @@ export function DualCTA() {
             {/* Left Side - For Parents */}
             <div className="p-10 md:p-12 space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20">
-                <Users className="w-4 h-4 text-[#FFE5B4]" />
-                <span className="text-xs font-medium text-[#FFE5B4] uppercase tracking-wide">
+                <Users className="w-4 h-4 text-peach" />
+                <span className="text-xs font-medium text-peach uppercase tracking-wide">
                   For Parents
                 </span>
               </div>
@@ -27,7 +27,7 @@ export function DualCTA() {
 
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <Clock className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                  <Clock className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <p className="text-gray-300">
                     <span className="font-semibold text-white">
                       Same-day booking
@@ -36,7 +36,7 @@ export function DualCTA() {
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Heart className="w-5 h-5 text-[#E5533D] shrink-0 mt-0.5" />
+                  <Heart className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <p className="text-gray-300">
                     <span className="font-semibold text-white">
                       Special needs support
@@ -58,8 +58,8 @@ export function DualCTA() {
             {/* Right Side - For Sitters */}
             <div className="p-10 md:p-12 space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20">
-                <DollarSign className="w-4 h-4 text-[#FFE5B4]" />
-                <span className="text-xs font-medium text-[#FFE5B4] uppercase tracking-wide">
+                <DollarSign className="w-4 h-4 text-peach" />
+                <span className="text-xs font-medium text-peach uppercase tracking-wide">
                   For Sitters
                 </span>
               </div>
@@ -78,7 +78,7 @@ export function DualCTA() {
                   <span className="font-bold">$18-28</span>{" "}
                   <span className="text-xl font-normal">/hr</span>
                 </div>
-                <p className="text-[#FFE5B4]">
+                <p className="text-peach">
                   Plus <span className="font-semibold">$50 monthly bonus</span>{" "}
                   for top rated sitters.
                 </p>

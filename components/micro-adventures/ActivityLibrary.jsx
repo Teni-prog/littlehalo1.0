@@ -75,7 +75,7 @@ export function ActivityLibrary() {
                   onClick={() => setSelectedCategory(category.id)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all whitespace-nowrap ${
                     isActive
-                      ? "bg-gradient-to-r from-[#E5533D] to-[#D4442C] text-white shadow-md"
+                      ? "bg-gradient-to-r from-primary to-primary-dark text-white shadow-md"
                       : "bg-white text-gray-700 border border-gray-200 hover:border-gray-300 hover:shadow-sm"
                   }`}
                 >
@@ -106,7 +106,7 @@ export function ActivityLibrary() {
             id="age-filter"
             value={selectedAge}
             onChange={(e) => setSelectedAge(e.target.value)}
-            className="px-4 py-2 border border-gray-200 rounded-lg bg-white text-gray-900 font-medium focus:outline-none focus:ring-2 focus:ring-[#E5533D]/20"
+            className="px-4 py-2 border border-gray-200 rounded-lg bg-white text-gray-900 font-medium focus:outline-none focus:ring-2 focus:ring-primary/20"
           >
             <option value="all">All ages</option>
             <option value="2">2 years old</option>
@@ -153,7 +153,7 @@ export function ActivityLibrary() {
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-8 h-8 bg-gradient-to-br from-[#E5533D] to-[#D4442C] rounded-lg flex items-center justify-center">
+                        <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary-dark rounded-lg flex items-center justify-center">
                           <CategoryIcon className="w-4 h-4 text-white" />
                         </div>
                         <span
@@ -162,7 +162,7 @@ export function ActivityLibrary() {
                           {activity.difficulty}
                         </span>
                       </div>
-                      <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-[#E5533D] transition-colors">
+                      <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-primary transition-colors">
                         {activity.title}
                       </h3>
                     </div>
@@ -204,7 +204,7 @@ export function ActivityLibrary() {
 
                   {/* Special Feature Badge */}
                   {activity.specialFeature && (
-                    <div className="mb-4 flex items-center gap-1.5 text-xs text-[#E5533D]">
+                    <div className="mb-4 flex items-center gap-1.5 text-xs text-primary">
                       <Sparkles className="w-3.5 h-3.5" />
                       <span className="font-medium">
                         {activity.specialFeature}
@@ -230,7 +230,7 @@ export function ActivityLibrary() {
                 {/* Card Footer - Hidden Details */}
                 <div className="px-6 pb-6">
                   <details className="group/details">
-                    <summary className="cursor-pointer text-sm font-semibold text-[#E5533D] hover:text-[#D4442C] transition-colors list-none">
+                    <summary className="cursor-pointer text-sm font-semibold text-primary hover:text-primary-dark transition-colors list-none">
                       <span className="group-open/details:hidden">
                         View Details →
                       </span>
@@ -257,7 +257,7 @@ export function ActivityLibrary() {
                         <ul className="text-sm text-gray-600 space-y-1">
                           {activity.materials.map((material, idx) => (
                             <li key={idx} className="flex items-start gap-2">
-                              <span className="text-[#E5533D] mt-0.5">•</span>
+                              <span className="text-primary mt-0.5">•</span>
                               <span>{material}</span>
                             </li>
                           ))}
@@ -302,7 +302,7 @@ export function ActivityLibrary() {
                 setSelectedCategory("all");
                 setSelectedAge("all");
               }}
-              className="text-[#E5533D] font-semibold hover:text-[#D4442C]"
+              className="text-primary font-semibold hover:text-primary-dark"
             >
               Clear filters
             </button>

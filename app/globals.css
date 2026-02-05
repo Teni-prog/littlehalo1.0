@@ -30,6 +30,11 @@
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
 
+  /* littlëHALO Custom Colors */
+  --color-primary-dark: hsl(var(--primary-dark));
+  --color-peach: hsl(var(--peach));
+  --color-coral: hsl(var(--coral));
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
@@ -37,8 +42,8 @@
 
 @layer base {
   :root {
-    --background: 0 0% 94%;
-    /* #f0f0f0 */
+    --background: 0 0% 98%;
+    /* #fafafa */
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -47,18 +52,26 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 0 85% 68%;
+    --primary: 6 76% 57%;
+    /* #E5533D */
     --primary-foreground: 0 0% 100%;
 
+    /* littlëHALO Brand Colors */
+    --primary-dark: 6 70% 49%;
+    /* #D4442C */
+    --peach: 35 100% 85%;
+    /* #FFE5B4 */
+    --coral: 8 64% 77%;
+    /* #EFA59A */
+
     --secondary: 183 97% 65%;
-    /* #51fafc */
+    /* Peachy gradient - use custom classes for gradients */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
     --accent: 358 70% 66%;
-    /* #E56B6F */
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -66,8 +79,8 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 0 100% 71%;
-    /* #ff6b6b */
+    --ring: 6 76% 57%;
+    /* #E5533D */
 
     --radius: 0.5rem;
   }
@@ -84,6 +97,14 @@
 
     --primary: 0 85% 60%;
     --primary-foreground: 0 0% 100%;
+
+    /* littlëHALO Brand Colors (same in dark mode) */
+    --primary-dark: 6 70% 49%;
+    /* #D4442C */
+    --peach: 35 100% 85%;
+    /* #FFE5B4 */
+    --coral: 8 64% 77%;
+    /* #EFA59A */
 
     --secondary: 36 100% 85%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -110,5 +131,105 @@
 
   body {
     @apply bg-background text-foreground;
+    background-color: #fafafa;
+    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Glass card effect */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  }
+
+  .glass-card:hover {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Scrollbar hiding */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in,
+  .animate-fadeIn {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  /* Bounce animation for floating elements */
+  @keyframes bounce-slow {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 3s ease-in-out infinite;
+  }
+
+  /* Blob animations for background */
+  @keyframes blob {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+
+  .animate-blob {
+    animation: blob 20s infinite;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  .animation-delay-6000 {
+    animation-delay: 6s;
+  }
+
+  /* Honor prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-blob,
+    .animate-fade-in,
+    .animate-fadeIn,
+    .animate-bounce-slow {
+      animation: none !important;
+    }
   }
 }

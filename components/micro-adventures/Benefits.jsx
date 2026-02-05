@@ -79,7 +79,7 @@ export function ActivitiesBenefits() {
               key={index}
               className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-all"
             >
-              <div className="w-12 h-12 bg-gradient-to-br from-[#E5533D] to-[#D4442C] rounded-xl flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center mb-4">
                 <benefit.icon className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">
@@ -96,7 +96,7 @@ export function ActivitiesBenefits() {
         </div>
 
         {/* The Difference Callout */}
-        <div className="mt-16 max-w-4xl mx-auto bg-gradient-to-br from-[#FFE5B4]/30 to-[#EFA59A]/20 border border-gray-200 rounded-2xl p-8">
+        <div className="mt-16 max-w-4xl mx-auto bg-gradient-to-br from-peach/30 to-coral/20 border border-gray-200 rounded-2xl p-8">
           <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">
             The Difference
           </h3>
@@ -111,7 +111,7 @@ export function ActivitiesBenefits() {
               </p>
             </div>
             <div>
-              <div className="text-sm font-semibold text-[#E5533D] mb-2">
+              <div className="text-sm font-semibold text-primary mb-2">
                 ✓ littlëHALO Micro-Adventures
               </div>
               <p className="text-gray-900 font-medium">

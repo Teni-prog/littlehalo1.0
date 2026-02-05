@@ -16,15 +16,15 @@ export default function ForgotPasswordPage() {
 
       {/* Background Blobs */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-[#FFE5B4] to-[#EFA59A] rounded-full blur-3xl opacity-20 animate-blob" />
-        <div className="absolute top-1/4 -left-40 w-80 h-80 bg-gradient-to-br from-[#EFA59A] to-[#FFE5B4] rounded-full blur-3xl opacity-20 animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-40 left-1/3 w-96 h-96 bg-gradient-to-br from-[#FFE5B4] to-[#EFA59A] rounded-full blur-3xl opacity-20 animate-blob animation-delay-4000" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-peach to-coral rounded-full blur-3xl opacity-20 animate-blob" />
+        <div className="absolute top-1/4 -left-40 w-80 h-80 bg-gradient-to-br from-coral to-peach rounded-full blur-3xl opacity-20 animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-40 left-1/3 w-96 h-96 bg-gradient-to-br from-peach to-coral rounded-full blur-3xl opacity-20 animate-blob animation-delay-4000" />
       </div>
 
       <main className="pt-16 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md">
           {/* Decorative Circle */}
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-gradient-to-br from-[#FFE5B4]/30 to-[#EFA59A]/30 rounded-full blur-3xl -z-10" />
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-gradient-to-br from-peach/30 to-coral/30 rounded-full blur-3xl -z-10" />
 
           <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-gray-200/50 p-8 sm:p-10">
             {/* Dotted Pattern */}
@@ -32,16 +32,16 @@ export default function ForgotPasswordPage() {
               className="absolute inset-0 opacity-5 rounded-3xl"
               style={{
                 backgroundImage:
-                  "radial-gradient(circle, #E5533D 1px, transparent 1px)",
+                  "radial-gradient(circle, hsl(var(--primary)) 1px, transparent 1px)",
                 backgroundSize: "20px 20px",
               }}
             ></div>
 
             {/* Icon */}
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#FFE5B4] to-[#EFA59A] rounded-2xl blur-xl opacity-40" />
-              <div className="relative w-18 h-18 rounded-2xl bg-gradient-to-br from-[#FFE5B4] to-[#EFA59A] flex items-center justify-center mx-auto mb-8 shadow-lg">
-                <LockKeyhole className="w-8 h-8 text-[#E5533D]" />
+              <div className="absolute inset-0 bg-gradient-to-br from-peach to-coral rounded-2xl blur-xl opacity-40" />
+              <div className="relative w-18 h-18 rounded-2xl bg-gradient-to-br from-peach to-coral flex items-center justify-center mx-auto mb-8 shadow-lg">
+                <LockKeyhole className="w-8 h-8 text-primary" />
               </div>
             </div>
 
@@ -64,7 +64,7 @@ export default function ForgotPasswordPage() {
                 className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
               >
                 Remember your password?{" "}
-                <span className="text-[#E5533D] font-semibold hover:text-[#D4442C]">
+                <span className="text-primary font-semibold hover:text-primary-dark">
                   Log in
                 </span>
               </Link>

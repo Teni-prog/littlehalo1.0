@@ -12,12 +12,12 @@ export function SiteFooter() {
           {/* Brand Column */}
           <div className="col-span-2 md:col-span-4">
             <Link href="/" className="flex items-center gap-2.5 group mb-4">
-              <div className="w-10 h-10 rounded-xl bg-[#E5533D] flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
                 <Heart className="w-5 h-5 text-white fill-white" />
               </div>
               <div className="flex items-baseline gap-0.5 text-lg font-bold tracking-tight">
                 <span className="text-[#111827]">littlë</span>
-                <span className="text-[#E5533D]">HALO</span>
+                <span className="text-primary">HALO</span>
               </div>
             </Link>
             <p className="text-sm text-gray-600 mb-6 max-w-xs">
@@ -29,11 +29,11 @@ export function SiteFooter() {
             <div className="flex items-center gap-3">
               <a
                 href="#"
-                className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-[#FFE5B4] flex items-center justify-center transition-colors group"
+                className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-peach flex items-center justify-center transition-colors group"
                 aria-label="Twitter"
               >
                 <svg
-                  className="w-4 h-4 text-gray-600 group-hover:text-[#E5533D]"
+                  className="w-4 h-4 text-gray-600 group-hover:text-primary"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -42,11 +42,11 @@ export function SiteFooter() {
               </a>
               <a
                 href="#"
-                className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-[#FFE5B4] flex items-center justify-center transition-colors group"
+                className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-peach flex items-center justify-center transition-colors group"
                 aria-label="Facebook"
               >
                 <svg
-                  className="w-4 h-4 text-gray-600 group-hover:text-[#E5533D]"
+                  className="w-4 h-4 text-gray-600 group-hover:text-primary"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -55,11 +55,11 @@ export function SiteFooter() {
               </a>
               <a
                 href="#"
-                className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-[#FFE5B4] flex items-center justify-center transition-colors group"
+                className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-peach flex items-center justify-center transition-colors group"
                 aria-label="Instagram"
               >
                 <svg
-                  className="w-4 h-4 text-gray-600 group-hover:text-[#E5533D]"
+                  className="w-4 h-4 text-gray-600 group-hover:text-primary"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -68,11 +68,11 @@ export function SiteFooter() {
               </a>
               <a
                 href="#"
-                className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-[#FFE5B4] flex items-center justify-center transition-colors group"
+                className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-peach flex items-center justify-center transition-colors group"
                 aria-label="LinkedIn"
               >
                 <svg
-                  className="w-4 h-4 text-gray-600 group-hover:text-[#E5533D]"
+                  className="w-4 h-4 text-gray-600 group-hover:text-primary"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -89,7 +89,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="/features"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Features
                 </Link>
@@ -97,7 +97,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="/how-it-works"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   How It Works
                 </Link>
@@ -105,7 +105,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="#pricing"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Pricing
                 </Link>
@@ -113,7 +113,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="#"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Safety
                 </Link>
@@ -128,7 +128,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="/search"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Find a Sitter
                 </Link>
@@ -136,7 +136,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="#"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Parent Resources
                 </Link>
@@ -144,7 +144,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="#"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Newcomer Guide
                 </Link>
@@ -152,7 +152,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="#"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Reviews
                 </Link>
@@ -167,7 +167,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="/job-opportunities"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Become a Sitter
                 </Link>
@@ -175,7 +175,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="#"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Sitter Resources
                 </Link>
@@ -183,7 +183,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="#"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Background Check
                 </Link>
@@ -191,7 +191,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="#"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Earnings
                 </Link>
@@ -206,7 +206,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="#"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   About Us
                 </Link>
@@ -214,7 +214,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="#"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Blog
                 </Link>
@@ -222,7 +222,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="#"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Careers
                 </Link>
@@ -230,7 +230,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="#"
-                  className="text-sm text-gray-600 hover:text-[#E5533D] transition-colors"
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                   Contact
                 </Link>
@@ -246,13 +246,13 @@ export function SiteFooter() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             {/* Legal Links */}
             <div className="flex items-center gap-6 text-sm text-gray-600">
-              <Link href="#" className="hover:text-[#E5533D] transition-colors">
+              <Link href="#" className="hover:text-primary transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="#" className="hover:text-[#E5533D] transition-colors">
+              <Link href="#" className="hover:text-primary transition-colors">
                 Terms of Service
               </Link>
-              <Link href="#" className="hover:text-[#E5533D] transition-colors">
+              <Link href="#" className="hover:text-primary transition-colors">
                 Cookie Policy
               </Link>
             </div>

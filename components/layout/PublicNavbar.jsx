@@ -21,7 +21,7 @@ export function PublicNavbar({ activePage = null }) {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-[#E5533D] flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
               <Heart
                 className="w-5 h-5 text-white"
                 strokeWidth={1.5}
@@ -30,7 +30,7 @@ export function PublicNavbar({ activePage = null }) {
             </div>
             <div className="flex items-baseline gap-0.5 text-lg font-bold tracking-tight">
               <span className="text-[#111827]">littlë</span>
-              <span className="text-[#E5533D]">HALO</span>
+              <span className="text-primary">HALO</span>
             </div>
           </Link>
 
@@ -42,10 +42,10 @@ export function PublicNavbar({ activePage = null }) {
                 <Link
                   key={link.page}
                   href={link.href}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5533D] focus-visible:ring-offset-1 ${
+                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 ${
                     isActive
-                      ? "text-[#E5533D] bg-gray-50"
-                      : "text-gray-700 hover:text-[#E5533D] hover:bg-gray-50"
+                      ? "text-primary bg-gray-50"
+                      : "text-gray-700 hover:text-primary hover:bg-gray-50"
                   }`}
                   aria-current={isActive ? "page" : undefined}
                 >
@@ -59,13 +59,13 @@ export function PublicNavbar({ activePage = null }) {
           <div className="flex items-center gap-3">
             <Link
               href="/login"
-              className="hidden sm:block text-sm font-medium text-gray-700 hover:text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5533D] focus-visible:ring-offset-1"
+              className="hidden sm:block text-sm font-medium text-gray-700 hover:text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
             >
               Log in
             </Link>
             <Link
               href="/signup"
-              className="bg-[#E5533D] hover:bg-[#D4442C] text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-all hover:shadow-lg hover:shadow-[#E5533D]/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5533D] focus-visible:ring-offset-2"
+              className="bg-primary hover:bg-primary-dark text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-all hover:shadow-lg hover:shadow-primary/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               Sign Up
             </Link>
@@ -73,7 +73,7 @@ export function PublicNavbar({ activePage = null }) {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-gray-700 hover:bg-gray-50 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5533D] focus-visible:ring-offset-2"
+              className="md:hidden p-2 text-gray-700 hover:bg-gray-50 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               aria-label="Toggle navigation menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -103,8 +103,8 @@ export function PublicNavbar({ activePage = null }) {
                   href={link.href}
                   className={`block px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
                     isActive
-                      ? "text-[#E5533D] bg-gray-50"
-                      : "text-gray-700 hover:text-[#E5533D] hover:bg-gray-50"
+                      ? "text-primary bg-gray-50"
+                      : "text-gray-700 hover:text-primary hover:bg-gray-50"
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                   aria-current={isActive ? "page" : undefined}
@@ -116,14 +116,14 @@ export function PublicNavbar({ activePage = null }) {
             <div className="border-t border-gray-200 my-2"></div>
             <Link
               href="/login"
-              className="block px-4 py-3 text-sm font-medium text-gray-700 hover:text-[#E5533D] hover:bg-gray-50 rounded-lg transition-colors"
+              className="block px-4 py-3 text-sm font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               Log in
             </Link>
             <Link
               href="/signup"
-              className="block mx-4 my-3 bg-[#E5533D] hover:bg-[#D4442C] text-white text-sm font-semibold px-5 py-2.5 rounded-lg text-center transition-all hover:shadow-lg hover:shadow-[#E5533D]/25"
+              className="block mx-4 my-3 bg-primary hover:bg-primary-dark text-white text-sm font-semibold px-5 py-2.5 rounded-lg text-center transition-all hover:shadow-lg hover:shadow-primary/25"
               onClick={() => setMobileMenuOpen(false)}
             >
               Sign Up

@@ -19,10 +19,10 @@ export default function ForSittersPage() {
 
       {/* Animated Background Blobs - For Sitters pattern */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[15%] right-[20%] w-[480px] h-[480px] bg-[#EFA59A] rounded-full mix-blend-multiply filter blur-[80px] opacity-35 animate-blob animation-delay-2000" />
-        <div className="absolute top-[50%] left-[5%] w-[520px] h-[520px] bg-[#FFE5B4] rounded-full mix-blend-multiply filter blur-[80px] opacity-30 animate-blob" />
-        <div className="absolute bottom-[5%] left-[35%] w-[450px] h-[450px] bg-[#EFA59A]/35 rounded-full mix-blend-multiply filter blur-[80px] opacity-35 animate-blob animation-delay-4000" />
-        <div className="absolute bottom-[30%] right-[15%] w-[400px] h-[400px] bg-[#FFE5B4]/40 rounded-full mix-blend-multiply filter blur-[80px] opacity-25 animate-blob animation-delay-6000" />
+        <div className="absolute top-[15%] right-[20%] w-[480px] h-[480px] bg-coral rounded-full mix-blend-multiply filter blur-[80px] opacity-35 animate-blob animation-delay-2000" />
+        <div className="absolute top-[50%] left-[5%] w-[520px] h-[520px] bg-peach rounded-full mix-blend-multiply filter blur-[80px] opacity-30 animate-blob" />
+        <div className="absolute bottom-[5%] left-[35%] w-[450px] h-[450px] bg-coral/35 rounded-full mix-blend-multiply filter blur-[80px] opacity-35 animate-blob animation-delay-4000" />
+        <div className="absolute bottom-[30%] right-[15%] w-[400px] h-[400px] bg-peach/40 rounded-full mix-blend-multiply filter blur-[80px] opacity-25 animate-blob animation-delay-6000" />
       </div>
 
       {/* Main Content */}
