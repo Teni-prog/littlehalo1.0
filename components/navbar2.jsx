@@ -18,13 +18,15 @@ export function Navbar2() {
                     </Link> */}
                 </div>
                 <div className="flex items-center gap-6">
-                    <button
-                        onClick={() => onNavigate("home")}
-                        className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-[#ff6b6b] transition-colors cursor-pointer"
-                    >
-                        <ArrowLeft className="w-4 h-4" />
-                        Back to Home
-                    </button>
+                    <Link href="/">
+                        <button
+
+                            className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-[#ff6b6b] transition-colors cursor-pointer"
+                        >
+                            <ArrowLeft className="w-4 h-4" />
+                            Back to Home
+                        </button>
+                    </Link>
                 </div>
             </div>
         </nav>

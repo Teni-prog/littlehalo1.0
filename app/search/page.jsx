@@ -2,6 +2,9 @@ import { SitterCard } from "@/components/sitter-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search as SearchIcon, SlidersHorizontal } from "lucide-react";
+import sitter1 from "@/assets/sitter1.png";
+import sitter2 from "@/assets/sitter2.png";
+import sitter3 from "@/assets/sitter3.png";
 
 // Dummy Data
 const SITTERS = [
@@ -11,7 +14,7 @@ const SITTERS = [
         user_type: "sitter",
         created_at: "",
         name: "Sarah Chen",
-        image: "https://i.pravatar.cc/150?u=jennifer",
+        image: sitter1,
         bio: "Experienced childcare provider specializing in special needs support with a warm, patient approach. Committed to creating safe and engaging environments for children to thrive.",
         hourly_rate: 25,
         languages: ["Mandarin", "English"],
@@ -27,7 +30,7 @@ const SITTERS = [
         user_type: "sitter",
         created_at: "",
         name: "Maria Rodriguez",
-        image: "",
+        image: sitter2,
         bio: "Patient and loving sitter from Colombia. I love cooking and teaching Spanish to kids. First aid certified.",
         hourly_rate: 22,
         languages: ["Spanish", "English"],
@@ -43,7 +46,7 @@ const SITTERS = [
         user_type: "sitter",
         created_at: "",
         name: "Fatima Al-Sayed",
-        image: "",
+        image: sitter3,
         bio: "Mother of two, offering babysitting for newcomer families. I understand the challenges of settling in. Speak Arabic and English.",
         hourly_rate: 20,
         languages: ["Arabic", "English", "French"],
@@ -58,15 +61,15 @@ const SITTERS = [
 export default function SearchPage() {
     return (
         <>
-            <div className=" container py-8 min-h-screen bg-gray-100 ">
+            <div className=" container py-8 min-h-screen bg-gray-100 px-4 ">
                 <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center items-end md:items-center">
                     <div>
                         <h1 className="text-3xl font-bold font-outfit mb-2 justify-center">Find a Sitter</h1>
                         <p className="text-muted-foreground justify-center">Connect with trusted local babysitters.</p>
                     </div>
                 </div>
-                <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
-                    <div className=" md:w-72 shrink-0 bg-white rounded-xl p-6 shadow-sm h-fit">
+                <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-4 md:gap-6 px-0 md:px-4">
+                    <div className=" w-full md:w-72 shrink-0 bg-white rounded-xl p-4 md:p-6 shadow-sm h-fit">
 
                         <div className="flex items-center gap-2 mb-4 pb-4 border-b">
                             <SlidersHorizontal className="h-5 w-5 text-[#ff6b6b]" />
@@ -116,6 +119,10 @@ export default function SearchPage() {
                                         <input type="checkbox" className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]" />
                                         <span className="text-gray-700">CPR</span>
                                     </label>
+                                    <label className="flex items-center gap-2 cursor-pointer">
+                                        <input type="checkbox" className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]" />
+                                        <span className="text-gray-700">ECE</span>
+                                    </label>
                                 </div>
                             </div>
 
@@ -148,10 +155,10 @@ export default function SearchPage() {
                                         <input type="checkbox" className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]" />
                                         <span className="text-gray-700">ADHD</span>
                                     </label>
-                                    <label className="flex items-center gap-2 cursor-pointer">
+                                    {/* <label className="flex items-center gap-2 cursor-pointer">
                                         <input type="checkbox" className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]" />
                                         <span className="text-gray-700">Language Barriers</span>
-                                    </label>
+                                    </label> */}
                                 </div>
                             </div>
 
@@ -166,7 +173,7 @@ export default function SearchPage() {
                     {/* <p className="text-sm font-semibold mb-4 bg-red-50 text-red-700 px-4 py-2 rounded-lg">
                             {SITTERS.length} verified sitters available in your area
                         </p> */}
-                    <div className="flex-1 flex flex-col gap-4">
+                    <div className="flex-1 flex flex-col gap-3 md:gap-4 w-full">
                         {SITTERS.map((sitter) => (
                             <SitterCard key={sitter.id} sitter={sitter} />
                         ))}

@@ -4,7 +4,9 @@ import "./globals.css";
 import { Navbar } from "@/components/navbar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+// for body text 
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+// for headings
 
 export const metadata = {
   title: "Little Halo - Babysitting Marketplace",
@@ -16,9 +18,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${inter.variable} ${outfit.variable} font-sans antialiased`}>
         <Navbar />
-        <main className="min-h-screen">
-          {children}
-        </main>
+        {/* <main> */}
+        {children}
+        {/* </main> */}
       </body>
     </html>
   );

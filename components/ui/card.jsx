@@ -1,10 +1,13 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+// for merging Tailwind classes 
 
 const Card = React.forwardRef(({ className, ...props }, ref) => (
     <div
         ref={ref}
+        // making reference to the div element
+        // Now myRef.current points to the actual <div> in the browser
         className={cn(
             "rounded-lg border bg-card text-card-foreground shadow-sm",
             className
@@ -13,6 +16,7 @@ const Card = React.forwardRef(({ className, ...props }, ref) => (
     />
 ))
 Card.displayName = "Card"
+// gave it a display name - Card
 
 const CardHeader = React.forwardRef(({ className, ...props }, ref) => (
     <div
@@ -22,6 +26,7 @@ const CardHeader = React.forwardRef(({ className, ...props }, ref) => (
     />
 ))
 CardHeader.displayName = "CardHeader"
+// gave it a display name - CardHeader
 
 const CardTitle = React.forwardRef(({ className, ...props }, ref) => (
     <h3
@@ -34,6 +39,7 @@ const CardTitle = React.forwardRef(({ className, ...props }, ref) => (
     />
 ))
 CardTitle.displayName = "CardTitle"
+// gave it a display name - CardTitle
 
 const CardDescription = React.forwardRef(({ className, ...props }, ref) => (
     <p
@@ -43,11 +49,13 @@ const CardDescription = React.forwardRef(({ className, ...props }, ref) => (
     />
 ))
 CardDescription.displayName = "CardDescription"
+// gave it a display name - CardDescription
 
 const CardContent = React.forwardRef(({ className, ...props }, ref) => (
     <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
 ))
 CardContent.displayName = "CardContent"
+// gave it a display name - CardContent
 
 const CardFooter = React.forwardRef(({ className, ...props }, ref) => (
     <div
@@ -57,5 +65,6 @@ const CardFooter = React.forwardRef(({ className, ...props }, ref) => (
     />
 ))
 CardFooter.displayName = "CardFooter"
+// gave it a display name - CardFooter
 
 export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }

@@ -157,7 +157,7 @@ export default function Home() {
                 <li><Link href="#" className="hover:text-white transition-colors">Our Story</Link></li>
                 <li><Link href="#" className="hover:text-white transition-colors">Careers</Link></li>
                 <li><Link href="#" className="hover:text-white transition-colors">Blog</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Press</Link></li>
+                {/* <li><Link href="#" className="hover:text-white transition-colors">Press</Link></li> */}
               </ul>
             </div>
 
