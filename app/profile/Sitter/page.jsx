@@ -4,13 +4,30 @@ import { DollarSign, Calendar, Star, Users, MessageCircle, Settings, TrendingUp,
 import Link from 'next/link';
 import WelcomeBanner from '@/components/ui/welcomebanner';
 
-export default function SitterDashboard() {
+export default async function SitterDashboard({ params }) {
+    // Connect to database
+    // const supabase = await createClient();
+    // const { id } = params;
+
+    // // Get sitter profile
+    // const { data: sitter, error } = await supabase
+    //     .from('sitter_profiles')
+    //     .select(`
+    //         *,
+    //         user:users!user_id(id, name, email, avatar)
+    //     `)
+    //     .eq('user_id', id)
+    //     .single();
+
+    // // If sitter doesn't exist, show 404
+    // if (error || !sitter) {
+    //     notFound();
+    // }
     const sitter = {
         name: "Sarah",
         email: "sarah@example.com",
         role: "Sitter",
-    };
-
+    }
     const stats = [
         {
             icon: DollarSign,
@@ -167,7 +184,7 @@ export default function SitterDashboard() {
 
     return (
         <main className='flex flex-col min-h-screen max-w-7xl mx-auto px-4 sm:px-6 py-8'>
-            <WelcomeBanner userName={sitter.name} sessionCount={3} />
+            <WelcomeBanner userName={sitter.user.name} sessionCount={3} />
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
@@ -217,7 +234,7 @@ export default function SitterDashboard() {
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-gray-900">Upcoming Sessions</h2>
                             <Link
-                                href="/sitter/sessions"
+                                // href="/sitter/sessions"
                                 className="text-teal-500 hover:text-teal-600 text-sm font-semibold hover:underline"
                             >
                                 View All

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Logo from "@/public/Logo1.png"
 import Image from "next/image";
+// import special configuration file which stores the current state of being logged in
 
 export function Navbar() {
     return (

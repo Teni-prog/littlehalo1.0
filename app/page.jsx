@@ -1,15 +1,33 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+// import { Card, CardContent } from "@/components/ui/card";
+// import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import Image from "next/image";
+import Logo from "@/public/Logo2.png"
 import { Search, Shield, Heart, Award, ArrowRight, Instagram, Twitter, Facebook } from "lucide-react";
 
 export default function Home() {
   return (
     <>
       <div className="flex flex-col min-h-screen">
-        {/* Hero Section */}
-        <section className="bg-gradient-to-br from-red-50 to-white py-20 px-4 md:px-6">
+        <div className="hidden lg:flex flex-col justify-center p-12 bg-primary/10 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/20 backdrop-blur-3xl" />
+          <div className="relative z-10 max-w-lg mx-auto space-y-6">
+            <Image src={Logo} alt="Logo" width={100} height={100} />
+            <h1 className="text-4xl md:text-5xl font-bold font-outfit text-gray-900">
+              Welcome Back!
+            </h1>
+            <p className="text-xl text-gray-600 leading-relaxed">
+              Sign in to access your dashboard, manage bookings, and connect with your community.
+            </p>
+            <Link href="/search">
+              <Button size="lg" className="h-12 px-6 cursor-pointer" >
+                Search Sitters
+              </Button>
+            </Link>
+          </div>
+        </div>
+        {/* <section className="bg-gradient-to-br from-red-50 to-white py-20 px-4 md:px-6">
           <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div className="inline-flex items-center px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-sm font-medium">
@@ -43,10 +61,8 @@ export default function Home() {
                 alt="Babysitter playing with child"
                 className="rounded-3xl shadow-2xl w-full h-125 object-cover"
               />
-              {/* Green Shield Card */}
-              {/* --- THE GREEN SHIELD CARD --- */}
+            
               <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-4 border border-gray-100 flex items-center gap-4 animate-bounce-slow">
-                {/* The Green Circle */}
                 <div className="w-12 h-12 bg-teal-500 rounded-full flex items-center justify-center">
                   <Shield className="w-6 h-6 text-white" fill="white" />
                 </div>
@@ -60,7 +76,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Features Grid */}
+      
         <section className="py-24 container mx-auto px-4 md:px-6">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-3xl md:text-4xl font-bold font-outfit">Why choose Little Halo?</h2>
@@ -68,7 +84,7 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Verified Credentials */}
+           
             <Card className="border-none shadow-lg bg-red-100/50 hover:shadow-xl transition-shadow">
               <CardContent className="pt-8 text-center space-y-4">
                 <div className="mx-auto w-16 h-16 bg-[#ff6b6b] rounded-full flex items-center justify-center text-white shadow-md transform -translate-y-2">
@@ -79,7 +95,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            {/* Special Needs Expertise */}
+          
             <Card className="border-none shadow-lg bg-teal-100/50 hover:shadow-xl transition-shadow">
               <CardContent className="pt-8 text-center space-y-4">
                 <div className="mx-auto w-16 h-16 bg-teal-500 rounded-full flex items-center justify-center text-white shadow-md transform -translate-y-2">
@@ -90,7 +106,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            {/* Micro-Adventures */}
+         
             <Card className="border-none shadow-lg bg-yellow-100/50 hover:shadow-xl transition-shadow">
               <CardContent className="pt-8 text-center space-y-4">
                 <div className="mx-auto w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center text-white shadow-md transform -translate-y-2">
@@ -103,16 +119,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* How it Works */}
+       
         <section className="py-24 bg-gray-50 px-4 md:px-6">
           <div className="container mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold font-outfit text-center mb-16">How it Works</h2>
             <div className="grid md:grid-cols-3 gap-12 relative">
-              {/* Arrow Connectors (Hidden on mobile) */}
+              
               <div className="hidden md:block absolute top-12 left-1/3 w-1/3 h-0.5 border-t-2 border-dashed border-gray-300"></div>
               <div className="hidden md:block absolute top-12 right-1/3 w-1/3 h-0.5 border-t-2 border-dashed border-gray-300"></div>
 
-              {/* Step 1 */}
+              
               <div className="relative text-center space-y-6">
                 <div className="w-24 h-24 mx-auto bg-white rounded-full shadow-md flex items-center justify-center text-3xl font-bold text-primary border-4 border-red-50 z-10 relative">
                   1
@@ -123,7 +139,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Step 2 */}
+              
               <div className="relative text-center space-y-6">
                 <div className="w-24 h-24 mx-auto bg-white rounded-full shadow-md flex items-center justify-center text-3xl font-bold text-teal-500 border-4 border-teal-50 z-10 relative">
                   2
@@ -134,7 +150,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Step 3 */}
+              
               <div className="relative text-center space-y-6">
                 <div className="w-24 h-24 mx-auto bg-white rounded-full shadow-md flex items-center justify-center text-3xl font-bold text-yellow-500 border-4 border-yellow-50 z-10 relative">
                   3
@@ -146,9 +162,9 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
-        {/* Footer */}
+
         <footer className="bg-gray-900 text-gray-300 py-16 px-4 md:px-6 mt-auto">
           <div className="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="space-y-4">
@@ -157,7 +173,7 @@ export default function Home() {
                 <li><Link href="#" className="hover:text-white transition-colors">Our Story</Link></li>
                 <li><Link href="#" className="hover:text-white transition-colors">Careers</Link></li>
                 <li><Link href="#" className="hover:text-white transition-colors">Blog</Link></li>
-                {/* <li><Link href="#" className="hover:text-white transition-colors">Press</Link></li> */}
+
               </ul>
             </div>
 

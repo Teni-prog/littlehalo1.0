@@ -8,13 +8,120 @@ import sitter1 from '@/assets/sitter1.png';
 import sitter2 from '@/assets/sitter2.png';
 import MyChildren from '@/components/Mychildren';
 import ChildProgress from '@/components/Childprogress';
+import { useEffect, useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import matchSitters from '@/lib/matching-algorithm';
+import MatchedSitterCard from '@/app/search/matching-button/page';
+import ParentPreferences from '../ParentPreferences/page';
 
 export default function ParentDashboard() {
-    const user = {
-        name: "John Doe",
-        email: "john.doe@example.com",
-        role: "Parent",
-    };
+    const [currentParent, setCurrentParent] = useState(null);
+    const [topMatches, setTopMatches] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // Fetch random parent and matched sitters on page load
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const supabase = createClient();
+
+                // 1. Get a random parent
+                const { data: parents, error: parentError } = await supabase
+                    .from('users')
+                    .select('*')
+                    .eq('user_type', 'parent')
+                    .not('preferred_languages', 'is', null); // Only parents with preferences
+
+                if (parentError) throw parentError;
+
+                if (parents && parents.length > 0) {
+                    // Pick random parent
+                    const randomParent = parents[Math.floor(Math.random() * parents.length)];
+                    setCurrentParent(randomParent);
+
+                    // 2. Get all sitters with their profiles
+                    const { data: sitters, error: sitterError } = await supabase
+                        .from('sitter_profiles')
+                        .select(`
+                            id,
+                            bio,
+                            hourly_rate,
+                            languages,
+                            location,
+                            is_verified,
+                            rating,
+                            reviews_count,
+                            background_check_status,
+                            experience,
+                            users!user_id (
+                                id,
+                                name,
+                                email,
+                                avatar
+                            )
+                        `);
+
+                    if (sitterError) throw sitterError;
+
+                    console.log('Raw sitters data:', sitters); // Debug
+
+                    // 3. Transform sitters to match your algorithm format
+                    const formattedSitters = sitters?.map(sitter => ({
+                        id: sitter.id,
+                        bio: sitter.bio,
+                        hourly_rate: sitter.hourly_rate,
+                        languages: sitter.languages,
+                        location: sitter.location,
+                        is_verified: sitter.is_verified,
+                        rating: sitter.rating,
+                        reviews_count: sitter.reviews_count,
+                        background_check_status: sitter.background_check_status,
+                        experience: sitter.experience,
+                        user: {
+                            id: sitter.users.id,
+                            name: sitter.users.name,
+                            email: sitter.users.email,
+                            avatar: sitter.users.avatar
+                        }
+                    })) || [];
+
+                    console.log('Formatted sitters:', formattedSitters); // Debug
+
+                    // 4. Set up parent's preferences for matching
+                    const hardRules = {
+                        maxBudget: randomParent.max_budget || 30,
+                    };
+
+                    const softPreferences = {
+                        city: randomParent.preferred_location?.split(',')[0] || 'Halifax',
+                        preferredLanguage: randomParent.preferred_languages?.[1] || randomParent.preferred_languages?.[0] || 'English',
+                    };
+
+                    console.log('Parent preferences:', { hardRules, softPreferences }); // Debug
+
+                    // 5. Run matching algorithm
+                    const matches = matchSitters(formattedSitters, hardRules, softPreferences);
+
+                    console.log('Matched sitters:', matches); // Debug
+
+                    // Get top 3 matches
+                    setTopMatches(matches.slice(0, 3));
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchData();
+    }, []);
+    // const user = {
+    //     name: "John Doe",
+    //     email: "john.doe@example.com",
+    //     role: "Parent",
+    // };
+
 
     const sessions = [
         {
@@ -141,7 +248,7 @@ export default function ParentDashboard() {
     };
     return (
         <main className='flex flex-col min-h-screen max-w-7xl mx-auto px-4 sm:px-6 py-8'>
-            <WelcomeBanner userName={user.name} sessionCount={sessions.length} />
+            <WelcomeBanner userName={currentParent?.name || "Parent"} sessionCount={sessions.length} />
 
             {/* Quick Actions */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8">
@@ -161,11 +268,35 @@ export default function ParentDashboard() {
                     </Link>
                 ))}
             </div>
+            <ParentPreferences parent={currentParent} />
+            {/* TOP MATCHED SITTERS SECTION - NEW! */}
+            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8 mb-8">
+                <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold text-gray-900">Top Matched Sitters for You</h2>
+                    <Link
+                        href="/search"
+                        className="text-[#ff6b6b] hover:text-[#ff5252] text-sm font-semibold hover:underline"
+                    >
+                        Search Sitters
+                    </Link>
+                </div>
+                <hr />
+                {topMatches.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                        {topMatches.map((sitter) => (
+                            <MatchedSitterCard key={sitter.id} sitter={sitter} />
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-gray-500 text-center py-8">
+                        No matching sitters found. Try adjusting your preferences.
+                    </p>
+                )}
+            </div>
 
             {/* Row 1: Upcoming Sessions + Recent Activity */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-                {/* Left: Upcoming Sessions */}
-                <div className="lg:col-span-2">
+                {/* <div className="lg:col-span-2">
                     <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-gray-900">Upcoming Sessions</h2>
@@ -228,17 +359,17 @@ export default function ParentDashboard() {
                             ))}
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Right: Recent Activity */}
-                <div className="lg:col-span-1">
+                {/* <div className="lg:col-span-1">
                     <MyChildren children={children} />
-                </div>
+                </div> */}
             </div>
 
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mt-8">
-                <div className="lg:col-span-2">
+                {/* <div className="lg:col-span-2">
                     <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8">
                         <h2 className="text-xl font-bold text-gray-900 mb-6">Recent Activity</h2>
                         <hr />
@@ -258,15 +389,15 @@ export default function ParentDashboard() {
                             ))}
                         </div>
                     </div>
-                </div>
+                </div> */}
 
-                <div className="lg:col-span-1">
+                {/* <div className="lg:col-span-1">
                     <ChildProgress
                         stats={progressStats}
                         selectedChild="Emma Wilson"
                         children={children}
                     />
-                </div>
+                </div> */}
             </div>
         </main>
     );

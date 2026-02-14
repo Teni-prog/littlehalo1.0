@@ -4,8 +4,19 @@ import { Star, MapPin, BadgeCheck } from "lucide-react";
 import Image from "next/image";
 import Sitter from "@/assets/sitter1.png"
 import Link from "next/link";
+import { createClient } from '@/lib/supabase/server';
 
-export function SitterCard({ sitter }) {
+export async function SitterCard({ sitter }) {
+    // Connect to database
+    const supabase = await createClient();
+
+    // Get all parents
+    const { data: sitters } = await supabase
+        .from('sitter_profiles')
+        .select(`
+                *,
+                user:users!user_id(id, name, email, avatar)
+            `);
     return (
         <>
             {/* <div className="flex justify-center "> */}
@@ -17,7 +28,7 @@ export function SitterCard({ sitter }) {
                         {sitter.name.charAt(0)}
                     </div> */}
                         <Image
-                            src={sitter.image}
+                            src={sitter.image || Sitter}
                             alt={sitter.name}
                             fill
                             className="object-cover rounded-t-xl md:rounded-xl"
@@ -61,8 +72,8 @@ export function SitterCard({ sitter }) {
                 </div>
                 <CardFooter className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4 items-stretch sm:items-center pt-4 bg-muted/20">
 
-                    <Link href="/booking"><Button className="w-full sm:w-auto">Book Now</Button></Link>
-                    <Link href="/profile"><Button className="w-full sm:w-auto">View Profile</Button></Link>
+                    <Link href="/booking"><Button className="w-full sm:w-auto cursor-pointer">Book Now</Button></Link>
+                    <Link href={`/profile/Sitter/${sitter.id}`}><Button className="w-full sm:w-auto cursor-pointer">View Profile</Button></Link>
                 </CardFooter>
             </Card>
             {/* </div > */}

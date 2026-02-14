@@ -5,66 +5,95 @@ import { Search as SearchIcon, SlidersHorizontal } from "lucide-react";
 import sitter1 from "@/assets/sitter1.png";
 import sitter2 from "@/assets/sitter2.png";
 import sitter3 from "@/assets/sitter3.png";
+import { createClient } from '@/lib/supabase/server';
 
+import Link from "next/link";
 // Dummy Data
-const SITTERS = [
-    {
-        id: "1",
-        email: "sarah@example.com",
-        user_type: "sitter",
-        created_at: "",
-        name: "Sarah Chen",
-        image: sitter1,
-        bio: "Experienced childcare provider specializing in special needs support with a warm, patient approach. Committed to creating safe and engaging environments for children to thrive.",
-        hourly_rate: 25,
-        languages: ["Mandarin", "English"],
-        location: "Fredericton, NB",
-        is_verified: true,
-        rating: 4.9,
-        reviews: 12,
-        background_check_status: "approved"
-    },
-    {
-        id: "2",
-        email: "maria@example.com",
-        user_type: "sitter",
-        created_at: "",
-        name: "Maria Rodriguez",
-        image: sitter2,
-        bio: "Patient and loving sitter from Colombia. I love cooking and teaching Spanish to kids. First aid certified.",
-        hourly_rate: 22,
-        languages: ["Spanish", "English"],
-        location: "Dartmouth, NS",
-        is_verified: true,
-        rating: 4.8,
-        reviews: 28,
-        background_check_status: "approved"
-    },
-    {
-        id: "3",
-        email: "fatima@example.com",
-        user_type: "sitter",
-        created_at: "",
-        name: "Fatima Al-Sayed",
-        image: sitter3,
-        bio: "Mother of two, offering babysitting for newcomer families. I understand the challenges of settling in. Speak Arabic and English.",
-        hourly_rate: 20,
-        languages: ["Arabic", "English", "French"],
-        location: "Bedford, NS",
-        is_verified: false, // For demo
-        rating: 5.0,
-        reviews: 5,
-        background_check_status: "pending"
-    }
-];
+// const SITTERS = [
+//     {
+//         id: "1",
+//         email: "sarah@example.com",
+//         user_type: "sitter",
+//         created_at: "",
+//         name: "Sarah Chen",
+//         image: sitter1,
+//         bio: "Experienced childcare provider specializing in special needs support with a warm, patient approach. Committed to creating safe and engaging environments for children to thrive.",
+//         hourly_rate: 25,
+//         languages: ["Mandarin", "English"],
+//         location: "Fredericton, NB",
+//         is_verified: true,
+//         rating: 4.9,
+//         reviews: 12,
+//         background_check_status: "approved"
+//     },
+//     {
+//         id: "2",
+//         email: "maria@example.com",
+//         user_type: "sitter",
+//         created_at: "",
+//         name: "Maria Rodriguez",
+//         image: sitter2,
+//         bio: "Patient and loving sitter from Colombia. I love cooking and teaching Spanish to kids. First aid certified.",
+//         hourly_rate: 22,
+//         languages: ["Spanish", "English"],
+//         location: "Dartmouth, NS",
+//         is_verified: true,
+//         rating: 4.8,
+//         reviews: 28,
+//         background_check_status: "approved"
+//     },
+//     {
+//         id: "3",
+//         email: "fatima@example.com",
+//         user_type: "sitter",
+//         created_at: "",
+//         name: "Fatima Al-Sayed",
+//         image: sitter3,
+//         bio: "Mother of two, offering babysitting for newcomer families. I understand the challenges of settling in. Speak Arabic and English.",
+//         hourly_rate: 20,
+//         languages: ["Arabic", "English", "French"],
+//         location: "Bedford, NS",
+//         is_verified: false, // For demo
+//         rating: 5.0,
+//         reviews: 5,
+//         background_check_status: "pending"
+//     }
+// ];
 
-export default function SearchPage() {
+export default async function SearchPage() {
+    // Connect to database
+    const supabase = await createClient();
+
+    // Get all parents
+    const { data: sitters } = await supabase
+        .from('sitter_profiles')
+        .select(`
+            *,
+            user:users!user_id(id, name, email, avatar)
+        `);
+
+    // Transform sitters to match our format
+    const formattedSitters = sitters?.map(sitter => ({
+        id: sitter.user.id,
+        email: sitter.user.email,
+        name: sitter.user.name,
+        image: sitter.user.avatar,
+        bio: sitter.bio,
+        hourly_rate: sitter.hourly_rate,
+        languages: sitter.languages,
+        location: sitter.location,
+        is_verified: sitter.is_verified,
+        rating: sitter.rating,
+        reviews: sitter.reviews_count,
+        background_check_status: sitter.background_check_status
+    })) || [];
     return (
         <>
             <div className=" container py-8 min-h-screen bg-gray-100 px-4 ">
                 <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center items-end md:items-center">
                     <div>
-                        <h1 className="text-3xl font-bold font-outfit mb-2 justify-center">Find a Sitter</h1>
+                        <Link href="">
+                            <Button className="text-3xl font-bold font-outfit mb-2 justify-center cursor-pointer">Find a Sitter</Button> </Link>
                         <p className="text-muted-foreground justify-center">Connect with trusted local babysitters.</p>
                     </div>
                 </div>
@@ -174,7 +203,7 @@ export default function SearchPage() {
                             {SITTERS.length} verified sitters available in your area
                         </p> */}
                     <div className="flex-1 flex flex-col gap-3 md:gap-4 w-full">
-                        {SITTERS.map((sitter) => (
+                        {formattedSitters.map((sitter) => (
                             <SitterCard key={sitter.id} sitter={sitter} />
                         ))}
                     </div>
@@ -187,3 +216,4 @@ export default function SearchPage() {
         </>
     );
 }
+
