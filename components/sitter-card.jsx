@@ -4,19 +4,8 @@ import { Star, MapPin, BadgeCheck } from "lucide-react";
 import Image from "next/image";
 import Sitter from "@/assets/sitter1.png"
 import Link from "next/link";
-import { createClient } from '@/lib/supabase/server';
 
-export async function SitterCard({ sitter }) {
-    // Connect to database
-    const supabase = await createClient();
-
-    // Get all parents
-    const { data: sitters } = await supabase
-        .from('sitter_profiles')
-        .select(`
-                *,
-                user:users!user_id(id, name, email, avatar)
-            `);
+export function SitterCard({ sitter }) {
     return (
         <>
             {/* <div className="flex justify-center "> */}

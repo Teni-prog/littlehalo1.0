@@ -4,7 +4,7 @@ import { DollarSign, Calendar, Star, Users, MessageCircle, Settings, TrendingUp,
 import Link from 'next/link';
 import WelcomeBanner from '@/components/ui/welcomebanner';
 
-export default async function SitterDashboard({ params }) {
+export default function SitterDashboard() {
     // Connect to database
     // const supabase = await createClient();
     // const { id } = params;
@@ -184,7 +184,7 @@ export default async function SitterDashboard({ params }) {
 
     return (
         <main className='flex flex-col min-h-screen max-w-7xl mx-auto px-4 sm:px-6 py-8'>
-            <WelcomeBanner userName={sitter.user.name} sessionCount={3} />
+            <WelcomeBanner userName={sitter.name} sessionCount={3} />
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
@@ -230,18 +230,18 @@ export default async function SitterDashboard({ params }) {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                 {/* Left: Upcoming Sessions */}
                 <div className="lg:col-span-2">
-                    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8 mb-8">
-                        <div className="flex justify-between items-center mb-6">
+                    {/* 1 <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8 mb-8"> */}
+                    {/* <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-gray-900">Upcoming Sessions</h2>
                             <Link
-                                // href="/sitter/sessions"
+                                href="/sitter/sessions" 
                                 className="text-teal-500 hover:text-teal-600 text-sm font-semibold hover:underline"
                             >
                                 View All
                             </Link>
-                        </div>
+                        </div> */}
 
-                        <div className="space-y-6">
+                    {/* <div className="space-y-6">
                             {upcomingSessions.map((session) => (
                                 <div
                                     key={session.id}
@@ -290,11 +290,11 @@ export default async function SitterDashboard({ params }) {
                                     </div>
                                 </div>
                             ))}
-                        </div>
-                    </div>
+                        </div> */}
+                    {/* 2 </div> */}
 
                     {/* Recent Reviews */}
-                    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8">
+                    {/* <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8">
                         <h2 className="text-xl font-bold text-gray-900 mb-6">Recent Reviews</h2>
 
                         <div className="space-y-6">
@@ -313,16 +313,16 @@ export default async function SitterDashboard({ params }) {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Right: Sidebar Widgets */}
                 <div className="lg:col-span-1 space-y-8">
                     {/* Profile Completion */}
-                    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
-                        <h2 className="text-xl font-bold text-gray-900 mb-4">Profile Completion</h2>
+                    {/* 1 <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6"> */}
+                    {/* <h2 className="text-xl font-bold text-gray-900 mb-4">Profile Completion</h2> */}
 
-                        <div className="mb-6">
+                    {/* <div className="mb-6">
                             <div className="flex justify-between text-sm mb-2">
                                 <span className="font-semibold text-gray-700">{profileCompletion.percentage}% Complete</span>
                                 <span className="text-teal-500 font-semibold">Almost there!</span>
@@ -333,9 +333,9 @@ export default async function SitterDashboard({ params }) {
                                     style={{ width: `${profileCompletion.percentage}%` }}
                                 ></div>
                             </div>
-                        </div>
+                        </div> */}
 
-                        <div className="space-y-3">
+                    {/* <div className="space-y-3">
                             {profileCompletion.items.map((item, index) => (
                                 <div key={index} className="flex items-center gap-3">
                                     {item.completed ? (
@@ -348,11 +348,11 @@ export default async function SitterDashboard({ params }) {
                                     </span>
                                 </div>
                             ))}
-                        </div>
-                    </div>
+                        </div> */}
+                    {/* 2 </div> */}
 
                     {/* Earnings Breakdown */}
-                    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
+                    {/* <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
                         <h2 className="text-xl font-bold text-gray-900 mb-6">Earnings Breakdown</h2>
 
                         <div className="bg-red-50 p-4 rounded-2xl mb-6">
@@ -386,10 +386,10 @@ export default async function SitterDashboard({ params }) {
                         >
                             Request Payout
                         </Link>
-                    </div>
+                    </div> */}
 
                     {/* This Month Stats */}
-                    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
+                    {/* <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
                         <h2 className="text-xl font-bold text-gray-900 mb-6">This Month</h2>
 
                         <div className="space-y-4">
@@ -423,10 +423,10 @@ export default async function SitterDashboard({ params }) {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Top Skills */}
-                    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
+                    {/* <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
                         <h2 className="text-xl font-bold text-gray-900 mb-6">Top Skills</h2>
 
                         <div className="space-y-4">
@@ -445,7 +445,7 @@ export default async function SitterDashboard({ params }) {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </main>

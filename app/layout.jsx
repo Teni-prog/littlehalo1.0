@@ -3,6 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 
+
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 // for body text 
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
@@ -16,7 +17,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${outfit.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${outfit.variable} font-sans antialiased pt-16`}>
         <Navbar />
         {/* <main> */}
         {children}

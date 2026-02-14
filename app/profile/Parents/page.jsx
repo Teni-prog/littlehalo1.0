@@ -9,8 +9,6 @@ import sitter2 from '@/assets/sitter2.png';
 import MyChildren from '@/components/Mychildren';
 import ChildProgress from '@/components/Childprogress';
 import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import matchSitters from '@/lib/matching-algorithm';
 import MatchedSitterCard from '@/app/search/matching-button/page';
 import ParentPreferences from '../ParentPreferences/page';
 
@@ -23,89 +21,34 @@ export default function ParentDashboard() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const supabase = createClient();
+                // 1. Get a random parent with preferences
+                const parentsResponse = await fetch('/api/parents?has_preferences=true');
+                const parentsResult = await parentsResponse.json();
 
-                // 1. Get a random parent
-                const { data: parents, error: parentError } = await supabase
-                    .from('users')
-                    .select('*')
-                    .eq('user_type', 'parent')
-                    .not('preferred_languages', 'is', null); // Only parents with preferences
+                if (!parentsResponse.ok) {
+                    throw new Error(parentsResult.error || 'Failed to fetch parents');
+                }
 
-                if (parentError) throw parentError;
+                const parents = parentsResult.data;
 
                 if (parents && parents.length > 0) {
                     // Pick random parent
                     const randomParent = parents[Math.floor(Math.random() * parents.length)];
                     setCurrentParent(randomParent);
 
-                    // 2. Get all sitters with their profiles
-                    const { data: sitters, error: sitterError } = await supabase
-                        .from('sitter_profiles')
-                        .select(`
-                            id,
-                            bio,
-                            hourly_rate,
-                            languages,
-                            location,
-                            is_verified,
-                            rating,
-                            reviews_count,
-                            background_check_status,
-                            experience,
-                            users!user_id (
-                                id,
-                                name,
-                                email,
-                                avatar
-                            )
-                        `);
+                    // 2. Get matched sitters using the matching API
+                    const matchingResponse = await fetch(`/api/matching?parent_id=${randomParent.id}&limit=3`);
+                    const matchingResult = await matchingResponse.json();
 
-                    if (sitterError) throw sitterError;
+                    if (!matchingResponse.ok) {
+                        throw new Error(matchingResult.error || 'Failed to fetch matches');
+                    }
 
-                    console.log('Raw sitters data:', sitters); // Debug
+                    console.log('Matched sitters:', matchingResult.data); // Debug
+                    console.log('Preferences used:', matchingResult.preferences); // Debug
 
-                    // 3. Transform sitters to match your algorithm format
-                    const formattedSitters = sitters?.map(sitter => ({
-                        id: sitter.id,
-                        bio: sitter.bio,
-                        hourly_rate: sitter.hourly_rate,
-                        languages: sitter.languages,
-                        location: sitter.location,
-                        is_verified: sitter.is_verified,
-                        rating: sitter.rating,
-                        reviews_count: sitter.reviews_count,
-                        background_check_status: sitter.background_check_status,
-                        experience: sitter.experience,
-                        user: {
-                            id: sitter.users.id,
-                            name: sitter.users.name,
-                            email: sitter.users.email,
-                            avatar: sitter.users.avatar
-                        }
-                    })) || [];
-
-                    console.log('Formatted sitters:', formattedSitters); // Debug
-
-                    // 4. Set up parent's preferences for matching
-                    const hardRules = {
-                        maxBudget: randomParent.max_budget || 30,
-                    };
-
-                    const softPreferences = {
-                        city: randomParent.preferred_location?.split(',')[0] || 'Halifax',
-                        preferredLanguage: randomParent.preferred_languages?.[1] || randomParent.preferred_languages?.[0] || 'English',
-                    };
-
-                    console.log('Parent preferences:', { hardRules, softPreferences }); // Debug
-
-                    // 5. Run matching algorithm
-                    const matches = matchSitters(formattedSitters, hardRules, softPreferences);
-
-                    console.log('Matched sitters:', matches); // Debug
-
-                    // Get top 3 matches
-                    setTopMatches(matches.slice(0, 3));
+                    // Set top 3 matches
+                    setTopMatches(matchingResult.data || []);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
