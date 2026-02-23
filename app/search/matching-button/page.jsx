@@ -65,7 +65,6 @@
 //         preferredLanguage: parent.preferred_languages?.[1] || parent.preferred_languages?.[0] || 'English', // Second language or first
 //     };
 
-
 //     // Run the matching algorithm
 //     const matchedSitters = matchSitters(formattedSitters, hardRules, softPreferences);
 
@@ -108,84 +107,86 @@
 //     );
 // }
 
-import Image from 'next/image';
-import { MapPin, Star, BadgeCheck, Briefcase, Languages } from 'lucide-react';
-import sitter1 from '@/assets/sitter1.png'; // default avatar
+import Image from "next/image";
+import { MapPin, Star, BadgeCheck, Briefcase, Languages } from "lucide-react";
+import sitter1 from "@/assets/sitter1.png"; // default avatar
+import Link from "next/link";
 
 export default function MatchedSitterCard({ sitter }) {
-    return (
-        <div className="bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-lg transition-shadow">
-            {/* Match Percentage Badge */}
-            <div className="flex justify-between items-start mb-4">
-                <div className="flex items-center gap-4">
-                    <Image
-                        src={sitter.user?.avatar || sitter1}
-                        alt={sitter.user?.name || 'Sitter'}
-                        className="rounded-full object-cover w-16 h-16"
-                        width={64}
-                        height={64}
-                    />
-                    <div>
-                        <div className="flex items-center gap-2">
-                            <h3 className="font-bold text-gray-900 text-lg">
-                                {sitter.user?.name}
-                            </h3>
-                            {sitter.is_verified && (
-                                <BadgeCheck className="w-5 h-5 text-blue-500" />
-                            )}
-                        </div>
-                        <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
-                            <MapPin className="w-4 h-4" />
-                            <span>{sitter.location}</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="bg-teal-50 text-teal-600 px-3 py-1 rounded-full font-bold text-sm">
-                    {sitter.preferenceScore}/4
-                </div>
+  return (
+    <div className="bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-lg transition-shadow">
+      {/* Match Percentage Badge */}
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex items-center gap-4">
+          <Image
+            src={sitter.image || sitter1}
+            alt={sitter.name || "Sitter"}
+            className="rounded-full object-cover w-16 h-16"
+            width={64}
+            height={64}
+            unoptimized={sitter.image ? true : false}
+          />
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="font-bold text-gray-900 text-lg">{sitter.name}</h3>
+              {sitter.is_verified && (
+                <BadgeCheck className="w-5 h-5 text-blue-500" />
+              )}
             </div>
-
-            {/* Details */}
-            <div className="space-y-3">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                    <span className="font-semibold">{sitter.rating}</span>
-                    <span>({sitter.reviews_count} reviews)</span>
-                </div>
-
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Briefcase className="w-4 h-4" />
-                    <span>{sitter.experience} years experience</span>
-                </div>
-
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Briefcase className="w-4 h-4" />
-                    <span>${sitter.hourly_rate}/hour</span>
-                </div>
-
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Languages className="w-4 h-4" />
-                    <div className="flex flex-wrap gap-1">
-                        {sitter.languages?.map((lang, idx) => (
-                            <span key={idx} className="bg-gray-100 px-2 py-1 rounded">
-                                {lang}
-                            </span>
-                        ))}
-                    </div>
-                </div>
+            <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
+              <MapPin className="w-4 h-4" />
+              <span>{sitter.location}</span>
             </div>
-
-            {/* Match Details */}
-            <div className="mt-4 pt-4 border-t border-gray-100">
-                <p className="text-xs text-gray-500">
-                    Matched {sitter.preferenceScore}/4 preferences
-                </p>
-            </div>
-
-            {/* CTA Button */}
-            <button className="w-full mt-4 bg-[#ff6b6b] text-white py-2 rounded-xl font-semibold hover:bg-[#ff5252] transition-colors cursor-pointer">
-                View Profile
-            </button>
+          </div>
         </div>
-    );
+        <div className="bg-teal-50 text-teal-600 px-3 py-1 rounded-full font-bold text-sm">
+          {sitter.preferenceScore}/4
+        </div>
+      </div>
+
+      {/* Details */}
+      <div className="space-y-3">
+        <div className="flex items-center gap-2 text-sm text-gray-600">
+          <Star className="w-4 h-4 text-yellow-500 fill-current" />
+          <span className="font-semibold">{sitter.rating}</span>
+          <span>({sitter.reviews} reviews)</span>
+        </div>
+
+        <div className="flex items-center gap-2 text-sm text-gray-600">
+          <Briefcase className="w-4 h-4" />
+          <span>{sitter.experience} years experience</span>
+        </div>
+
+        <div className="flex items-center gap-2 text-sm text-gray-600">
+          <Briefcase className="w-4 h-4" />
+          <span>${sitter.hourly_rate}/hour</span>
+        </div>
+
+        <div className="flex items-center gap-2 text-sm text-gray-600">
+          <Languages className="w-4 h-4" />
+          <div className="flex flex-wrap gap-1">
+            {sitter.languages?.map((lang, idx) => (
+              <span key={idx} className="bg-gray-100 px-2 py-1 rounded">
+                {lang}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Match Details */}
+      <div className="mt-4 pt-4 border-t border-gray-100">
+        <p className="text-xs text-gray-500">
+          Matched {sitter.preferenceScore}/4 preferences
+        </p>
+      </div>
+
+      {/* CTA Button */}
+      <Link href={`/profile/Sitter/${sitter.id}`}>
+        <button className="w-full mt-4 bg-[#ff6b6b] text-white py-2 rounded-xl font-semibold hover:bg-[#ff5252] transition-colors cursor-pointer">
+          View Profile
+        </button>
+      </Link>
+    </div>
+  );
 }
