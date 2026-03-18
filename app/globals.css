@@ -155,3 +155,147 @@
     scroll-behavior: smooth;
   }
 }
+
+/* Matching Pipeline Demo Styles */
+.page {
+  min-height: 100vh;
+  background: hsl(0, 0%, 94%);
+  color: hsl(222, 84%, 5%);
+  padding: 40px 24px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.header {
+  max-width: 1400px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: hsl(183, 97%, 65%);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 56px;
+  font-family: 'DM Serif Display', serif;
+  font-weight: 700;
+  background: linear-gradient(135deg, hsl(0, 85%, 68%) 0%, hsl(183, 97%, 65%) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 15px;
+  color: hsl(215, 16%, 47%);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.05em;
+}
+/* 
+.grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 32px;
+  align-items: start;
+} */
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.slabel {
+  margin: 0 0 16px;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: hsl(215, 16%, 47%);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, hsl(210, 40%, 96%) 0%, hsl(214, 32%, 91%) 50%, hsl(210, 40%, 96%) 100%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+  border-radius: 12px;
+  height: 180px;
+  margin-bottom: 12px;
+  border: 1px solid hsl(214, 32%, 91%);
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.empty {
+  background: hsl(0, 0%, 100%);
+  border: 2px dashed hsl(214, 32%, 91%);
+  borderRadius: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  color: hsl(215, 16%, 47%);
+  font-size: 13px;
+  font-family: 'DM Mono', monospace;
+}
+
+.running {
+  background: linear-gradient(135deg, hsla(0, 85%, 68%, 0.1) 0%, hsla(183, 97%, 65%, 0.1) 100%);
+  border: 2px solid hsl(0, 85%, 68%);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  color: hsl(0, 85%, 68%);
+  font-size: 13px;
+  font-family: 'DM Mono', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: hsl(0, 85%, 68%);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+.err-box {
+  background: hsla(0, 84%, 60%, 0.1);
+  border: 2px solid hsl(0, 84%, 60%);
+  border-radius: 12px;
+  padding: 16px;
+  color: hsl(0, 84%, 60%);
+  font-size: 13px;
+  font-family: 'DM Mono', monospace;
+}

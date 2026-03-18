@@ -105,7 +105,7 @@ export default function SitterProfilePage() {
         </Link>
 
         {/* Profile Header */}
-        <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8 mb-6">
+        <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8 mb-6 w-[80%]">
           <div className="flex flex-col md:flex-row gap-6">
             {/* Profile Image */}
             <div className="relative h-48 w-48 shrink-0 mx-auto md:mx-0">
@@ -161,7 +161,7 @@ export default function SitterProfilePage() {
               </div>
 
               {/* Quick Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-4 w-[50%]">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-5 h-5 text-[#ff6b6b]" />
                   <div>
@@ -178,23 +178,25 @@ export default function SitterProfilePage() {
                     <p className="font-semibold">{sitter.reviews}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                   <Clock className="w-5 h-5 text-[#ff6b6b]" />
                   <div>
                     <p className="text-sm text-gray-600">Response Time</p>
                     <p className="font-semibold">Within 1 hour</p>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button className="flex-1 bg-[#ff6b6b] hover:bg-[#ff5252]">
-                  Book Now
-                </Button>
-                <Button variant="outline" className="flex-1">
+                <Link href={`/booking?sitterId=${sitter.id}`}>
+                  <Button className="flex-1 bg-[#ff6b6b] hover:bg-[#ff5252] cursor-pointer">
+                    Book Now
+                  </Button>
+                </Link>
+                {/* <Button variant="outline" className="flex-1">
                   Send Message
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>
@@ -304,9 +306,11 @@ export default function SitterProfilePage() {
               <p className="text-sm text-gray-600 mb-4">
                 Schedule a session with {sitter.name.split(" ")[0]} today!
               </p>
-              <Button className="w-full bg-[#ff6b6b] hover:bg-[#ff5252]">
-                Book Now
-              </Button>
+              <Link href={`/booking?sitterId=${sitter.id}`}>
+                <Button className="w-full bg-[#ff6b6b] hover:bg-[#ff5252] cursor-pointer">
+                  Book Now
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

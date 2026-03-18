@@ -58,11 +58,18 @@ export default function Home() {
                     placeholder="Enter your location or postal code"
                     className="h-12 border-0 bg-gray-50 focus-visible:ring-0 focus-visible:bg-white transition-all"
                   />
-                  <Link href="/search">
-                    <Button size="lg" className="h-12 px-6 cursor-pointer">
-                      Search Sitters
-                    </Button>
-                  </Link>
+                  <span className="flex gap-2">
+                    <Link href="/search">
+                      <Button size="lg" className="h-12 px-6 cursor-pointer">
+                        Search Sitters
+                      </Button>
+                    </Link>
+                    <Link href="/microadventure">
+                      <Button size="lg" className="h-12 px-6 cursor-pointer">
+                        Search Micro Adventures
+                      </Button>
+                    </Link>
+                  </span>
                 </div>
               </div>
             </div>

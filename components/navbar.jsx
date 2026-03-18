@@ -39,7 +39,7 @@ export function Navbar() {
             >
               For Parents
             </Link>
-            <Link
+            {/* <Link
               href="/search"
               className={`transition-colors hover:text-primary ${
                 isActive("/search")
@@ -48,8 +48,8 @@ export function Navbar() {
               }`}
             >
               Find Sitters
-            </Link>
-            <Link
+            </Link> */}
+            {/* <Link
               href="/demo-matching"
               className={`transition-colors hover:text-primary ${
                 isActive("/demo-matching")
@@ -58,6 +58,16 @@ export function Navbar() {
               }`}
             >
               Find Match
+            </Link> */}
+            <Link
+              href="/Testmatching"
+              className={`transition-colors hover:text-primary ${
+                isActive("/Testmatching")
+                  ? "text-primary font-bold border-b-2 border-primary pb-1"
+                  : ""
+              }`}
+            >
+              Testing
             </Link>
           </div>
           <Link href="/login">

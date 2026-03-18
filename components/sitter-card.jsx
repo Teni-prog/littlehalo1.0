@@ -78,7 +78,7 @@ export function SitterCard({ sitter }) {
           </CardContent>
         </div>
         <CardFooter className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4 items-stretch sm:items-center pt-4 bg-muted/20">
-          <Link href="/booking">
+          <Link href={`/booking?sitterId=${sitter.id}`}>
             <Button className="w-full sm:w-auto cursor-pointer">
               Book Now
             </Button>
