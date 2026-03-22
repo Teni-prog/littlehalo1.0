@@ -5,57 +5,165 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Clock, User, Sparkles, FileText, Check } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  User,
+  Sparkles,
+  FileText,
+  Check,
+  CheckCircle2,
+  X,
+} from "lucide-react";
 import Link from "next/link";
-import { getBookingAdventures } from "@/lib/mock-data/activities";
+import {
+  getBookingAdventures,
+  getLibraryActivityById,
+} from "@/lib/mock-data/activities";
 
 export default function BookingPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const sitterId = searchParams.get("sitterId");
+  const selectedAdventureFromQuery = searchParams.get("selectedAdventure");
+  const selectedAdventuresFromQuery = searchParams.get("selectedAdventures");
 
   const DEMO_PARENT_ID = "c51a0e4c-f7d4-4b23-a7b9-029c31d86c0b";
 
   const [selectedSitter, setSelectedSitter] = useState(null);
   const [loading, setLoading] = useState(true);
   const [bookingDetails, setBookingDetails] = useState(() => {
+    const defaultDetails = {
+      date: "",
+      startTime: "",
+      endTime: "",
+      selectedChildren: [],
+      selectedAdventures: [],
+      additionalNotes: "",
+    };
+
     try {
       const saved = localStorage.getItem("bookingDetails");
-      return saved
-        ? JSON.parse(saved)
-        : {
-            date: "",
-            startTime: "",
-            endTime: "",
-            selectedChildren: [],
-            selectedAdventure: "",
-            additionalNotes: "",
-          };
-    } catch {
+      if (!saved) {
+        return defaultDetails;
+      }
+
+      const parsed = JSON.parse(saved);
+      const selectedAdventures = Array.isArray(parsed.selectedAdventures)
+        ? parsed.selectedAdventures.map(String)
+        : parsed.selectedAdventure
+          ? [String(parsed.selectedAdventure)]
+          : [];
+
       return {
-        date: "",
-        startTime: "",
-        endTime: "",
-        selectedChildren: [],
-        selectedAdventure: "",
-        additionalNotes: "",
+        ...defaultDetails,
+        ...parsed,
+        selectedAdventures,
       };
+    } catch {
+      return defaultDetails;
     }
   });
   const [children, setChildren] = useState([]);
   const [adventures] = useState(() => getBookingAdventures({ limit: 3 }));
+  const [showAdventureAddedBanner, setShowAdventureAddedBanner] =
+    useState(false);
+  const [lastAddedAdventureTitle, setLastAddedAdventureTitle] = useState("");
 
-  const selectedAdventureRecord = useMemo(
+  const selectedAdventureFromLibrary = useMemo(
     () =>
-      adventures.find(
-        (adventure) => adventure.id === bookingDetails.selectedAdventure,
-      ) || null,
-    [adventures, bookingDetails.selectedAdventure],
+      selectedAdventureFromQuery
+        ? getLibraryActivityById(selectedAdventureFromQuery)
+        : null,
+    [selectedAdventureFromQuery],
+  );
+
+  const selectedAdventureIdsFromQuery = useMemo(() => {
+    if (!selectedAdventuresFromQuery) {
+      return [];
+    }
+
+    return [
+      ...new Set(
+        selectedAdventuresFromQuery
+          .split(",")
+          .map((id) => id.trim())
+          .filter(Boolean),
+      ),
+    ];
+  }, [selectedAdventuresFromQuery]);
+
+  const selectedAdventuresFromLibrary = useMemo(
+    () =>
+      selectedAdventureIdsFromQuery
+        .map((id) => getLibraryActivityById(id))
+        .filter(Boolean),
+    [selectedAdventureIdsFromQuery],
+  );
+
+  const selectedAdventureRecords = useMemo(
+    () =>
+      (bookingDetails.selectedAdventures || [])
+        .map(
+          (id) =>
+            adventures.find((adventure) => adventure.id === id) ||
+            getLibraryActivityById(id),
+        )
+        .filter(Boolean),
+    [adventures, bookingDetails.selectedAdventures],
+  );
+
+  const selectedAdventureIds = useMemo(
+    () => new Set((bookingDetails.selectedAdventures || []).map(String)),
+    [bookingDetails.selectedAdventures],
   );
 
   useEffect(() => {
     if (!sitterId) router.replace("/search");
   }, [sitterId, router]);
+
+  useEffect(() => {
+    if (
+      !sitterId ||
+      (!selectedAdventureFromLibrary &&
+        selectedAdventuresFromLibrary.length === 0)
+    ) {
+      return;
+    }
+
+    setBookingDetails((prev) => {
+      const prevIds = (prev.selectedAdventures || []).map(String);
+      const incomingIds = [
+        ...selectedAdventuresFromLibrary.map((adventure) => adventure.id),
+        ...(selectedAdventureFromLibrary
+          ? [selectedAdventureFromLibrary.id]
+          : []),
+      ];
+
+      const mergedIds = [...new Set([...prevIds, ...incomingIds])];
+
+      if (mergedIds.length === prevIds.length) {
+        return prev;
+      }
+
+      if (selectedAdventuresFromLibrary.length > 1) {
+        setLastAddedAdventureTitle(
+          `${selectedAdventuresFromLibrary.length} micro adventures`,
+        );
+      } else if (selectedAdventureFromLibrary) {
+        setLastAddedAdventureTitle(selectedAdventureFromLibrary.title);
+      } else if (selectedAdventuresFromLibrary[0]) {
+        setLastAddedAdventureTitle(selectedAdventuresFromLibrary[0].title);
+      }
+
+      setShowAdventureAddedBanner(true);
+
+      return {
+        ...prev,
+        selectedAdventures: mergedIds,
+      };
+    });
+  }, [sitterId, selectedAdventureFromLibrary, selectedAdventuresFromLibrary]);
 
   // Auto-save booking details to localStorage
   useEffect(() => {
@@ -107,7 +215,11 @@ export default function BookingPage() {
     const hours = (end - start) / (1000 * 60 * 60);
     let total = hours * selectedSitter.hourly_rate;
 
-    if (selectedAdventureRecord) total += selectedAdventureRecord.price;
+    const adventureTotal = selectedAdventureRecords.reduce(
+      (sum, adventure) => sum + (Number(adventure.price) || 0),
+      0,
+    );
+    total += adventureTotal;
 
     return total.toFixed(2);
   };
@@ -120,12 +232,35 @@ export default function BookingPage() {
       children: bookingDetails.selectedChildren
         .map((id) => children.find((c) => c.id === id))
         .filter(Boolean),
-      selectedAdventure: selectedAdventureRecord,
+      selectedAdventures: selectedAdventureRecords,
     };
 
     localStorage.setItem("pendingBooking", JSON.stringify(bookingData));
     localStorage.setItem("lastSitterId", sitterId);
     router.push("/booking/confirmation");
+  };
+
+  const addAdventureToBooking = (adventureId) => {
+    setBookingDetails((prev) => {
+      const current = (prev.selectedAdventures || []).map(String);
+      if (current.includes(adventureId)) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        selectedAdventures: [...current, adventureId],
+      };
+    });
+  };
+
+  const removeAdventureFromBooking = (adventureId) => {
+    setBookingDetails((prev) => ({
+      ...prev,
+      selectedAdventures: (prev.selectedAdventures || []).filter(
+        (id) => String(id) !== String(adventureId),
+      ),
+    }));
   };
 
   return (
@@ -141,6 +276,28 @@ export default function BookingPage() {
           <p className="text-gray-600 mt-1 ml-110">
             Fill in the details below to book your sitter
           </p>
+
+          {showAdventureAddedBanner && lastAddedAdventureTitle && (
+            <div className="mt-4 max-w-2xl rounded-xl border border-green-200 bg-green-50 px-4 py-3 flex items-start justify-between gap-3">
+              <div className="flex items-start gap-2.5">
+                <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5" />
+                <div>
+                  <p className="text-sm font-semibold text-green-800">
+                    Micro adventure added to your booking
+                  </p>
+                  <p className="text-sm text-green-700">
+                    {lastAddedAdventureTitle} is now selected.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowAdventureAddedBanner(false)}
+                className="text-xs font-semibold text-green-800 hover:text-green-900"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
         </div>
 
         {loading ? (
@@ -281,7 +438,9 @@ export default function BookingPage() {
                         <Sparkles className="h-5 w-5 text-[#ff6b6b]" />
                         Micro Adventures (Optional)
                       </CardTitle>
-                      <Link href="/microadventure">
+                      <Link
+                        href={`/microadventure?sitterId=${encodeURIComponent(sitterId || "")}&selectedAdventures=${encodeURIComponent((bookingDetails.selectedAdventures || []).join(","))}`}
+                      >
                         <i className="text-sm text-red-500">Browse More</i>
                       </Link>
                     </span>
@@ -291,47 +450,44 @@ export default function BookingPage() {
                       Add a fun activity to your booking
                     </p>
                     <div className="space-y-3">
-                      <label className="flex items-center gap-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
-                        <input
-                          type="radio"
-                          name="adventure"
-                          value=""
-                          checked={bookingDetails.selectedAdventure === ""}
-                          onChange={(e) =>
-                            setBookingDetails((prev) => ({
-                              ...prev,
-                              selectedAdventure: e.target.value,
-                            }))
-                          }
-                          className="h-4 w-4 text-[#ff6b6b] focus:ring-[#ff6b6b]"
-                        />
-                        <div className="flex-1">
-                          <p className="font-medium">No Adventure</p>
-                          <p className="text-sm text-gray-500">
-                            Regular babysitting only
-                          </p>
-                        </div>
-                      </label>
-                      {adventures.map((adventure) => (
+                      {selectedAdventureRecords.length === 0 &&
+                        adventures.map((adventure) => (
+                          <label
+                            key={adventure.id}
+                            className="flex items-center gap-3 p-4 border rounded-lg hover:bg-gray-50 transition"
+                          >
+                            <div className="flex-1">
+                              <div className="flex justify-between items-start">
+                                <p className="font-medium">{adventure.title}</p>
+                                <span className="text-[#ff6b6b] font-semibold">
+                                  +${adventure.price}
+                                </span>
+                              </div>
+                              <p className="text-sm text-gray-500 mt-1">
+                                {adventure.description}
+                              </p>
+                              <p className="text-xs text-gray-400 mt-1">
+                                Duration: {adventure.duration}
+                              </p>
+                            </div>
+                            <Button
+                              type="button"
+                              size="sm"
+                              onClick={() =>
+                                addAdventureToBooking(adventure.id)
+                              }
+                              className="bg-[#ff6b6b] hover:bg-[#ff5a5f] text-white"
+                            >
+                              Add
+                            </Button>
+                          </label>
+                        ))}
+
+                      {selectedAdventureRecords.map((adventure) => (
                         <label
                           key={adventure.id}
-                          className="flex items-center gap-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition"
+                          className="flex items-center gap-3 p-4 border border-green-200 bg-green-50/50 rounded-lg"
                         >
-                          <input
-                            type="radio"
-                            name="adventure"
-                            value={adventure.id}
-                            checked={
-                              bookingDetails.selectedAdventure === adventure.id
-                            }
-                            onChange={(e) =>
-                              setBookingDetails((prev) => ({
-                                ...prev,
-                                selectedAdventure: e.target.value,
-                              }))
-                            }
-                            className="h-4 w-4 text-[#ff6b6b] focus:ring-[#ff6b6b]"
-                          />
                           <div className="flex-1">
                             <div className="flex justify-between items-start">
                               <p className="font-medium">{adventure.title}</p>
@@ -346,8 +502,27 @@ export default function BookingPage() {
                               Duration: {adventure.duration}
                             </p>
                           </div>
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            onClick={() =>
+                              removeAdventureFromBooking(adventure.id)
+                            }
+                            className="border-red-200 text-red-600 hover:bg-red-50"
+                          >
+                            <X className="h-4 w-4 mr-1" />
+                            Remove
+                          </Button>
                         </label>
                       ))}
+
+                      {selectedAdventureRecords.length > 0 && (
+                        <p className="text-xs text-gray-500">
+                          Showing selected adventures only. Use{" "}
+                          <strong>Browse More</strong> to add more.
+                        </p>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
@@ -457,17 +632,23 @@ export default function BookingPage() {
                   </div>
 
                   {/* Adventure Summary */}
-                  {selectedAdventureRecord && (
+                  {selectedAdventureRecords.length > 0 && (
                     <div className="pb-4 border-b">
                       <p className="text-sm text-gray-500 mb-2">
-                        Micro Adventure
+                        Micro Adventures
                       </p>
-                      <p className="font-medium text-sm">
-                        {selectedAdventureRecord.title}
-                      </p>
-                      <p className="text-xs text-gray-600 mt-1">
-                        {selectedAdventureRecord.description}
-                      </p>
+                      <ul className="space-y-2">
+                        {selectedAdventureRecords.map((adventure) => (
+                          <li key={adventure.id} className="text-sm">
+                            <p className="font-medium text-sm">
+                              {adventure.title}
+                            </p>
+                            <p className="text-xs text-gray-600">
+                              +${adventure.price}
+                            </p>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )}
 
@@ -501,10 +682,19 @@ export default function BookingPage() {
                         </span>
                       </div>
                     )}
-                    {selectedAdventureRecord && (
+                    {selectedAdventureRecords.length > 0 && (
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Adventure</span>
-                        <span>+${selectedAdventureRecord.price}</span>
+                        <span className="text-gray-600">Adventures</span>
+                        <span>
+                          +$
+                          {selectedAdventureRecords
+                            .reduce(
+                              (sum, adventure) =>
+                                sum + (Number(adventure.price) || 0),
+                              0,
+                            )
+                            .toFixed(2)}
+                        </span>
                       </div>
                     )}
                     <div className="flex justify-between font-bold text-lg pt-2 border-t">

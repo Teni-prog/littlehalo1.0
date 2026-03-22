@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import {
   Grid3x3,
@@ -16,6 +18,7 @@ import {
   TrendingUp,
   Sparkles,
   SlidersHorizontal,
+  CheckCircle2,
 } from "lucide-react";
 import {
   activityCategories,
@@ -40,7 +43,8 @@ const difficultyColors = {
   Advanced: "bg-primary/10 text-primary-dark border-primary/20",
 };
 
-export function ActivityLibrary() {
+export function ActivityLibrary({ bookingSitterId = "" }) {
+  const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedAge, setSelectedAge] = useState("all");
   const [selectedPriceRange, setSelectedPriceRange] = useState("all");
@@ -79,6 +83,46 @@ export function ActivityLibrary() {
     setSelectedAge("all");
     setSelectedPriceRange("all");
     setSelectedLearningGoal("all");
+  };
+
+  const sitterIdFromUrl = searchParams.get("sitterId") || "";
+  const preselectedAdventureIdsFromUrl = useMemo(() => {
+    const raw = searchParams.get("selectedAdventures") || "";
+    if (!raw) {
+      return [];
+    }
+
+    return [
+      ...new Set(
+        raw
+          .split(",")
+          .map((id) => id.trim())
+          .filter(Boolean),
+      ),
+    ];
+  }, [searchParams]);
+  const effectiveBookingSitterId = bookingSitterId || sitterIdFromUrl;
+  const bookingSelectionEnabled = Boolean(effectiveBookingSitterId);
+  const [selectedForBookingIds, setSelectedForBookingIds] = useState(
+    preselectedAdventureIdsFromUrl,
+  );
+
+  const selectedForBookingSet = useMemo(
+    () => new Set(selectedForBookingIds),
+    [selectedForBookingIds],
+  );
+
+  const bookingReturnHref = `/booking?sitterId=${encodeURIComponent(effectiveBookingSitterId)}&selectedAdventures=${encodeURIComponent(selectedForBookingIds.join(","))}`;
+
+  const toggleAdventureForBooking = (activityId) => {
+    setSelectedForBookingIds((prev) => {
+      const exists = prev.includes(activityId);
+      if (exists) {
+        return prev.filter((id) => id !== activityId);
+      }
+
+      return [...prev, activityId];
+    });
   };
 
   return (
@@ -129,7 +173,7 @@ export function ActivityLibrary() {
           </div>
         </div>
 
-        <div className="mb-8 rounded-2xl bg-white/90 backdrop-blur border border-gray-200 p-4 sm:p-5 shadow-sm">
+        <div className="mb-8 p-4 sm:p-5">
           {/* <div className="flex items-center gap-2 mb-4 text-gray-900">
             <SlidersHorizontal className="w-4 h-4 text-primary" />
             <p className="text-sm font-semibold">Smart Filters</p>
@@ -207,6 +251,26 @@ export function ActivityLibrary() {
               </select>
             </div>
           </div>
+
+          {bookingSelectionEnabled && (
+            <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <p className="text-xs sm:text-sm text-primary font-medium">
+                Booking mode: pick one or more activities, then add them to your
+                booking.
+              </p>
+              <Link
+                href={bookingReturnHref}
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                  selectedForBookingIds.length > 0
+                    ? "bg-primary text-white hover:bg-primary-dark"
+                    : "bg-gray-100 text-gray-400 pointer-events-none"
+                }`}
+              >
+                <CheckCircle2 className="w-4 h-4" />
+                Add {selectedForBookingIds.length} to Booking
+              </Link>
+            </div>
+          )}
         </div>
 
         <div className="flex items-center justify-between mb-6">
@@ -317,6 +381,22 @@ export function ActivityLibrary() {
                         bookings
                       </span>
                     </div>
+
+                    {bookingSelectionEnabled && (
+                      <button
+                        type="button"
+                        onClick={() => toggleAdventureForBooking(activity.id)}
+                        className={`text-xs sm:text-sm font-semibold px-2.5 py-1 rounded-md transition-colors ${
+                          selectedForBookingSet.has(activity.id)
+                            ? "bg-green-100 text-green-700"
+                            : "bg-primary/10 text-primary hover:bg-primary/20"
+                        }`}
+                      >
+                        {selectedForBookingSet.has(activity.id)
+                          ? "Selected"
+                          : "Select for Booking"}
+                      </button>
+                    )}
                   </div>
                 </div>
 

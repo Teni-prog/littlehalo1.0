@@ -8,7 +8,10 @@ export const metadata = {
     "Browse 50+ educational activities included with every babysitting session. From STEM experiments to cultural crafts—all at no extra cost.",
 };
 
-export default function MicroAdventuresPage() {
+export default function MicroAdventuresPage({ searchParams }) {
+  const bookingSitterId =
+    typeof searchParams?.sitterId === "string" ? searchParams.sitterId : "";
+
   return (
     <>
       {/* <PublicNavbar activePage="activities" /> */}
@@ -24,7 +27,7 @@ export default function MicroAdventuresPage() {
       <main className="relative z-10">
         {/* <ActivitiesHero /> */}
         {/* <ActivitiesBenefits /> */}
-        <ActivityLibrary />
+        <ActivityLibrary bookingSitterId={bookingSitterId} />
         {/* <mockActivities /> */}
         <ActivitiesCTA />
       </main>
