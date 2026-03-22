@@ -306,7 +306,60 @@ export default function SearchPage() {
                         checked={filters.specialNeeds.includes("Autism")}
                         onChange={() => handleSpecialNeedsChange("Autism")}
                       />
-                      <span className="text-gray-700">Autism</span>
+                      <span className="text-gray-700">
+                        Autism Spectrum Disorder
+                      </span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
+                        checked={filters.specialNeeds.includes("Nonverbal")}
+                        onChange={() => handleSpecialNeedsChange("Nonverbal")}
+                      />
+                      <span className="text-gray-700">
+                        Nonverbal Communication
+                      </span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
+                        checked={filters.specialNeeds.includes("Anxiety")}
+                        onChange={() => handleSpecialNeedsChange("Anxiety")}
+                      />
+                      <span className="text-gray-700">Anxiety</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
+                        checked={filters.specialNeeds.includes("Asthma")}
+                        onChange={() => handleSpecialNeedsChange("Asthma")}
+                      />
+                      <span className="text-gray-700">Asthma</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
+                        checked={filters.specialNeeds.includes("Speech Delay")}
+                        onChange={() =>
+                          handleSpecialNeedsChange("Speech Delay")
+                        }
+                      />
+                      <span className="text-gray-700">Speech Delay</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
+                        checked={filters.specialNeeds.includes("Down Syndrome")}
+                        onChange={() =>
+                          handleSpecialNeedsChange("Down Syndrome")
+                        }
+                      />
+                      <span className="text-gray-700">Down Syndrome</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input

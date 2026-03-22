@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock, User, Sparkles, FileText, Check } from "lucide-react";
 import Link from "next/link";
-import { adventures as adventuresData } from "@/lib/mock-data/adventures";
+import { getBookingAdventures } from "@/lib/mock-data/activities";
 
 export default function BookingPage() {
   const searchParams = useSearchParams();
@@ -43,7 +43,15 @@ export default function BookingPage() {
     }
   });
   const [children, setChildren] = useState([]);
-  const [adventures] = useState(adventuresData.slice(0, 3));
+  const [adventures] = useState(() => getBookingAdventures({ limit: 3 }));
+
+  const selectedAdventureRecord = useMemo(
+    () =>
+      adventures.find(
+        (adventure) => adventure.id === bookingDetails.selectedAdventure,
+      ) || null,
+    [adventures, bookingDetails.selectedAdventure],
+  );
 
   useEffect(() => {
     if (!sitterId) router.replace("/search");
@@ -99,10 +107,7 @@ export default function BookingPage() {
     const hours = (end - start) / (1000 * 60 * 60);
     let total = hours * selectedSitter.hourly_rate;
 
-    const adventure = adventures.find(
-      (a) => a.id === parseInt(bookingDetails.selectedAdventure),
-    );
-    if (adventure) total += adventure.price;
+    if (selectedAdventureRecord) total += selectedAdventureRecord.price;
 
     return total.toFixed(2);
   };
@@ -115,10 +120,7 @@ export default function BookingPage() {
       children: bookingDetails.selectedChildren
         .map((id) => children.find((c) => c.id === id))
         .filter(Boolean),
-      selectedAdventure:
-        adventures.find(
-          (a) => a.id === parseInt(bookingDetails.selectedAdventure),
-        ) || null,
+      selectedAdventure: selectedAdventureRecord,
     };
 
     localStorage.setItem("pendingBooking", JSON.stringify(bookingData));
@@ -320,8 +322,7 @@ export default function BookingPage() {
                             name="adventure"
                             value={adventure.id}
                             checked={
-                              bookingDetails.selectedAdventure ===
-                              adventure.id.toString()
+                              bookingDetails.selectedAdventure === adventure.id
                             }
                             onChange={(e) =>
                               setBookingDetails((prev) => ({
@@ -369,7 +370,7 @@ export default function BookingPage() {
                         }))
                       }
                       placeholder="Share any important information with your sitter (allergies, bedtime routines, emergency contacts, etc.)"
-                      className="w-full min-h-[120px] p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff6b6b] resize-none"
+                      className="w-full min-h-30 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff6b6b] resize-none"
                     />
                     <p className="text-xs text-gray-500 mt-2">
                       Include details about allergies, preferences, routines, or
@@ -456,34 +457,19 @@ export default function BookingPage() {
                   </div>
 
                   {/* Adventure Summary */}
-                  {bookingDetails.selectedAdventure &&
-                    adventures.find(
-                      (a) =>
-                        a.id === parseInt(bookingDetails.selectedAdventure),
-                    ) && (
-                      <div className="pb-4 border-b">
-                        <p className="text-sm text-gray-500 mb-2">
-                          Micro Adventure
-                        </p>
-                        {(() => {
-                          const adventure = adventures.find(
-                            (a) =>
-                              a.id ===
-                              parseInt(bookingDetails.selectedAdventure),
-                          );
-                          return (
-                            <>
-                              <p className="font-medium text-sm">
-                                {adventure.title}
-                              </p>
-                              <p className="text-xs text-gray-600 mt-1">
-                                {adventure.description}
-                              </p>
-                            </>
-                          );
-                        })()}
-                      </div>
-                    )}
+                  {selectedAdventureRecord && (
+                    <div className="pb-4 border-b">
+                      <p className="text-sm text-gray-500 mb-2">
+                        Micro Adventure
+                      </p>
+                      <p className="font-medium text-sm">
+                        {selectedAdventureRecord.title}
+                      </p>
+                      <p className="text-xs text-gray-600 mt-1">
+                        {selectedAdventureRecord.description}
+                      </p>
+                    </div>
+                  )}
 
                   {/* Price Breakdown */}
                   <div className="space-y-2">
@@ -515,17 +501,10 @@ export default function BookingPage() {
                         </span>
                       </div>
                     )}
-                    {bookingDetails.selectedAdventure && (
+                    {selectedAdventureRecord && (
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Adventure</span>
-                        <span>
-                          +$
-                          {adventures.find(
-                            (a) =>
-                              a.id ===
-                              parseInt(bookingDetails.selectedAdventure),
-                          )?.price || 0}
-                        </span>
+                        <span>+${selectedAdventureRecord.price}</span>
                       </div>
                     )}
                     <div className="flex justify-between font-bold text-lg pt-2 border-t">
