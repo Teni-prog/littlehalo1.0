@@ -144,6 +144,7 @@ const SITTERS = [
     rating: 4.8,
     experience: 10,
     languages: ["English", "French"],
+    available: true,
   },
   {
     id: 2,
@@ -152,6 +153,7 @@ const SITTERS = [
     rating: 4.6,
     experience: 7,
     languages: ["English", "French"],
+    available: false,
   },
   {
     id: 3,
@@ -160,6 +162,7 @@ const SITTERS = [
     rating: 4.9,
     experience: 1,
     languages: ["English"],
+    available: true,
   },
   {
     id: 4,
@@ -168,6 +171,7 @@ const SITTERS = [
     rating: 4.7,
     experience: 5,
     languages: ["English", "Mandarin"],
+    available: true,
   },
   {
     id: 5,
@@ -176,6 +180,7 @@ const SITTERS = [
     rating: 4.5,
     experience: 3,
     languages: ["English"],
+    available: false,
   },
   {
     id: 6,
@@ -184,6 +189,7 @@ const SITTERS = [
     rating: 4.6,
     experience: 6,
     languages: ["English", "Spanish"],
+    available: true,
   },
   {
     id: 7,
@@ -192,6 +198,7 @@ const SITTERS = [
     rating: 4.7,
     experience: 8,
     languages: ["English", "Mandarin"],
+    available: true,
   },
   {
     id: 8,
@@ -200,6 +207,7 @@ const SITTERS = [
     rating: 4.4,
     experience: 4,
     languages: ["English", "Spanish"],
+    available: false,
   },
 ];
 
@@ -217,9 +225,14 @@ export default function TOPSISDemo() {
 
   const totalWeight = Object.values(weights).reduce((s, v) => s + v, 0);
 
-  const results = useMemo(() => {
-    if (!selectedParent) return null;
-    return runTOPSIS(SITTERS, selectedParent, weights);
+  const { results, unavailable } = useMemo(() => {
+    if (!selectedParent) return { results: null, unavailable: [] };
+    const availableSitters = SITTERS.filter((s) => s.available);
+    const unavailableSitters = SITTERS.filter((s) => !s.available);
+    return {
+      results: runTOPSIS(availableSitters, selectedParent, weights),
+      unavailable: unavailableSitters,
+    };
   }, [selectedParent, weights]);
 
   return (
@@ -845,6 +858,51 @@ export default function TOPSISDemo() {
                 </table>
               </div>
             </details>
+          </div>
+        )}
+
+        {/* Unavailable sitters */}
+        {unavailable.length > 0 && selectedParent && (
+          <div
+            style={{
+              background: "white",
+              borderRadius: 10,
+              padding: "1.25rem 1.5rem",
+              marginTop: "1.25rem",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+              opacity: 0.65,
+            }}
+          >
+            <h3
+              style={{
+                fontSize: "0.9rem",
+                fontWeight: "bold",
+                color: "#6b7280",
+                margin: "0 0 0.75rem",
+              }}
+            >
+              🚫 Not Available
+            </h3>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+              {unavailable.map((s) => (
+                <div
+                  key={s.id}
+                  style={{
+                    padding: "0.45rem 0.85rem",
+                    borderRadius: 6,
+                    border: "1px solid #e5e7eb",
+                    background: "#f9f9f9",
+                    fontSize: "0.8rem",
+                    color: "#6b7280",
+                  }}
+                >
+                  <span style={{ fontWeight: "bold" }}>{s.name}</span>
+                  <span style={{ marginLeft: 6, opacity: 0.7 }}>
+                    ⭐ {s.rating} · ${s.price}/hr · {s.experience} yrs
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
