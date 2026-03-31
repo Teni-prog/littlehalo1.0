@@ -87,7 +87,19 @@ export default function BookingConfirmationPage() {
 
       if (!res.ok) throw new Error("Booking failed");
 
-      const { bookingId } = await res.json();
+      const { bookingId, outcomeId } = await res.json();
+
+      // Save context for the success/rating page before clearing booking data
+      localStorage.setItem(
+        "ratingContext",
+        JSON.stringify({
+          outcomeId: outcomeId ?? null,
+          sitterName: bookingData.sitter.name,
+          sitterImage: bookingData.sitter.profile_picture || bookingData.sitter.image || null,
+          sessionDate: bookingData.date,
+          sessionTime: `${bookingData.startTime} – ${bookingData.endTime}`,
+        })
+      );
 
       localStorage.removeItem("pendingBooking");
       localStorage.removeItem("bookingDetails");

@@ -42,7 +42,35 @@ export async function POST(request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ bookingId: data.id });
+    // ── Record a pending match outcome for post-session rating ────────────────
+    // Fetch parent's preferred language so we can compute the language_match feature
+    let outcomeId = null;
+    try {
+      const [{ data: parent }, { data: sitterFull }] = await Promise.all([
+        supabase.from("users").select("preferred_languages").eq("id", body.parentId).single(),
+        supabase.from("sitter_profiles").select("hourly_rate, rating, experience, languages").eq("id", sitterProfile.id).single(),
+      ]);
+
+      const preferredLanguage = parent?.preferred_languages?.[0] || "English";
+      const features = {
+        language: sitterFull?.languages?.includes(preferredLanguage) ? 1 : 0,
+        price:      sitterFull?.hourly_rate  ?? 20,
+        rating:     sitterFull?.rating       ?? 3.5,
+        experience: sitterFull?.experience   ?? 1,
+      };
+
+      const { data: outcome } = await supabase
+        .from("match_outcomes")
+        .insert({ booking_id: data.id, sitter_id: body.sitterId, parent_id: body.parentId, features, label: null })
+        .select("id")
+        .single();
+
+      outcomeId = outcome?.id ?? null;
+    } catch {
+      // Outcome recording is non-critical — booking still succeeds without it
+    }
+
+    return NextResponse.json({ bookingId: data.id, outcomeId });
   } catch (error) {
     console.error("Booking error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });

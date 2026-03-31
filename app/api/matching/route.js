@@ -173,8 +173,11 @@ export async function GET(request) {
 
       maxBudgetValue = parent.max_budget || 30;
       cityValue = parent.preferred_location?.split(",")[0] || "Halifax";
+      // Prefer the first non-English language — for newcomer families the
+      // primary (non-English) language is always the meaningful match signal.
+      // Fall back to index 0, then "English" if the array is empty.
       languageValue =
-        parent.preferred_languages?.[1] ||
+        parent.preferred_languages?.find((l) => l !== "English") ||
         parent.preferred_languages?.[0] ||
         "English";
     }

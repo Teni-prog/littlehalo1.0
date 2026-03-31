@@ -109,13 +109,23 @@
 
 import Image from "next/image";
 import { MapPin, Star, BadgeCheck, Briefcase, Languages } from "lucide-react";
-import sitter1 from "@/assets/sitter1.png"; // default avatar
+import sitter1 from "@/assets/sitter1.png";
 import Link from "next/link";
 
+// Colour the TOPSIS score badge: green ≥ 0.7, amber ≥ 0.5, red below
+function scoreColour(score) {
+  if (score >= 0.7) return "bg-green-50 text-green-700";
+  if (score >= 0.5) return "bg-amber-50 text-amber-700";
+  return "bg-red-50 text-red-500";
+}
+
 export default function MatchedSitterCard({ sitter }) {
+  const topsisScore = sitter.score ?? null;
+  const scoreLabel =
+    topsisScore !== null ? `${(topsisScore * 100).toFixed(0)}% match` : null;
+
   return (
     <div className="bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-lg transition-shadow">
-      {/* Match Percentage Badge */}
       <div className="flex justify-between items-start mb-4">
         <div className="flex items-center gap-4">
           <Image
@@ -124,7 +134,7 @@ export default function MatchedSitterCard({ sitter }) {
             className="rounded-full object-cover w-16 h-16"
             width={64}
             height={64}
-            unoptimized={sitter.image ? true : false}
+            unoptimized={!!sitter.image}
           />
           <div>
             <div className="flex items-center gap-2">
@@ -139,9 +149,15 @@ export default function MatchedSitterCard({ sitter }) {
             </div>
           </div>
         </div>
-        <div className="bg-teal-50 text-teal-600 px-3 py-1 rounded-full font-bold text-sm">
-          {sitter.preferenceScore}/4
-        </div>
+
+        {/* TOPSIS score badge */}
+        {scoreLabel && (
+          <div
+            className={`px-3 py-1 rounded-full font-bold text-sm ${scoreColour(topsisScore)}`}
+          >
+            {scoreLabel}
+          </div>
+        )}
       </div>
 
       {/* Details */}
@@ -174,14 +190,24 @@ export default function MatchedSitterCard({ sitter }) {
         </div>
       </div>
 
-      {/* Match Details */}
-      <div className="mt-4 pt-4 border-t border-gray-100">
-        <p className="text-xs text-gray-500">
-          Matched {sitter.preferenceScore}/4 preferences
-        </p>
-      </div>
+      {/* TOPSIS score bar */}
+      {/* {topsisScore !== null && (
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          <div className="flex justify-between text-xs text-gray-400 mb-1">
+            <span>TOPSIS match score</span>
+            <span className="font-semibold text-gray-600">
+              {topsisScore.toFixed(3)}
+            </span>
+          </div>
+          <div className="w-full bg-gray-100 rounded-full h-1.5">
+            <div
+              className="h-1.5 rounded-full bg-[#ff6b6b] transition-all"
+              style={{ width: `${topsisScore * 100}%` }}
+            />
+          </div>
+        </div>
+      )} */}
 
-      {/* CTA Button */}
       <Link href={`/profile/Sitter/${sitter.id}`}>
         <button className="w-full mt-4 bg-[#ff6b6b] text-white py-2 rounded-xl font-semibold hover:bg-[#ff5252] transition-colors cursor-pointer">
           View Profile

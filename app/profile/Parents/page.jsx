@@ -5,8 +5,6 @@ import {
   BookOpen,
   MessageCircle,
   CreditCard,
-  Calendar,
-  Clock,
   CalendarCheck,
   Star,
   Heart,
@@ -19,62 +17,96 @@ import sitter1 from "@/assets/sitter1.png";
 import sitter2 from "@/assets/sitter2.png";
 import MyChildren from "@/components/Mychildren";
 import ChildProgress from "@/components/Childprogress";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import MatchedSitterCard from "@/app/search/matching-button/page";
 import ParentPreferences from "../ParentPreferences/page";
+import { parents } from "@/lib/mock-data/parents";
+import {
+  runTOPSIS,
+  CRITERIA_REGISTRY,
+  DEFAULT_WEIGHTS,
+} from "@/lib/matchingData";
+
+// Wei Chen's profile is the demo parent for this dashboard
+const WEI_CHEN = parents.find((p) => p.id === "wei-chen-demo");
+
+// Parent object in the shape runTOPSIS expects: { language }
+const TOPSIS_PARENT = {
+  language:
+    WEI_CHEN.preferredLanguages.find((l) => l !== "English") ||
+    WEI_CHEN.preferredLanguages[0],
+};
+
+const LS_WEIGHTS_KEY = "lh_learned_weights";
 
 export default function ParentDashboard() {
   const [currentParent, setCurrentParent] = useState(null);
-  const [topMatches, setTopMatches] = useState([]);
+  const [allSitters, setAllSitters] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [matchWeights, setMatchWeights] = useState(DEFAULT_WEIGHTS);
+  const [showWeightConfig, setShowWeightConfig] = useState(false);
+  const [usingLearnedWeights, setUsingLearnedWeights] = useState(false);
 
-  // Fetch random parent and matched sitters on page load
+  // Load learned weights from localStorage (set by LearningDemo)
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(LS_WEIGHTS_KEY);
+      if (saved) {
+        setMatchWeights(JSON.parse(saved));
+        setUsingLearnedWeights(true);
+      }
+    } catch {}
+
+    // React when LearningDemo applies new weights in another tab
+    function onStorageChange(e) {
+      if (e.key === LS_WEIGHTS_KEY) {
+        if (e.newValue) {
+          setMatchWeights(JSON.parse(e.newValue));
+          setUsingLearnedWeights(true);
+        } else {
+          setMatchWeights(DEFAULT_WEIGHTS);
+          setUsingLearnedWeights(false);
+        }
+      }
+    }
+    window.addEventListener("storage", onStorageChange);
+    return () => window.removeEventListener("storage", onStorageChange);
+  }, []);
+
+  // Fetch all sitters once — TOPSIS runs client-side so weights are live
   useEffect(() => {
     async function fetchData() {
       try {
-        // 1. Get a random parent with preferences
-        const parentsResponse = await fetch(
-          "/api/parents?has_preferences=true",
-        );
-        const parentsResult = await parentsResponse.json();
+        setCurrentParent({
+          ...WEI_CHEN,
+          max_budget: WEI_CHEN.preferences.maxHourlyRate,
+          preferred_languages: WEI_CHEN.preferredLanguages,
+          preferred_location: WEI_CHEN.location,
+          special_needs: WEI_CHEN.child?.tags?.join(", ") || null,
+        });
 
-        if (!parentsResponse.ok) {
-          throw new Error(parentsResult.error || "Failed to fetch parents");
-        }
-
-        const parents = parentsResult.data;
-
-        if (parents && parents.length > 0) {
-          // Pick random parent
-          const randomParent =
-            parents[Math.floor(Math.random() * parents.length)];
-          setCurrentParent(randomParent);
-
-          // 2. Get matched sitters using the matching API
-          const matchingResponse = await fetch(
-            `/api/matching?parent_id=${randomParent.id}&limit=3`,
-          );
-          const matchingResult = await matchingResponse.json();
-
-          if (!matchingResponse.ok) {
-            throw new Error(matchingResult.error || "Failed to fetch matches");
-          }
-
-          console.log("Matched sitters:", matchingResult.data); // Debug
-          console.log("Preferences used:", matchingResult.preferences); // Debug
-
-          // Set top 3 matches
-          setTopMatches(matchingResult.data || []);
-        }
+        const res = await fetch("/api/sitters");
+        const result = await res.json();
+        if (res.ok) setAllSitters(result.data || []);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     }
-
     fetchData();
   }, []);
+
+  // Re-rank sitters instantly whenever weights change
+  const topMatches = useMemo(() => {
+    if (!allSitters.length) return [];
+    const mapped = allSitters.map((s) => ({
+      ...s,
+      price: s.hourly_rate ?? 20,
+      languages: s.languages || [],
+    }));
+    return runTOPSIS(mapped, TOPSIS_PARENT, matchWeights).slice(0, 3);
+  }, [allSitters, matchWeights]);
   // const user = {
   //     name: "John Doe",
   //     email: "john.doe@example.com",
@@ -155,48 +187,31 @@ export default function ParentDashboard() {
   const activities = [
     {
       icon: CalendarCheck,
-      text: "Session completed with Sarah Johnson",
+      text: "Session completed with Mei-Ling Zhou",
       time: "2 days ago",
       color: "bg-teal-50 text-teal-500",
     },
     {
       icon: Star,
-      text: "New review submitted for Maria Garcia",
+      text: "New review submitted for Mei-Ling Zhou",
       time: "4 days ago",
       color: "bg-yellow-50 text-yellow-600",
     },
     {
       icon: Heart,
-      text: "Saved Emily Chen to favorites",
+      text: "Saved Yasmine Benali to favourites",
       time: "1 week ago",
       color: "bg-red-50 text-[#ff6b6b]",
     },
     {
       icon: TrendingUp,
-      text: 'Emma completed "Emotion Recognition" activity',
+      text: 'Kai completed "Calm Corner Breathing" activity',
       time: "2 weeks ago",
       color: "bg-purple-50 text-purple-500",
     },
   ];
 
-  const children = [
-    {
-      id: 1,
-      name: "Emma Wilson",
-      age: "5 years old",
-      initial: "E",
-      tags: ["Autism", "Visual Learner"],
-      color: "bg-red-50 text-[#ff6b6b]",
-    },
-    {
-      id: 2,
-      name: "Lucas Wilson",
-      age: "3 years old",
-      initial: "L",
-      tags: ["Active", "Outdoor Enthusiast"],
-      color: "bg-blue-50 text-blue-600",
-    },
-  ];
+  const children = [WEI_CHEN.child];
   const progressStats = {
     totalSessions: 12,
     adventuresCompleted: 8,
@@ -241,6 +256,77 @@ export default function ParentDashboard() {
             ))}
           </div>
           <ParentPreferences parent={currentParent} />
+
+          {/* ── Match Priorities ─────────────────────────────────────────── */}
+          <div className="bg-white rounded-3xl border border-gray-100 shadow-sm mb-8 overflow-hidden">
+            <button
+              onClick={() => setShowWeightConfig((v) => !v)}
+              className="w-full flex justify-between items-center p-6 sm:p-8 hover:bg-gray-50 transition-colors"
+            >
+              <div className="flex items-center gap-3 flex-wrap">
+                <h2 className="text-xl font-bold text-gray-900 text-left">
+                  Match Priorities
+                </h2>
+                {usingLearnedWeights && (
+                  <span className="text-xs bg-green-100 text-green-700 px-2.5 py-1 rounded-full font-medium">
+                    🧠 learned weights active
+                  </span>
+                )}
+                <span className="text-xs text-gray-400">
+                  Adjust what matters most — sitters re-rank instantly
+                </span>
+              </div>
+              <span className="text-gray-400 text-sm ml-4 shrink-0">
+                {showWeightConfig ? "▲ Hide" : "▼ Show"}
+              </span>
+            </button>
+
+            {showWeightConfig && (
+              <div className="px-6 pb-8 sm:px-8 border-t border-gray-100 pt-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5">
+                  {CRITERIA_REGISTRY.map((c) => (
+                    <div key={c.key}>
+                      <div className="flex justify-between items-center mb-1.5">
+                        <label className="text-sm font-medium text-gray-700">
+                          {c.icon} {c.label}
+                          <span className="text-xs text-gray-400 ml-1.5">
+                            ({c.type})
+                          </span>
+                        </label>
+                        <span className="text-sm font-bold text-gray-900 min-w-9 text-right">
+                          {matchWeights[c.key]}%
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        min={0}
+                        max={60}
+                        value={matchWeights[c.key]}
+                        onChange={(e) =>
+                          setMatchWeights((prev) => ({
+                            ...prev,
+                            [c.key]: Number(e.target.value),
+                          }))
+                        }
+                        className="w-full cursor-pointer"
+                        style={{ accentColor: "#ff6b6b" }}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <button
+                  onClick={() => {
+                    setMatchWeights(DEFAULT_WEIGHTS);
+                    setUsingLearnedWeights(false);
+                  }}
+                  className="mt-5 text-sm text-gray-500 border border-gray-200 rounded-lg px-4 py-2 hover:bg-gray-50 transition-colors"
+                >
+                  Reset to defaults
+                </button>
+              </div>
+            )}
+          </div>
+
           {/* TOP MATCHED SITTERS SECTION */}
           <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8 mb-8">
             <div className="flex justify-between items-center mb-6">

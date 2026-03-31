@@ -3,14 +3,97 @@
 import { SitterCard } from "@/components/sitter-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Search as SearchIcon,
-  SlidersHorizontal,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
-import { useEffect, useState } from "react";
+import { SlidersHorizontal, ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
+
+const LS_WEIGHTS_KEY = "lh_learned_weights";
+const DEFAULT_WEIGHTS = { language: 35, price: 35, rating: 20, experience: 10 };
+
+const CRITERIA_INFO = [
+  { key: "language", label: "Language Match", icon: "🗣️" },
+  { key: "price", label: "Price", icon: "💰" },
+  { key: "rating", label: "Rating", icon: "⭐" },
+  { key: "experience", label: "Experience", icon: "🎓" },
+];
+
+// Compute per-sitter match bars relative to the current visible set.
+// preferredLanguage is optional — when absent, language criterion shows as "Not set"
+// and is excluded from the overall score so it doesn't drag other scores down.
+function computeMatchData(sitter, preferredLanguage, weights, allSitters) {
+  const total = Object.values(weights).reduce((s, v) => s + v, 0) || 1;
+  const normW = Object.fromEntries(
+    Object.entries(weights).map(([k, v]) => [k, v / total]),
+  );
+
+  const prices = allSitters.map((s) => s.hourly_rate ?? s.price ?? 20);
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+
+  // null barValue = criterion not applicable (excluded from score)
+  const langBarValue = preferredLanguage
+    ? sitter.languages?.includes(preferredLanguage)
+      ? 1
+      : 0
+    : null;
+
+  const priceBar =
+    maxPrice === minPrice
+      ? 1
+      : 1 - ((sitter.hourly_rate ?? 20) - minPrice) / (maxPrice - minPrice);
+
+  const ratingBar = Math.min((sitter.rating ?? 0) / 5, 1);
+  const expBar = Math.min((sitter.experience ?? 0) / 10, 1);
+
+  const criteria = [
+    {
+      key: "language",
+      label: "Language",
+      icon: "🗣️",
+      barValue: langBarValue,
+      weight: normW.language ?? 0,
+      display: preferredLanguage
+        ? langBarValue
+          ? "Match"
+          : "No match"
+        : "Not set",
+    },
+    {
+      key: "price",
+      label: "Price",
+      icon: "💰",
+      barValue: priceBar,
+      weight: normW.price ?? 0,
+      display: `$${sitter.hourly_rate ?? sitter.price ?? "–"}/hr`,
+    },
+    {
+      key: "rating",
+      label: "Rating",
+      icon: "⭐",
+      barValue: ratingBar,
+      weight: normW.rating ?? 0,
+      display: sitter.rating ?? "–",
+    },
+    {
+      key: "experience",
+      label: "Experience",
+      icon: "🎓",
+      barValue: expBar,
+      weight: normW.experience ?? 0,
+      display: `${sitter.experience ?? 0} yrs`,
+    },
+  ];
+
+  // Exclude unset criteria from score so other bars aren't penalised
+  const active = criteria.filter((c) => c.barValue !== null);
+  const activeTotal = active.reduce((s, c) => s + c.weight, 0) || 1;
+  const score = active.reduce(
+    (sum, c) => sum + (c.barValue * c.weight) / activeTotal,
+    0,
+  );
+
+  return { score: parseFloat(score.toFixed(3)), criteria };
+}
 
 export default function SearchPage() {
   const [sitters, setSitters] = useState([]);
@@ -26,6 +109,20 @@ export default function SearchPage() {
     languages: [],
     specialNeeds: [],
   });
+  const [preferredLanguage, setPreferredLanguage] = useState("");
+  const [matchWeights, setMatchWeights] = useState(DEFAULT_WEIGHTS);
+  const [usingLearnedWeights, setUsingLearnedWeights] = useState(false);
+
+  // Load learned weights from localStorage once on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(LS_WEIGHTS_KEY);
+      if (saved) {
+        setMatchWeights(JSON.parse(saved));
+        setUsingLearnedWeights(true);
+      }
+    } catch {}
+  }, []);
 
   // Fetch sitters on component mount
   useEffect(() => {
@@ -149,6 +246,27 @@ export default function SearchPage() {
     indexOfLastSitter,
   );
 
+  // Always compute match scores — language criterion gracefully shows "Not set"
+  // when preferredLanguage is empty and is excluded from the overall score.
+  const matchDataMap = useMemo(() => {
+    const map = {};
+    currentSitters.forEach((s) => {
+      map[s.id] = computeMatchData(
+        s,
+        preferredLanguage,
+        matchWeights,
+        currentSitters,
+      );
+    });
+    const ranked = [...currentSitters].sort(
+      (a, b) => (map[b.id]?.score ?? 0) - (map[a.id]?.score ?? 0),
+    );
+    ranked.forEach((s, i) => {
+      if (map[s.id]) map[s.id].rank = i + 1;
+    });
+    return map;
+  }, [currentSitters, preferredLanguage, matchWeights]);
+
   const goToPage = (pageNumber) => {
     setCurrentPage(pageNumber);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -196,6 +314,79 @@ export default function SearchPage() {
                 <h2 className="text-lg font-semibold">Filters</h2>
               </div>
               <div className="space-y-4">
+                {/* ── Match priorities ───────────────────────────────── */}
+                <div className="bg-[#ff6b6b]/5 border border-[#ff6b6b]/20 rounded-lg p-3 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-semibold text-gray-700">
+                      Match Priorities
+                    </span>
+                    <div className="flex items-center gap-2">
+                      {usingLearnedWeights && (
+                        <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full">
+                          🧠 learned
+                        </span>
+                      )}
+                      <button
+                        onClick={() => {
+                          setMatchWeights(DEFAULT_WEIGHTS);
+                          setUsingLearnedWeights(false);
+                        }}
+                        className="text-xs text-gray-400 hover:text-[#ff6b6b] transition-colors"
+                      >
+                        Reset
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Weight sliders */}
+                  {CRITERIA_INFO.map((c) => (
+                    <div key={c.key}>
+                      <div className="flex justify-between items-center mb-1">
+                        <label className="text-xs text-gray-600">
+                          {c.icon} {c.label}
+                        </label>
+                        <span className="text-xs font-bold text-gray-700">
+                          {matchWeights[c.key]}%
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        min={0}
+                        max={60}
+                        value={matchWeights[c.key]}
+                        onChange={(e) => {
+                          setMatchWeights((prev) => ({
+                            ...prev,
+                            [c.key]: Number(e.target.value),
+                          }));
+                          setUsingLearnedWeights(false);
+                        }}
+                        className="w-full cursor-pointer h-1.5 rounded-full"
+                        style={{ accentColor: "#ff6b6b" }}
+                      />
+                    </div>
+                  ))}
+
+                  {/* Preferred language (optional — improves language bar) */}
+                  {/* <div>
+                    <label className="text-xs text-gray-600 mb-1 block">
+                      🗣️ Your preferred language
+                      <span className="text-gray-400 ml-1">(optional)</span>
+                    </label>
+                    <select
+                      value={preferredLanguage}
+                      onChange={(e) => setPreferredLanguage(e.target.value)}
+                      className="w-full h-8 px-2 text-xs border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#ff6b6b]"
+                    >
+                      <option value="">Any language</option>
+                      <option>English</option>
+                      <option>French</option>
+                      <option>Spanish</option>
+                      <option>Mandarin</option>
+                      <option>Arabic</option>
+                    </select>
+                  </div> */}
+                </div>
                 <div>
                   <label className="text-sm font-medium text-gray-700 mb-2 block">
                     Location
@@ -399,7 +590,11 @@ export default function SearchPage() {
               ) : (
                 <>
                   {currentSitters.map((sitter) => (
-                    <SitterCard key={sitter.id} sitter={sitter} />
+                    <SitterCard
+                      key={sitter.id}
+                      sitter={sitter}
+                      matchData={matchDataMap?.[sitter.id] ?? null}
+                    />
                   ))}
 
                   {/* Pagination Controls */}

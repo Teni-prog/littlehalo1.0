@@ -12,7 +12,7 @@ import Image from "next/image";
 import Sitter from "@/assets/sitter1.png";
 import Link from "next/link";
 
-export function SitterCard({ sitter }) {
+export function SitterCard({ sitter, matchData = null }) {
   return (
     <>
       {/* <div className="flex justify-center "> */}
