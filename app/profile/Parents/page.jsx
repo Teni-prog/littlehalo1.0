@@ -9,6 +9,8 @@ import {
   Star,
   Heart,
   TrendingUp,
+  Calendar,
+  Clock,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -113,32 +115,41 @@ export default function ParentDashboard() {
   //     role: "Parent",
   // };
 
-  const sessions = [
-    {
-      id: 1,
-      date: "Feb 15, 2026",
-      time: "3:00 PM - 6:00 PM",
-      status: "Confirmed",
-      child: "Emma (5)",
-      adventure: "Nature Walk & Bird Watching",
-      sitter: {
-        name: "Sarah Chen",
-        avatar: sitter1,
-      },
-    },
-    {
-      id: 2,
-      date: "Feb 18, 2026",
-      time: "10:00 AM - 2:00 PM",
-      status: "Pending",
-      child: "Lucas (3)",
-      adventure: "Arts & Crafts Session",
-      sitter: {
-        name: "Maria Rodriguez",
-        avatar: sitter2,
-      },
-    },
-  ];
+  const [sessions, setSessions] = useState([]);
+  const [loadingSessions, setLoadingSessions] = useState(true);
+
+  useEffect(() => {
+    async function fetchBookings() {
+      try {
+        const res = await fetch("/api/booking?parentId=797d10d4-fa8c-437f-9044-7bc118678754"); // demo: Wei Chen
+        const data = await res.json();
+        if (res.ok) {
+          setSessions(
+            (data.bookings || []).map((b) => {
+              const [startH, startM] = b.start_time.split(":").map(Number);
+              const [endH, endM] = b.end_time.split(":").map(Number);
+              const fmt = (h, m) => {
+                const suffix = h >= 12 ? "PM" : "AM";
+                return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${suffix}`;
+              };
+              const firstChild = Array.isArray(b.children) ? b.children[0] : null;
+              return {
+                id: b.id,
+                status: b.status,
+                date: new Date(b.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+                time: `${fmt(startH, startM)} – ${fmt(endH, endM)}`,
+                child: firstChild ? `${firstChild.name} (${firstChild.age})` : "Child",
+                adventure: b.adventure_id || "Not specified",
+                sitter: { name: "Your Sitter", avatar: sitter1 },
+              };
+            })
+          );
+        }
+      } catch {}
+      setLoadingSessions(false);
+    }
+    fetchBookings();
+  }, []);
 
   const actions = [
     {
@@ -173,15 +184,25 @@ export default function ParentDashboard() {
     },
   ];
 
-  const getStatusClass = (status) => {
-    const statusMap = {
-      confirmed: "status-confirmed",
-      pending: "status-pending",
-      denied: "status-denied",
-      cancelled: "status-cancelled",
-      completed: "status-completed",
+  const getStatusBadge = (status) => {
+    const map = {
+      confirmed:      { label: "Confirmed",           cls: "bg-teal-50 text-teal-600" },
+      pending_sitter: { label: "Awaiting sitter",     cls: "bg-yellow-50 text-yellow-700" },
+      declined:       { label: "Declined",             cls: "bg-red-50 text-red-500" },
+      cancelled:      { label: "Cancelled",            cls: "bg-gray-100 text-gray-500" },
+      completed:      { label: "Completed",            cls: "bg-purple-50 text-purple-600" },
     };
-    return statusMap[status.toLowerCase()] || "status-pending";
+    return map[status] ?? { label: status, cls: "bg-gray-100 text-gray-500" };
+  };
+
+  const getStatusMessage = (status, sitterName) => {
+    if (status === "pending_sitter")
+      return `Waiting for ${sitterName} to confirm your booking.`;
+    if (status === "confirmed")
+      return `${sitterName} has confirmed your booking. You're all set!`;
+    if (status === "declined")
+      return `${sitterName} couldn't take this booking. Try finding another sitter.`;
+    return null;
   };
 
   const activities = [
@@ -276,7 +297,7 @@ export default function ParentDashboard() {
                   Adjust what matters most — sitters re-rank instantly
                 </span>
               </div>
-              <span className="text-gray-400 text-sm ml-4 shrink-0">
+              <span className="text-gray-400 text-sm ml-4 flex-shrink-0">
                 {showWeightConfig ? "▲ Hide" : "▼ Show"}
               </span>
             </button>
@@ -293,7 +314,7 @@ export default function ParentDashboard() {
                             ({c.type})
                           </span>
                         </label>
-                        <span className="text-sm font-bold text-gray-900 min-w-9 text-right">
+                        <span className="text-sm font-bold text-gray-900 min-w-[36px] text-right">
                           {matchWeights[c.key]}%
                         </span>
                       </div>
@@ -354,77 +375,92 @@ export default function ParentDashboard() {
             )}
           </div>
 
-          {/* Row 1: Upcoming Sessions + Recent Activity */}
+          {/* Row 1: Upcoming Sessions + My Children */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            {/* <div className="lg:col-span-2">
-                    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-bold text-gray-900">Upcoming Sessions</h2>
-                            <Link
-                                href="/sessions"
-                                className="text-[#ff6b6b] hover:text-[#ff5252] text-sm font-semibold hover:underline "
-                            >
-                                View All
-                            </Link>
-                        </div>
-                        <hr />
-                        <div className="space-y-6 mt-4">
-                            {sessions.map((session) => (
-                                <div
-                                    key={session.id}
-                                    className="border border-gray-100 rounded-2xl p-6 bg-gray-50/50"
-                                >
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div className="flex items-center gap-4">
-                                            <Image
-                                                src={session.sitter.avatar}
-                                                alt={session.sitter.name}
-                                                className="rounded-full object-cover w-12 h-12"
-                                            />
-                                            <div>
-                                                <h3 className="font-bold text-gray-900">
-                                                    {session.sitter.name}
-                                                </h3>
-                                                <div className="flex items-center gap-3 text-sm text-gray-500 mt-1">
-                                                    <div className="flex items-center gap-1">
-                                                        <Calendar className="w-4 h-4" />
-                                                        <span>{session.date}</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-1">
-                                                        <Clock className="w-4 h-4" />
-                                                        <span>{session.time}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <span className={getStatusClass(session.status)}>
-                                            {session.status}
-                                        </span>
-                                    </div>
-
-                                    <div className="mb-4">
-                                        <span className="text-sm text-gray-500">
-                                            For{" "}
-                                            <span className="font-semibold text-gray-900">
-                                                {session.child}
-                                            </span>
-                                        </span>
-                                    </div>
-
-                                    <div className="bg-yellow-50 text-yellow-800 px-4 py-3 rounded-xl text-sm font-medium border border-yellow-100">
-                                        <span className="font-bold">Micro-Adventure:</span>{" "}
-                                        {session.adventure}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8">
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-xl font-bold text-gray-900">My Bookings</h2>
+                  <Link
+                    href="/sessions"
+                    className="text-[#ff6b6b] hover:text-[#ff5252] text-sm font-semibold hover:underline"
+                  >
+                    View All
+                  </Link>
+                </div>
+                <hr />
+                <div className="space-y-6 mt-4">
+                  {loadingSessions ? (
+                    <div className="flex justify-center py-8">
+                      <div className="w-8 h-8 border-4 border-gray-200 border-t-[#ff6b6b] rounded-full animate-spin" />
                     </div>
-                </div> */}
+                  ) : sessions.length === 0 ? (
+                    <p className="text-center text-gray-400 py-8 text-sm">No bookings yet. <a href="/search" className="text-[#ff6b6b] hover:underline">Find a sitter →</a></p>
+                  ) : null}
+                  {sessions.map((session) => {
+                    const badge = getStatusBadge(session.status);
+                    const message = getStatusMessage(session.status, session.sitter.name);
+                    return (
+                      <div key={session.id} className="border border-gray-100 rounded-2xl p-6 bg-gray-50/50">
+                        {/* Sitter + status */}
+                        <div className="flex justify-between items-start mb-4">
+                          <div className="flex items-center gap-4">
+                            <Image
+                              src={session.sitter.avatar}
+                              alt={session.sitter.name}
+                              className="rounded-full object-cover w-12 h-12"
+                            />
+                            <div>
+                              <h3 className="font-bold text-gray-900">{session.sitter.name}</h3>
+                              <div className="flex items-center gap-3 text-sm text-gray-500 mt-1">
+                                <div className="flex items-center gap-1">
+                                  <Calendar className="w-4 h-4" />
+                                  <span>{session.date}</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <Clock className="w-4 h-4" />
+                                  <span>{session.time}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <span className={`text-xs font-semibold px-3 py-1 rounded-full ${badge.cls}`}>
+                            {badge.label}
+                          </span>
+                        </div>
 
-            {/* Right: Recent Activity */}
-            {/* <div className="lg:col-span-1">
-                    <MyChildren children={children} />
-                </div> */}
+                        {/* Status message */}
+                        {message && (
+                          <p className={`text-sm mb-4 px-4 py-3 rounded-xl border ${
+                            session.status === "confirmed"
+                              ? "bg-teal-50 text-teal-700 border-teal-100"
+                              : session.status === "declined"
+                              ? "bg-red-50 text-red-600 border-red-100"
+                              : "bg-yellow-50 text-yellow-700 border-yellow-100"
+                          }`}>
+                            {message}
+                          </p>
+                        )}
+
+                        <div className="mb-4">
+                          <span className="text-sm text-gray-500">
+                            For <span className="font-semibold text-gray-900">{session.child}</span>
+                          </span>
+                        </div>
+
+                        <div className="bg-yellow-50 text-yellow-800 px-4 py-3 rounded-xl text-sm font-medium border border-yellow-100">
+                          <span className="font-bold">Micro-Adventure:</span> {session.adventure}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-1">
+              <MyChildren children={children} />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mt-8">

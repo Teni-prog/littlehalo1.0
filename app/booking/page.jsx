@@ -28,7 +28,7 @@ export default function BookingPage() {
   const selectedAdventureFromQuery = searchParams.get("selectedAdventure");
   const selectedAdventuresFromQuery = searchParams.get("selectedAdventures");
 
-  const DEMO_PARENT_ID = "c51a0e4c-f7d4-4b23-a7b9-029c31d86c0b";
+  const DEMO_PARENT_ID = "797d10d4-fa8c-437f-9044-7bc118678754"; // Wei Chen
 
   const [selectedSitter, setSelectedSitter] = useState(null);
   const [loading, setLoading] = useState(true);

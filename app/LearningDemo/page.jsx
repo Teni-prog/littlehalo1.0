@@ -22,30 +22,26 @@ function sigmoid(z) {
 function trainLR(trainingData, epochs = 800, learningRate = 0.05) {
   const featureMatrix = trainingData.map((d) => d.features);
   const labels = trainingData.map((d) => d.label);
-  const n = featureMatrix.length;
-  const p = featureMatrix[0].length;
+  const n = featureMatrix.length; // how many training samples
+  const p = featureMatrix[0].length; // how many criteria per sample
 
-  // z-score normalise so gradient descent converges reliably
-  const means = Array.from({ length: p }, (_, j) =>
-    featureMatrix.reduce((s, f) => s + f[j], 0) / n
+  const means = Array.from(
+    { length: p },
+    (_, j) => featureMatrix.reduce((s, f) => s + f[j], 0) / n,
   );
   const stds = Array.from({ length: p }, (_, j) => {
     const variance =
       featureMatrix.reduce((s, f) => s + (f[j] - means[j]) ** 2, 0) / n;
     return Math.sqrt(variance) || 1;
   });
-  const X = featureMatrix.map((f) =>
-    f.map((v, j) => (v - means[j]) / stds[j])
-  );
+  const X = featureMatrix.map((f) => f.map((v, j) => (v - means[j]) / stds[j]));
 
   let w = Array(p).fill(0);
-  let bias = 0;
-  const lossHistory = [];
+  let bias = 0; //weights and bias set to zero
 
   for (let epoch = 0; epoch < epochs; epoch++) {
     let dw = Array(p).fill(0);
     let db = 0;
-    let loss = 0;
 
     for (let i = 0; i < n; i++) {
       const z = X[i].reduce((s, x, j) => s + x * w[j], bias);
@@ -53,20 +49,13 @@ function trainLR(trainingData, epochs = 800, learningRate = 0.05) {
       const err = pred - labels[i];
       dw = dw.map((g, j) => g + err * X[i][j]);
       db += err;
-      loss -=
-        labels[i] * Math.log(Math.max(pred, 1e-15)) +
-        (1 - labels[i]) * Math.log(Math.max(1 - pred, 1e-15));
     }
 
     w = w.map((wj, j) => wj - (learningRate * dw[j]) / n);
     bias -= (learningRate * db) / n;
-
-    if (epoch % 100 === 0) {
-      lossHistory.push(parseFloat((loss / n).toFixed(4)));
-    }
   }
 
-  return { coefficients: w, bias, lossHistory };
+  return { coefficients: w, bias };
 }
 
 function coefficientsToWeights(coefficients) {
@@ -76,7 +65,7 @@ function coefficientsToWeights(coefficients) {
     CRITERIA_REGISTRY.map((c, i) => [
       c.key,
       Math.max(1, Math.round((magnitudes[i] / total) * 100)),
-    ])
+    ]),
   );
 }
 
@@ -96,18 +85,15 @@ const MAX_STORED_SAMPLES = 50;
 export default function LearningDemo() {
   const [trainingData, setTrainingData] = useState([]);
   const [lrResult, setLrResult] = useState(null);
-  const [weightsApplied, setWeightsApplied] = useState(false);
 
-  // Simulation panel state
   const [simParent, setSimParent] = useState(null);
   const [simLastAction, setSimLastAction] = useState(null);
 
-  // Derived — simulation always uses learned weights the moment LR trains
   const simWeights = lrResult?.learnedWeights ?? DEFAULT_WEIGHTS;
 
   // ── helpers ───────────────────────────────────────────────────────────────
 
-  const attemptTrain = useCallback((data) => {
+  function attemptTrain(data) {
     const hasAccepts = data.some((d) => d.label === 1);
     const hasRejects = data.some((d) => d.label === 0);
     if (data.length < MIN_SAMPLES || !hasAccepts || !hasRejects) return null;
@@ -116,7 +102,7 @@ export default function LearningDemo() {
       ...result,
       learnedWeights: coefficientsToWeights(result.coefficients),
     };
-  }, []);
+  }
 
   function loadFromStorage() {
     try {
@@ -142,7 +128,6 @@ export default function LearningDemo() {
   useEffect(() => {
     syncData(loadFromStorage());
 
-    // When TestMatching (another tab) writes outcomes, auto-update here
     function onStorageChange(e) {
       if (e.key === LS_OUTCOMES_KEY) {
         syncData(e.newValue ? JSON.parse(e.newValue) : []);
@@ -150,7 +135,6 @@ export default function LearningDemo() {
     }
     window.addEventListener("storage", onStorageChange);
     return () => window.removeEventListener("storage", onStorageChange);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ── simulation top match ──────────────────────────────────────────────────
@@ -160,7 +144,7 @@ export default function LearningDemo() {
     const ranked = runTOPSIS(
       SITTERS.filter((s) => s.available),
       simParent,
-      simWeights
+      simWeights,
     );
     return ranked[0] ?? null;
   }, [simParent, simWeights]);
@@ -170,7 +154,7 @@ export default function LearningDemo() {
   function handleSimFeedback(accepted) {
     if (!simParent || !simTopMatch) return;
     const features = CRITERIA_REGISTRY.map((c) =>
-      c.getValue(simTopMatch, simParent)
+      c.getValue(simTopMatch, simParent),
     );
     const outcome = {
       id: Date.now(),
@@ -196,16 +180,14 @@ export default function LearningDemo() {
   // ── apply learned weights to TOPSIS page ─────────────────────────────────
 
   function applyLearnedWeights() {
-    // Read directly from lrResult to avoid any stale-state issue
     const weights = lrResult?.learnedWeights;
     if (!weights) return;
     try {
       localStorage.setItem(LS_WEIGHTS_KEY, JSON.stringify(weights));
     } catch {}
-    setWeightsApplied(true);
   }
 
-  // ── reset ────────────────────────────────────────────────────────────────
+  // ── reset ─────────────────────────────────────────────────────────────────
 
   function handleReset() {
     try {
@@ -215,12 +197,13 @@ export default function LearningDemo() {
     setTrainingData([]);
     setLrResult(null);
     setSimLastAction(null);
-    setWeightsApplied(false);
   }
 
   // ── derived counts ────────────────────────────────────────────────────────
 
-  const fromTestMatching = trainingData.filter((d) => d.source === "testmatching");
+  const fromTestMatching = trainingData.filter(
+    (d) => d.source === "testmatching",
+  );
   const fromSimulation = trainingData.filter((d) => d.source === "simulation");
   const accepts = trainingData.filter((d) => d.label === 1).length;
   const rejects = trainingData.filter((d) => d.label === 0).length;
@@ -233,7 +216,6 @@ export default function LearningDemo() {
       : "Need at least one accept AND one reject to train"
     : null;
 
-  // ──────────────────────────────────────────────────────────────────────────
 
   return (
     <div
@@ -611,11 +593,7 @@ export default function LearningDemo() {
               <div style={{ fontSize: "0.82rem" }}>
                 {[
                   ["Total samples", trainingData.length, "#1a1a2e"],
-                  [
-                    "From TOPSIS page",
-                    fromTestMatching.length,
-                    "#6366f1",
-                  ],
+                  ["From TOPSIS page", fromTestMatching.length, "#6366f1"],
                   ["From simulation", fromSimulation.length, "#0891b2"],
                   ["Accepted", accepts, "#16a34a"],
                   ["Rejected", rejects, "#dc2626"],
@@ -734,9 +712,7 @@ export default function LearningDemo() {
                             marginBottom: "0.22rem",
                           }}
                         >
-                          <span
-                            style={{ fontSize: "0.82rem", color: "#333" }}
-                          >
+                          <span style={{ fontSize: "0.82rem", color: "#333" }}>
                             {c.icon} {c.label}
                           </span>
                           <span
@@ -767,7 +743,7 @@ export default function LearningDemo() {
                           </span>
                         </div>
 
-                        {/* Default */}
+                        {/* Default bar */}
                         <div
                           style={{
                             display: "flex",
@@ -816,7 +792,7 @@ export default function LearningDemo() {
                           </span>
                         </div>
 
-                        {/* Learned */}
+                        {/* Learned bar */}
                         <div
                           style={{
                             display: "flex",
@@ -876,12 +852,9 @@ export default function LearningDemo() {
                       margin: "0.25rem 0 0.85rem",
                     }}
                   >
-                    Final loss:{" "}
-                    {lrResult.lossHistory[lrResult.lossHistory.length - 1]} ·{" "}
                     {trainingData.length} samples · 800 epochs
                   </p>
 
-                  {/* Apply button */}
                   <button
                     onClick={applyLearnedWeights}
                     style={{
@@ -889,7 +862,7 @@ export default function LearningDemo() {
                       padding: "0.65rem",
                       borderRadius: 8,
                       border: "none",
-                      background: weightsApplied ? "#6b7280" : "#1a1a2e",
+                      background: "#1a1a2e",
                       color: "white",
                       fontWeight: "bold",
                       fontSize: "0.88rem",
@@ -897,9 +870,7 @@ export default function LearningDemo() {
                       fontFamily: "'Georgia', serif",
                     }}
                   >
-                    {weightsApplied
-                      ? "✓ Applied — TOPSIS page is using these weights"
-                      : "Apply learned weights to TOPSIS page"}
+                    Apply learned weights to TOPSIS page
                   </button>
                 </>
               )}
@@ -964,16 +935,14 @@ export default function LearningDemo() {
                               style={{
                                 padding: "0.3rem 0.5rem",
                                 textAlign:
-                                  h === "" || h === "Score"
-                                    ? "center"
-                                    : "left",
+                                  h === "" || h === "Score" ? "center" : "left",
                                 color: "#555",
                                 fontWeight: "bold",
                               }}
                             >
                               {h}
                             </th>
-                          )
+                          ),
                         )}
                       </tr>
                     </thead>
@@ -983,7 +952,9 @@ export default function LearningDemo() {
                           key={d.id}
                           style={{ borderBottom: "1px solid #eee" }}
                         >
-                          <td style={{ padding: "0.3rem 0.5rem", color: "#aaa" }}>
+                          <td
+                            style={{ padding: "0.3rem 0.5rem", color: "#aaa" }}
+                          >
                             {trainingData.length - idx}
                           </td>
                           <td style={{ padding: "0.3rem 0.5rem" }}>
@@ -1033,19 +1004,13 @@ export default function LearningDemo() {
                           >
                             {d.label === 1 ? (
                               <span
-                                style={{
-                                  color: "#16a34a",
-                                  fontWeight: "bold",
-                                }}
+                                style={{ color: "#16a34a", fontWeight: "bold" }}
                               >
                                 ✓
                               </span>
                             ) : (
                               <span
-                                style={{
-                                  color: "#dc2626",
-                                  fontWeight: "bold",
-                                }}
+                                style={{ color: "#dc2626", fontWeight: "bold" }}
                               >
                                 ✗
                               </span>
@@ -1082,66 +1047,10 @@ export default function LearningDemo() {
               absolute magnitudes of learned coefficients are normalised to 100%
               and used as new TOPSIS weights. Click{" "}
               <strong>Apply learned weights</strong> to push them to the TOPSIS
-              page — it will show a green banner confirming the update.
+              page.
             </div>
           </div>
         </div>
-
-        {/* Apply banner (shown after applying) */}
-        {weightsApplied && (
-          <div
-            style={{
-              marginTop: "1.25rem",
-              background: "#f0fdf4",
-              border: "2px solid #16a34a",
-              borderRadius: 10,
-              padding: "1rem 1.5rem",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: "1rem",
-              flexWrap: "wrap",
-            }}
-          >
-            <div>
-              <p
-                style={{
-                  margin: 0,
-                  fontSize: "0.88rem",
-                  color: "#15803d",
-                  fontWeight: "bold",
-                }}
-              >
-                🧠 Learned weights saved — open the TOPSIS page to see them
-                applied as defaults
-              </p>
-              <p
-                style={{
-                  margin: "0.2rem 0 0",
-                  fontSize: "0.73rem",
-                  color: "#166534",
-                }}
-              >
-                The simulation is also using these weights now.
-              </p>
-            </div>
-            <a
-              href="/Testmatching"
-              style={{
-                background: "#16a34a",
-                color: "white",
-                padding: "0.5rem 1.1rem",
-                borderRadius: 8,
-                fontSize: "0.82rem",
-                textDecoration: "none",
-                fontWeight: "bold",
-                whiteSpace: "nowrap",
-              }}
-            >
-              → Open TOPSIS Matching
-            </a>
-          </div>
-        )}
       </div>
     </div>
   );

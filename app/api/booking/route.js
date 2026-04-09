@@ -1,6 +1,39 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
+export async function GET(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const sitterId = searchParams.get("sitterId");
+    const parentId = searchParams.get("parentId");
+
+    if (!sitterId && !parentId) {
+      return NextResponse.json({ error: "Missing sitterId or parentId" }, { status: 400 });
+    }
+
+    const supabase = await createClient();
+
+    let query = supabase
+      .from("bookings")
+      .select(`
+        *,
+        parent:users!parent_id ( id, name, email, avatar )
+      `)
+      .order("date", { ascending: true });
+
+    if (sitterId) query = query.eq("sitter_id", sitterId);
+    if (parentId) query = query.eq("parent_id", parentId);
+
+    const { data, error } = await query;
+
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    return NextResponse.json({ bookings: data });
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -32,7 +65,7 @@ export async function POST(request) {
         adventure_id: body.adventureId || null,
         notes: body.notes,
         total_amount: body.totalAmount,
-        status: "pending_payment",
+        status: "pending_sitter",
       })
       .select()
       .single();

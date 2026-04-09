@@ -3,8 +3,15 @@
 import { SitterCard } from "@/components/sitter-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SlidersHorizontal, ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useState, useMemo } from "react";
+import {
+  SlidersHorizontal,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  MapPin,
+  X,
+} from "lucide-react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import Link from "next/link";
 
 const LS_WEIGHTS_KEY = "lh_learned_weights";
@@ -17,9 +24,18 @@ const CRITERIA_INFO = [
   { key: "experience", label: "Experience", icon: "🎓" },
 ];
 
-// Compute per-sitter match bars relative to the current visible set.
-// preferredLanguage is optional — when absent, language criterion shows as "Not set"
-// and is excluded from the overall score so it doesn't drag other scores down.
+const ALL_LANGUAGES = ["English", "French", "Spanish", "Mandarin", "Arabic"];
+const ALL_SPECIAL_NEEDS = [
+  "Autism",
+  "Nonverbal",
+  "Anxiety",
+  "Asthma",
+  "Speech Delay",
+  "Down Syndrome",
+  "ADHD",
+  "Sensory Sensitivity",
+];
+
 function computeMatchData(sitter, preferredLanguage, weights, allSitters) {
   const total = Object.values(weights).reduce((s, v) => s + v, 0) || 1;
   const normW = Object.fromEntries(
@@ -30,7 +46,6 @@ function computeMatchData(sitter, preferredLanguage, weights, allSitters) {
   const minPrice = Math.min(...prices);
   const maxPrice = Math.max(...prices);
 
-  // null barValue = criterion not applicable (excluded from score)
   const langBarValue = preferredLanguage
     ? sitter.languages?.includes(preferredLanguage)
       ? 1
@@ -84,7 +99,6 @@ function computeMatchData(sitter, preferredLanguage, weights, allSitters) {
     },
   ];
 
-  // Exclude unset criteria from score so other bars aren't penalised
   const active = criteria.filter((c) => c.barValue !== null);
   const activeTotal = active.reduce((s, c) => s + c.weight, 0) || 1;
   const score = active.reduce(
@@ -93,6 +107,20 @@ function computeMatchData(sitter, preferredLanguage, weights, allSitters) {
   );
 
   return { score: parseFloat(score.toFixed(3)), criteria };
+}
+
+function Chip({ label, onRemove }) {
+  return (
+    <span className="flex items-center gap-1 bg-[#ff6b6b]/10 text-[#ff6b6b] text-xs px-2.5 py-1 rounded-full font-medium">
+      {label}
+      <button
+        onClick={onRemove}
+        className="hover:text-[#ff5252] ml-0.5 leading-none"
+      >
+        <X className="w-3 h-3" />
+      </button>
+    </span>
+  );
 }
 
 export default function SearchPage() {
@@ -112,8 +140,21 @@ export default function SearchPage() {
   const [preferredLanguage, setPreferredLanguage] = useState("");
   const [matchWeights, setMatchWeights] = useState(DEFAULT_WEIGHTS);
   const [usingLearnedWeights, setUsingLearnedWeights] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const filterBarRef = useRef(null);
 
-  // Load learned weights from localStorage once on mount
+  // Close dropdowns on outside click
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (filterBarRef.current && !filterBarRef.current.contains(e.target)) {
+        setOpenDropdown(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Load learned weights from localStorage
   useEffect(() => {
     try {
       const saved = localStorage.getItem(LS_WEIGHTS_KEY);
@@ -124,81 +165,60 @@ export default function SearchPage() {
     } catch {}
   }, []);
 
-  // Fetch sitters on component mount
+  // Fetch sitters
   useEffect(() => {
     async function fetchSitters() {
       try {
         const response = await fetch("/api/sitters");
         const result = await response.json();
-
-        if (!response.ok) {
-          console.error("Error fetching sitters:", result.error);
-          return;
-        }
-
+        if (!response.ok) return;
         const formatted = result.data || [];
         setSitters(formatted);
         setFilteredSitters(formatted);
         setLoading(false);
-      } catch (error) {
-        console.error("Error fetching sitters:", error);
-      }
+      } catch {}
     }
-
     fetchSitters();
   }, []);
 
-  // Apply filters whenever filter state changes
+  // Apply filters
   useEffect(() => {
     applyFilters();
-    setCurrentPage(1); // Reset to page 1 when filters change
+    setCurrentPage(1);
   }, [filters, sitters]);
 
   const applyFilters = () => {
     let filtered = [...sitters];
-
-    // Filter by location (case-insensitive partial match)
     if (filters.location.trim()) {
-      filtered = filtered.filter((sitter) =>
-        sitter.location?.toLowerCase().includes(filters.location.toLowerCase()),
+      filtered = filtered.filter((s) =>
+        s.location?.toLowerCase().includes(filters.location.toLowerCase()),
       );
     }
-
-    // Filter by hourly rate range
     if (filters.minRate) {
       filtered = filtered.filter(
-        (sitter) => sitter.hourly_rate >= parseInt(filters.minRate),
+        (s) => s.hourly_rate >= parseInt(filters.minRate),
       );
     }
     if (filters.maxRate) {
       filtered = filtered.filter(
-        (sitter) => sitter.hourly_rate <= parseInt(filters.maxRate),
+        (s) => s.hourly_rate <= parseInt(filters.maxRate),
       );
     }
-
-    // Filter by experience (minimum years)
     if (filters.experience > 0) {
       filtered = filtered.filter(
-        (sitter) => (sitter.experience || 0) >= filters.experience,
+        (s) => (s.experience || 0) >= filters.experience,
       );
     }
-
-    // Filter by languages (sitter must have at least one selected language)
     if (filters.languages.length > 0) {
-      filtered = filtered.filter((sitter) =>
-        sitter.languages?.some((lang) => filters.languages.includes(lang)),
+      filtered = filtered.filter((s) =>
+        s.languages?.some((l) => filters.languages.includes(l)),
       );
     }
-
-    // Filter by special needs (sitter must have at least one selected special need)
     if (filters.specialNeeds.length > 0) {
-      filtered = filtered.filter((sitter) =>
-        sitter.special_needs?.some((need) =>
-          filters.specialNeeds.includes(need),
-        ),
+      filtered = filtered.filter((s) =>
+        s.special_needs?.some((n) => filters.specialNeeds.includes(n)),
       );
     }
-
     setFilteredSitters(filtered);
   };
 
@@ -219,13 +239,7 @@ export default function SearchPage() {
         : [...prev.specialNeeds, need],
     }));
   };
-  // if (loading || !sitters) {
-  //   return (
-  //     <div className="min-h-screen bg-gray-50 py-8 flex items-center justify-center">
-  //       <div className="text-gray-500">Loading...</div>
-  //     </div>
-  //   );
-  // }
+
   const clearFilters = () => {
     setFilters({
       location: "",
@@ -235,54 +249,74 @@ export default function SearchPage() {
       languages: [],
       specialNeeds: [],
     });
+    setPreferredLanguage("");
   };
 
-  // Pagination calculations
-  const totalPages = Math.ceil(filteredSitters.length / itemsPerPage);
-  const indexOfLastSitter = currentPage * itemsPerPage;
-  const indexOfFirstSitter = indexOfLastSitter - itemsPerPage;
-  const currentSitters = filteredSitters.slice(
-    indexOfFirstSitter,
-    indexOfLastSitter,
-  );
+  const hasActiveFilters =
+    filters.location ||
+    filters.minRate ||
+    filters.maxRate ||
+    filters.experience > 0 ||
+    filters.languages.length > 0 ||
+    filters.specialNeeds.length > 0;
 
-  // Always compute match scores — language criterion gracefully shows "Not set"
-  // when preferredLanguage is empty and is excluded from the overall score.
-  const matchDataMap = useMemo(() => {
+  // Score all filtered sitters, then sort by score so weight changes re-rank the list
+  const { sortedSitters, matchDataMap } = useMemo(() => {
     const map = {};
-    currentSitters.forEach((s) => {
+    filteredSitters.forEach((s) => {
       map[s.id] = computeMatchData(
         s,
         preferredLanguage,
         matchWeights,
-        currentSitters,
+        filteredSitters,
       );
     });
-    const ranked = [...currentSitters].sort(
+    const sorted = [...filteredSitters].sort(
       (a, b) => (map[b.id]?.score ?? 0) - (map[a.id]?.score ?? 0),
     );
-    ranked.forEach((s, i) => {
+    sorted.forEach((s, i) => {
       if (map[s.id]) map[s.id].rank = i + 1;
     });
-    return map;
-  }, [currentSitters, preferredLanguage, matchWeights]);
+    return { sortedSitters: sorted, matchDataMap: map };
+  }, [filteredSitters, preferredLanguage, matchWeights]);
 
-  const goToPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  // Pagination over the sorted list
+  const totalPages = Math.ceil(sortedSitters.length / itemsPerPage);
+  const indexOfLastSitter = currentPage * itemsPerPage;
+  const indexOfFirstSitter = indexOfLastSitter - itemsPerPage;
+  const currentSitters = sortedSitters.slice(
+    indexOfFirstSitter,
+    indexOfLastSitter,
+  );
+
+  const goToPage = (n) => {
+    setCurrentPage(n);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const goToPreviousPage = () => {
-    if (currentPage > 1) {
-      goToPage(currentPage - 1);
-    }
-  };
+  const toggleDropdown = (key) =>
+    setOpenDropdown((prev) => (prev === key ? null : key));
 
-  const goToNextPage = () => {
-    if (currentPage < totalPages) {
-      goToPage(currentPage + 1);
-    }
-  };
+  const dropdownBtn = (key, label, icon, isActive, badge) => (
+    <button
+      onClick={() => toggleDropdown(key)}
+      className={`flex items-center gap-1.5 h-9 px-3 rounded-lg border text-sm font-medium transition-colors whitespace-nowrap
+        ${isActive ? "bg-[#ff6b6b] text-white border-[#ff6b6b]" : "bg-white text-gray-700 border-gray-200 hover:border-[#ff6b6b]"}`}
+    >
+      <span>{icon}</span>
+      {label}
+      {badge != null && badge > 0 && (
+        <span
+          className={`rounded-full w-4 h-4 text-xs flex items-center justify-center font-bold ${isActive ? "bg-white/30 text-white" : "bg-[#ff6b6b] text-white"}`}
+        >
+          {badge}
+        </span>
+      )}
+      <ChevronDown
+        className={`w-3.5 h-3.5 transition-transform ${openDropdown === key ? "rotate-180" : ""}`}
+      />
+    </button>
+  );
 
   return (
     <>
@@ -294,379 +328,405 @@ export default function SearchPage() {
           </div>
         </div>
       ) : (
-        <div className=" container py-8 min-h-screen bg-gray-100 px-4 ">
-          <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center items-end md:items-center">
-            <div>
+        <div className="min-h-screen bg-gray-100">
+          {/* Page header */}
+          <div className="bg-white border-b px-4 py-6">
+            <div className="max-w-6xl mx-auto">
               <Link href="">
-                <h1 className="text-3xl font-bold font-outfit mb-2 justify-center cursor-pointer">
+                <h1 className="text-3xl font-bold font-outfit mb-1 cursor-pointer">
                   Find a Sitter
-                </h1>{" "}
+                </h1>
               </Link>
-              <p className="text-muted-foreground justify-center">
+              <p className="text-muted-foreground">
                 Connect with trusted local babysitters.
               </p>
             </div>
           </div>
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-4 md:gap-6 px-0 md:px-4">
-            <div className=" w-full md:w-72 shrink-0 bg-white rounded-xl p-4 md:p-6 shadow-sm h-fit">
-              <div className="flex items-center gap-2 mb-4 pb-4 border-b">
-                <SlidersHorizontal className="h-5 w-5 text-[#ff6b6b]" />
-                <h2 className="text-lg font-semibold">Filters</h2>
-              </div>
-              <div className="space-y-4">
-                {/* ── Match priorities ───────────────────────────────── */}
-                <div className="bg-[#ff6b6b]/5 border border-[#ff6b6b]/20 rounded-lg p-3 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-gray-700">
-                      Match Priorities
-                    </span>
-                    <div className="flex items-center gap-2">
-                      {usingLearnedWeights && (
-                        <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full">
-                          🧠 learned
-                        </span>
-                      )}
-                      <button
-                        onClick={() => {
-                          setMatchWeights(DEFAULT_WEIGHTS);
-                          setUsingLearnedWeights(false);
-                        }}
-                        className="text-xs text-gray-400 hover:text-[#ff6b6b] transition-colors"
-                      >
-                        Reset
-                      </button>
-                    </div>
-                  </div>
 
-                  {/* Weight sliders */}
-                  {CRITERIA_INFO.map((c) => (
-                    <div key={c.key}>
-                      <div className="flex justify-between items-center mb-1">
-                        <label className="text-xs text-gray-600">
-                          {c.icon} {c.label}
-                        </label>
-                        <span className="text-xs font-bold text-gray-700">
-                          {matchWeights[c.key]}%
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={0}
-                        max={60}
-                        value={matchWeights[c.key]}
-                        onChange={(e) => {
-                          setMatchWeights((prev) => ({
-                            ...prev,
-                            [c.key]: Number(e.target.value),
-                          }));
-                          setUsingLearnedWeights(false);
-                        }}
-                        className="w-full cursor-pointer h-1.5 rounded-full"
-                        style={{ accentColor: "#ff6b6b" }}
-                      />
-                    </div>
-                  ))}
-
-                  {/* Preferred language (optional — improves language bar) */}
-                  {/* <div>
-                    <label className="text-xs text-gray-600 mb-1 block">
-                      🗣️ Your preferred language
-                      <span className="text-gray-400 ml-1">(optional)</span>
-                    </label>
-                    <select
-                      value={preferredLanguage}
-                      onChange={(e) => setPreferredLanguage(e.target.value)}
-                      className="w-full h-8 px-2 text-xs border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#ff6b6b]"
-                    >
-                      <option value="">Any language</option>
-                      <option>English</option>
-                      <option>French</option>
-                      <option>Spanish</option>
-                      <option>Mandarin</option>
-                      <option>Arabic</option>
-                    </select>
-                  </div> */}
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">
-                    Location
-                  </label>
+          {/* ── Sticky filter bar ─────────────────────────────────────── */}
+          <div
+            ref={filterBarRef}
+            className="sticky top-0 z-20 bg-white border-b shadow-sm"
+          >
+            <div className="max-w-6xl mx-auto px-4 py-3">
+              <div className="flex items-center gap-2 flex-wrap">
+                {/* Location — always visible */}
+                <div className="relative flex-1 min-w-37.5 max-w-52.5">
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                   <Input
-                    placeholder="Fredericton, NB"
-                    className="h-10"
+                    placeholder="Location…"
+                    className="h-9 pl-9 text-sm"
                     value={filters.location}
                     onChange={(e) =>
                       setFilters({ ...filters, location: e.target.value })
                     }
                   />
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">
-                    Hourly Rate
-                  </label>
-                  <Input
-                    placeholder="Min"
-                    className="h-10 mb-2"
-                    type="number"
-                    value={filters.minRate}
-                    onChange={(e) =>
-                      setFilters({ ...filters, minRate: e.target.value })
-                    }
-                  />
-                  <Input
-                    placeholder="Max"
-                    className="h-10"
-                    type="number"
-                    value={filters.maxRate}
-                    onChange={(e) =>
-                      setFilters({ ...filters, maxRate: e.target.value })
-                    }
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Experience (years)
-                  </label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="10"
-                    value={filters.experience}
-                    onChange={(e) =>
-                      setFilters({
-                        ...filters,
-                        experience: parseInt(e.target.value),
-                      })
-                    }
-                    className="w-full h-2 rounded-lg cursor-pointer"
-                    style={{ accentColor: "#ff6b6b" }}
-                  />
-                  <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                    <span>0</span>
-                    <span className="text-[#ff6b6b] font-semibold">
-                      {filters.experience}+ years
-                    </span>
-                    <span>10+</span>
-                  </div>
-                </div>
 
-                <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">
-                    Languages
-                  </label>
-                  <div className="space-y-2">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
-                        checked={filters.languages.includes("English")}
-                        onChange={() => handleLanguageChange("English")}
-                      />
-                      <span className="text-gray-700">English</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
-                        checked={filters.languages.includes("Spanish")}
-                        onChange={() => handleLanguageChange("Spanish")}
-                      />
-                      <span className="text-gray-700">Spanish</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
-                        checked={filters.languages.includes("French")}
-                        onChange={() => handleLanguageChange("French")}
-                      />
-                      <span className="text-gray-700">French</span>
-                    </label>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">
-                    Special Needs Experience
-                  </label>
-                  <div className="space-y-2">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
-                        checked={filters.specialNeeds.includes("Autism")}
-                        onChange={() => handleSpecialNeedsChange("Autism")}
-                      />
-                      <span className="text-gray-700">
-                        Autism Spectrum Disorder
-                      </span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
-                        checked={filters.specialNeeds.includes("Nonverbal")}
-                        onChange={() => handleSpecialNeedsChange("Nonverbal")}
-                      />
-                      <span className="text-gray-700">
-                        Nonverbal Communication
-                      </span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
-                        checked={filters.specialNeeds.includes("Anxiety")}
-                        onChange={() => handleSpecialNeedsChange("Anxiety")}
-                      />
-                      <span className="text-gray-700">Anxiety</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
-                        checked={filters.specialNeeds.includes("Asthma")}
-                        onChange={() => handleSpecialNeedsChange("Asthma")}
-                      />
-                      <span className="text-gray-700">Asthma</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
-                        checked={filters.specialNeeds.includes("Speech Delay")}
-                        onChange={() =>
-                          handleSpecialNeedsChange("Speech Delay")
-                        }
-                      />
-                      <span className="text-gray-700">Speech Delay</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
-                        checked={filters.specialNeeds.includes("Down Syndrome")}
-                        onChange={() =>
-                          handleSpecialNeedsChange("Down Syndrome")
-                        }
-                      />
-                      <span className="text-gray-700">Down Syndrome</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="rounded border-gray-300 text-[#ff6b6b] focus:ring-[#ff6b6b]"
-                        checked={filters.specialNeeds.includes("ADHD")}
-                        onChange={() => handleSpecialNeedsChange("ADHD")}
-                      />
-                      <span className="text-gray-700">ADHD</span>
-                    </label>
-                  </div>
-                </div>
-
-                <Button
-                  onClick={clearFilters}
-                  className="w-full bg-[#ff6b6b] hover:bg-[#ff5a5f] text-white h-11 cursor-pointer"
-                >
-                  Clear Filters
-                </Button>
-              </div>
-            </div>
-
-            <div className="flex-1 flex flex-col gap-3 md:gap-4 w-full">
-              <p className="text-sm font-semibold bg-red-50 text-red-700 px-4 py-2 rounded-lg">
-                {filteredSitters.length}{" "}
-                {filteredSitters.length === 1 ? "sitter" : "sitters"} found
-              </p>
-              {filteredSitters.length === 0 ? (
-                <div className="bg-white rounded-xl p-8 text-center shadow-sm">
-                  <p className="text-gray-500 text-lg">
-                    No sitters match your filters
-                  </p>
-                  <p className="text-gray-400 text-sm mt-2">
-                    Try adjusting your search criteria
-                  </p>
-                </div>
-              ) : (
-                <>
-                  {currentSitters.map((sitter) => (
-                    <SitterCard
-                      key={sitter.id}
-                      sitter={sitter}
-                      matchData={matchDataMap?.[sitter.id] ?? null}
-                    />
-                  ))}
-
-                  {/* Pagination Controls */}
-                  {totalPages > 1 && (
-                    <div className="flex items-center justify-center gap-2 mt-4 mb-2">
-                      <Button
-                        onClick={goToPreviousPage}
-                        disabled={currentPage === 1}
-                        variant="outline"
-                        className="h-10 px-3"
-                      >
-                        <ChevronLeft className="h-4 w-4" />
-                      </Button>
-
-                      <div className="flex gap-1">
-                        {[...Array(totalPages)].map((_, index) => {
-                          const pageNumber = index + 1;
-                          // Show first page, last page, current page, and pages around current
-                          if (
-                            pageNumber === 1 ||
-                            pageNumber === totalPages ||
-                            (pageNumber >= currentPage - 1 &&
-                              pageNumber <= currentPage + 1)
-                          ) {
-                            return (
-                              <Button
-                                key={pageNumber}
-                                onClick={() => goToPage(pageNumber)}
-                                variant={
-                                  currentPage === pageNumber
-                                    ? "default"
-                                    : "outline"
-                                }
-                                className={`h-10 w-10 ${
-                                  currentPage === pageNumber
-                                    ? "bg-[#ff6b6b] hover:bg-[#ff5a5f] text-white"
-                                    : ""
-                                }`}
-                              >
-                                {pageNumber}
-                              </Button>
-                            );
-                          } else if (
-                            pageNumber === currentPage - 2 ||
-                            pageNumber === currentPage + 2
-                          ) {
-                            return (
-                              <span
-                                key={pageNumber}
-                                className="px-2 flex items-center"
-                              >
-                                ...
-                              </span>
-                            );
+                {/* Price */}
+                <div className="relative">
+                  {dropdownBtn(
+                    "price",
+                    "Price",
+                    "💰",
+                    !!(filters.minRate || filters.maxRate),
+                  )}
+                  {openDropdown === "price" && (
+                    <div className="absolute top-full left-0 mt-1.5 bg-white border rounded-xl shadow-lg p-4 w-52 z-30">
+                      <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">
+                        Hourly Rate
+                      </p>
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="Min $"
+                          type="number"
+                          className="h-8 text-sm"
+                          value={filters.minRate}
+                          onChange={(e) =>
+                            setFilters({ ...filters, minRate: e.target.value })
                           }
-                          return null;
-                        })}
+                        />
+                        <Input
+                          placeholder="Max $"
+                          type="number"
+                          className="h-8 text-sm"
+                          value={filters.maxRate}
+                          onChange={(e) =>
+                            setFilters({ ...filters, maxRate: e.target.value })
+                          }
+                        />
                       </div>
-
-                      <Button
-                        onClick={goToNextPage}
-                        disabled={currentPage === totalPages}
-                        variant="outline"
-                        className="h-10 px-3"
-                      >
-                        <ChevronRight className="h-4 w-4" />
-                      </Button>
                     </div>
                   )}
-                </>
+                </div>
+
+                {/* Experience */}
+                <div className="relative">
+                  {dropdownBtn(
+                    "exp",
+                    filters.experience > 0
+                      ? `${filters.experience}+ yrs`
+                      : "Experience",
+                    "🎓",
+                    filters.experience > 0,
+                  )}
+                  {openDropdown === "exp" && (
+                    <div className="absolute top-full left-0 mt-1.5 bg-white border rounded-xl shadow-lg p-4 w-52 z-30">
+                      <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">
+                        Min. Experience
+                      </p>
+                      <input
+                        type="range"
+                        min="0"
+                        max="10"
+                        value={filters.experience}
+                        onChange={(e) =>
+                          setFilters({
+                            ...filters,
+                            experience: parseInt(e.target.value),
+                          })
+                        }
+                        className="w-full cursor-pointer"
+                        style={{ accentColor: "#ff6b6b" }}
+                      />
+                      <div className="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>0</span>
+                        <span className="text-[#ff6b6b] font-semibold">
+                          {filters.experience}+ years
+                        </span>
+                        <span>10</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Languages */}
+                <div className="relative">
+                  {dropdownBtn(
+                    "lang",
+                    "Languages",
+                    "🗣️",
+                    filters.languages.length > 0,
+                    filters.languages.length,
+                  )}
+                  {openDropdown === "lang" && (
+                    <div className="absolute top-full left-0 mt-1.5 bg-white border rounded-xl shadow-lg p-4 w-48 z-30">
+                      <p className="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
+                        Languages
+                      </p>
+                      {ALL_LANGUAGES.map((lang) => (
+                        <label
+                          key={lang}
+                          className="flex items-center gap-2 py-1.5 cursor-pointer"
+                        >
+                          <input
+                            type="checkbox"
+                            className="rounded border-gray-300"
+                            style={{ accentColor: "#ff6b6b" }}
+                            checked={filters.languages.includes(lang)}
+                            onChange={() => handleLanguageChange(lang)}
+                          />
+                          <span className="text-sm text-gray-700">{lang}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Special Needs */}
+                <div className="relative">
+                  {dropdownBtn(
+                    "needs",
+                    "Special Needs",
+                    "🌟",
+                    filters.specialNeeds.length > 0,
+                    filters.specialNeeds.length,
+                  )}
+                  {openDropdown === "needs" && (
+                    <div className="absolute top-full left-0 mt-1.5 bg-white border rounded-xl shadow-lg p-4 w-56 z-30">
+                      <p className="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
+                        Special Needs Experience
+                      </p>
+                      {ALL_SPECIAL_NEEDS.map((need) => (
+                        <label
+                          key={need}
+                          className="flex items-center gap-2 py-1.5 cursor-pointer"
+                        >
+                          <input
+                            type="checkbox"
+                            className="rounded border-gray-300"
+                            style={{ accentColor: "#ff6b6b" }}
+                            checked={filters.specialNeeds.includes(need)}
+                            onChange={() => handleSpecialNeedsChange(need)}
+                          />
+                          <span className="text-sm text-gray-700">{need}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Match Priorities */}
+                <div className="relative">
+                  <button
+                    onClick={() => toggleDropdown("priorities")}
+                    className={`flex items-center gap-1.5 h-9 px-3 rounded-lg border text-sm font-medium transition-colors
+                      ${usingLearnedWeights ? "bg-green-50 text-green-700 border-green-300" : "bg-white text-gray-700 border-gray-200 hover:border-[#ff6b6b]"}`}
+                  >
+                    {usingLearnedWeights ? (
+                      <span>🧠</span>
+                    ) : (
+                      <SlidersHorizontal className="w-3.5 h-3.5" />
+                    )}
+                    Priorities
+                    {usingLearnedWeights && (
+                      <span className="text-xs bg-green-100 text-green-700 px-1 rounded">
+                        learned
+                      </span>
+                    )}
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 transition-transform ${openDropdown === "priorities" ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                  {openDropdown === "priorities" && (
+                    <div className="absolute top-full right-0 mt-1.5 bg-white border rounded-xl shadow-lg p-4 w-72 z-30">
+                      <div className="flex justify-between items-center mb-3">
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                          Match Priorities
+                        </p>
+                        <button
+                          onClick={() => {
+                            setMatchWeights(DEFAULT_WEIGHTS);
+                            setUsingLearnedWeights(false);
+                          }}
+                          className="text-xs text-gray-400 hover:text-[#ff6b6b] transition-colors"
+                        >
+                          Reset
+                        </button>
+                      </div>
+
+                      {CRITERIA_INFO.map((c) => (
+                        <div key={c.key} className="mb-3">
+                          <div className="flex justify-between items-center mb-1">
+                            <label className="text-xs text-gray-600">
+                              {c.icon} {c.label}
+                            </label>
+                            <span className="text-xs font-bold text-gray-800">
+                              {matchWeights[c.key]}%
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min={0}
+                            max={60}
+                            value={matchWeights[c.key]}
+                            onChange={(e) => {
+                              setMatchWeights((prev) => ({
+                                ...prev,
+                                [c.key]: Number(e.target.value),
+                              }));
+                              setUsingLearnedWeights(false);
+                            }}
+                            className="w-full cursor-pointer h-1.5 rounded-full"
+                            style={{ accentColor: "#ff6b6b" }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Clear all */}
+                {hasActiveFilters && (
+                  <button
+                    onClick={clearFilters}
+                    className="h-9 px-3 text-sm text-gray-400 hover:text-[#ff6b6b] transition-colors underline"
+                  >
+                    Clear all
+                  </button>
+                )}
+              </div>
+
+              {/* Active filter chips */}
+              {hasActiveFilters && (
+                <div className="flex gap-2 flex-wrap mt-2.5">
+                  {filters.location && (
+                    <Chip
+                      label={`📍 ${filters.location}`}
+                      onRemove={() =>
+                        setFilters((f) => ({ ...f, location: "" }))
+                      }
+                    />
+                  )}
+                  {(filters.minRate || filters.maxRate) && (
+                    <Chip
+                      label={`💰 $${filters.minRate || "0"}–$${filters.maxRate || "∞"}/hr`}
+                      onRemove={() =>
+                        setFilters((f) => ({
+                          ...f,
+                          minRate: "",
+                          maxRate: "",
+                        }))
+                      }
+                    />
+                  )}
+                  {filters.experience > 0 && (
+                    <Chip
+                      label={`🎓 ${filters.experience}+ yrs`}
+                      onRemove={() =>
+                        setFilters((f) => ({ ...f, experience: 0 }))
+                      }
+                    />
+                  )}
+                  {filters.languages.map((l) => (
+                    <Chip
+                      key={l}
+                      label={`🗣️ ${l}`}
+                      onRemove={() => handleLanguageChange(l)}
+                    />
+                  ))}
+                  {filters.specialNeeds.map((n) => (
+                    <Chip
+                      key={n}
+                      label={`🌟 ${n}`}
+                      onRemove={() => handleSpecialNeedsChange(n)}
+                    />
+                  ))}
+                </div>
               )}
             </div>
+          </div>
+
+          {/* ── Sitter list ───────────────────────────────────────────── */}
+          <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col gap-4">
+            <p className="text-sm font-semibold bg-red-50 text-red-700 px-4 py-2 rounded-lg w-fit">
+              {filteredSitters.length}{" "}
+              {filteredSitters.length === 1 ? "sitter" : "sitters"} found
+            </p>
+
+            {filteredSitters.length === 0 ? (
+              <div className="bg-white rounded-xl p-8 text-center shadow-sm">
+                <p className="text-gray-500 text-lg">
+                  No sitters match your filters
+                </p>
+                <p className="text-gray-400 text-sm mt-2">
+                  Try adjusting your search criteria
+                </p>
+              </div>
+            ) : (
+              <>
+                {currentSitters.map((sitter) => (
+                  <SitterCard
+                    key={sitter.id}
+                    sitter={sitter}
+                    matchData={matchDataMap?.[sitter.id] ?? null}
+                  />
+                ))}
+
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-2 mt-4 mb-2">
+                    <Button
+                      onClick={() =>
+                        currentPage > 1 && goToPage(currentPage - 1)
+                      }
+                      disabled={currentPage === 1}
+                      variant="outline"
+                      className="h-10 px-3"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+
+                    <div className="flex gap-1">
+                      {[...Array(totalPages)].map((_, index) => {
+                        const p = index + 1;
+                        if (
+                          p === 1 ||
+                          p === totalPages ||
+                          (p >= currentPage - 1 && p <= currentPage + 1)
+                        ) {
+                          return (
+                            <Button
+                              key={p}
+                              onClick={() => goToPage(p)}
+                              variant={
+                                currentPage === p ? "default" : "outline"
+                              }
+                              className={`h-10 w-10 ${currentPage === p ? "bg-[#ff6b6b] hover:bg-[#ff5a5f] text-white" : ""}`}
+                            >
+                              {p}
+                            </Button>
+                          );
+                        } else if (
+                          p === currentPage - 2 ||
+                          p === currentPage + 2
+                        ) {
+                          return (
+                            <span
+                              key={p}
+                              className="px-2 flex items-center text-gray-400"
+                            >
+                              …
+                            </span>
+                          );
+                        }
+                        return null;
+                      })}
+                    </div>
+
+                    <Button
+                      onClick={() =>
+                        currentPage < totalPages && goToPage(currentPage + 1)
+                      }
+                      disabled={currentPage === totalPages}
+                      variant="outline"
+                      className="h-10 px-3"
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </div>
       )}

@@ -59,7 +59,10 @@ export default function BookingSuccessPage() {
       const res = await fetch("/api/matching/outcome", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ outcomeId: ctx.outcomeId, label: selectedLabel }),
+        body: JSON.stringify({
+          outcomeId: ctx.outcomeId,
+          label: selectedLabel,
+        }),
       });
 
       if (!res.ok) throw new Error("Failed to save rating");
@@ -81,14 +84,15 @@ export default function BookingSuccessPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
       <div className="max-w-lg mx-auto space-y-5">
-
         {/* ── Booking confirmed card ─────────────────────────────────────── */}
         <Card>
           <CardContent className="pt-8 pb-6 text-center space-y-3">
             <CheckCircle className="h-14 w-14 text-green-500 mx-auto" />
-            <h1 className="text-2xl font-bold">Booking Confirmed!</h1>
+            <h1 className="text-2xl font-bold">Booking Pending</h1>
             <p className="text-gray-500 text-sm">
-              Your session has been successfully booked.
+              Waiting for your sitter to confirm. We&apos;ll notify you once
+              they do! In the meantime, feel free to explore more sitters or
+              activities on our platform.
             </p>
 
             {ctx?.sitterName && (
@@ -126,21 +130,28 @@ export default function BookingSuccessPage() {
 
         {/* ── Rating card ────────────────────────────────────────────────── */}
         {ratingPhase !== "skipped" && (
-          <Card className={ratingPhase === "done" ? "border-green-200 bg-green-50" : ""}>
+          <Card
+            className={
+              ratingPhase === "done" ? "border-green-200 bg-green-50" : ""
+            }
+          >
             <CardContent className="pt-6 pb-6">
-
               {ratingPhase === "done" ? (
                 /* ── Thank-you state ─────────────────────────────────── */
                 <div className="text-center space-y-2">
                   <div className="text-3xl">🙏</div>
-                  <h2 className="font-bold text-green-700">Thanks for your feedback!</h2>
+                  <h2 className="font-bold text-green-700">
+                    Thanks for your feedback!
+                  </h2>
                   <p className="text-sm text-green-600">
-                    Your rating helps us recommend better matches for your family over time.
+                    Your rating helps us recommend better matches for your
+                    family over time.
                   </p>
                   {selectedLabel === 1 && (
                     <p className="text-xs text-gray-500 pt-1">
                       We&apos;ll prioritise sitters like{" "}
-                      <strong>{ctx?.sitterName?.split(" ")[0]}</strong> in future matches.
+                      <strong>{ctx?.sitterName?.split(" ")[0]}</strong> in
+                      future matches.
                     </p>
                   )}
                 </div>
@@ -149,7 +160,9 @@ export default function BookingSuccessPage() {
                 <>
                   <div className="flex items-center gap-2 mb-1">
                     <Star className="h-4 w-4 text-[#ff6b6b]" />
-                    <h2 className="font-bold text-base">Rate this match</h2>
+                    <h2 className="font-bold text-base">
+                      How would you rate this match?
+                    </h2>
                   </div>
                   <p className="text-sm text-gray-500 mb-5">
                     {ctx?.sitterName
@@ -190,7 +203,9 @@ export default function BookingSuccessPage() {
                       <ThumbsDown
                         className={`h-7 w-7 ${selectedLabel === 0 ? "fill-red-400 text-red-400" : ""}`}
                       />
-                      <span className="font-semibold text-sm">Not the right fit</span>
+                      <span className="font-semibold text-sm">
+                        Not the right fit
+                      </span>
                       <span className="text-xs text-center opacity-70">
                         Wouldn&apos;t book again
                       </span>
@@ -201,7 +216,8 @@ export default function BookingSuccessPage() {
                   {selectedLabel !== null && (
                     <div className="mb-4">
                       <label className="block text-xs font-medium text-gray-500 mb-1.5">
-                        Anything specific? <span className="font-normal">(optional)</span>
+                        Anything specific?{" "}
+                        <span className="font-normal">(optional)</span>
                       </label>
                       <textarea
                         value={note}
@@ -224,10 +240,14 @@ export default function BookingSuccessPage() {
                   <div className="flex gap-2">
                     <Button
                       onClick={submitRating}
-                      disabled={selectedLabel === null || ratingPhase === "submitting"}
+                      disabled={
+                        selectedLabel === null || ratingPhase === "submitting"
+                      }
                       className="flex-1 bg-[#ff6b6b] hover:bg-[#ff5a5f] text-white cursor-pointer disabled:opacity-40"
                     >
-                      {ratingPhase === "submitting" ? "Saving…" : "Submit rating"}
+                      {ratingPhase === "submitting"
+                        ? "Saving…"
+                        : "Submit rating"}
                     </Button>
                     <Button
                       variant="outline"
@@ -239,7 +259,8 @@ export default function BookingSuccessPage() {
                   </div>
 
                   <p className="text-xs text-gray-400 text-center mt-3">
-                    Your rating is private and used only to improve your future matches.
+                    Your rating is private and used only to improve your future
+                    matches.
                   </p>
                 </>
               )}
@@ -266,7 +287,6 @@ export default function BookingSuccessPage() {
             Find another sitter →
           </Button>
         )}
-
       </div>
     </div>
   );

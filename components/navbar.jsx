@@ -49,16 +49,16 @@ export function Navbar() {
             >
               Find Sitters
             </Link> */}
-            {/* <Link
-              href="/demo-matching"
+            <Link
+              href="/profile/Sitter"
               className={`transition-colors hover:text-primary ${
-                isActive("/demo-matching")
+                isActive("/profile/Sitter")
                   ? "text-primary font-bold border-b-2 border-primary pb-1"
                   : ""
               }`}
             >
-              Find Match
-            </Link> */}
+              For Sitters
+            </Link>
             <Link
               href="/Testmatching"
               className={`transition-colors hover:text-primary ${

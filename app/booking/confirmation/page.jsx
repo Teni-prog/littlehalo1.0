@@ -74,7 +74,7 @@ export default function BookingConfirmationPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           sitterId: bookingData.sitter.id,
-          parentId: "c51a0e4c-f7d4-4b23-a7b9-029c31d86c0b",
+          parentId: "797d10d4-fa8c-437f-9044-7bc118678754", // demo: Wei Chen
           date: bookingData.date,
           startTime: bookingData.startTime,
           endTime: bookingData.endTime,
