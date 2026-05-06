@@ -22,27 +22,14 @@ import ChildProgress from "@/components/Childprogress";
 import { useEffect, useState, useMemo } from "react";
 import MatchedSitterCard from "@/app/search/matching-button/page";
 import ParentPreferences from "../ParentPreferences/page";
-import { parents } from "@/lib/mock-data/parents";
-import {
-  runTOPSIS,
-  CRITERIA_REGISTRY,
-  DEFAULT_WEIGHTS,
-} from "@/lib/matchingData";
-
-// Wei Chen's profile is the demo parent for this dashboard
-const WEI_CHEN = parents.find((p) => p.id === "wei-chen-demo");
-
-// Parent object in the shape runTOPSIS expects: { language }
-const TOPSIS_PARENT = {
-  language:
-    WEI_CHEN.preferredLanguages.find((l) => l !== "English") ||
-    WEI_CHEN.preferredLanguages[0],
-};
+import { runTOPSIS, CRITERIA_REGISTRY, DEFAULT_WEIGHTS } from "@/lib/matchingData";
+import { createClient } from "@/lib/supabase/client";
 
 const LS_WEIGHTS_KEY = "lh_learned_weights";
 
 export default function ParentDashboard() {
   const [currentParent, setCurrentParent] = useState(null);
+  const [children, setChildren] = useState([]);
   const [allSitters, setAllSitters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [matchWeights, setMatchWeights] = useState(DEFAULT_WEIGHTS);
@@ -75,18 +62,41 @@ export default function ParentDashboard() {
     return () => window.removeEventListener("storage", onStorageChange);
   }, []);
 
-  // Fetch all sitters once — TOPSIS runs client-side so weights are live
+  // Fetch real user data from Supabase
   useEffect(() => {
     async function fetchData() {
       try {
-        setCurrentParent({
-          ...WEI_CHEN,
-          max_budget: WEI_CHEN.preferences.maxHourlyRate,
-          preferred_languages: WEI_CHEN.preferredLanguages,
-          preferred_location: WEI_CHEN.location,
-          special_needs: WEI_CHEN.child?.tags?.join(", ") || null,
-        });
+        const supabase = createClient();
 
+        // Get logged-in user
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        // Fetch parent profile from users table
+        const { data: profile } = await supabase
+          .from("users")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+
+        // Fetch children from children table
+        const { data: childRows } = await supabase
+          .from("children")
+          .select("*")
+          .eq("parent_id", user.id);
+
+        if (childRows) setChildren(childRows);
+
+        // Set parent profile + derived special_needs in one update
+        if (profile) {
+          const allNeeds = [...new Set((childRows || []).flatMap(c => c.special_needs || []))];
+          setCurrentParent({
+            ...profile,
+            special_needs: allNeeds.length ? allNeeds.join(", ") : null,
+          });
+        }
+
+        // Fetch sitters for TOPSIS
         const res = await fetch("/api/sitters");
         const result = await res.json();
         if (res.ok) setAllSitters(result.data || []);
@@ -99,16 +109,20 @@ export default function ParentDashboard() {
     fetchData();
   }, []);
 
-  // Re-rank sitters instantly whenever weights change
+  // Re-rank sitters instantly whenever weights or parent data changes
   const topMatches = useMemo(() => {
-    if (!allSitters.length) return [];
+    if (!allSitters.length || !currentParent) return [];
+    const langs = currentParent.preferred_languages || ["English"];
+    const topsisParent = {
+      language: langs.find((l) => l !== "English") || langs[0],
+    };
     const mapped = allSitters.map((s) => ({
       ...s,
       price: s.hourly_rate ?? 20,
       languages: s.languages || [],
     }));
-    return runTOPSIS(mapped, TOPSIS_PARENT, matchWeights).slice(0, 3);
-  }, [allSitters, matchWeights]);
+    return runTOPSIS(mapped, topsisParent, matchWeights).slice(0, 3);
+  }, [allSitters, matchWeights, currentParent]);
   // const user = {
   //     name: "John Doe",
   //     email: "john.doe@example.com",
@@ -121,7 +135,9 @@ export default function ParentDashboard() {
   useEffect(() => {
     async function fetchBookings() {
       try {
-        const res = await fetch("/api/booking?parentId=797d10d4-fa8c-437f-9044-7bc118678754"); // demo: Wei Chen
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        const res = await fetch(`/api/booking?parentId=${user?.id}`);
         const data = await res.json();
         if (res.ok) {
           setSessions(
@@ -232,7 +248,6 @@ export default function ParentDashboard() {
     },
   ];
 
-  const children = [WEI_CHEN.child];
   const progressStats = {
     totalSessions: 12,
     adventuresCompleted: 8,
@@ -276,7 +291,10 @@ export default function ParentDashboard() {
               </Link>
             ))}
           </div>
-          <ParentPreferences parent={currentParent} />
+          <ParentPreferences
+            parent={currentParent}
+            onUpdate={(updates) => setCurrentParent(prev => ({ ...prev, ...updates }))}
+          />
 
           {/* ── Match Priorities ─────────────────────────────────────────── */}
           <div className="bg-white rounded-3xl border border-gray-100 shadow-sm mb-8 overflow-hidden">
@@ -459,7 +477,20 @@ export default function ParentDashboard() {
             </div>
 
             <div className="lg:col-span-1">
-              <MyChildren children={children} />
+              <MyChildren
+                children={children}
+                onChildUpdated={(updated) => {
+                  setChildren(prev => prev.map(c => c.id === updated.id ? updated : c));
+                  // Refresh special_needs summary in preferences
+                  setCurrentParent(prev => {
+                    const allNeeds = [...new Set(
+                      children.map(c => c.id === updated.id ? updated : c)
+                        .flatMap(c => c.special_needs || [])
+                    )];
+                    return { ...prev, special_needs: allNeeds.length ? allNeeds.join(", ") : null };
+                  });
+                }}
+              />
             </div>
           </div>
 

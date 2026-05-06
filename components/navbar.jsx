@@ -1,17 +1,39 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Logo from "@/public/Logo1.png";
 import Image from "next/image";
+import { createClient } from "@/lib/supabase/client";
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [user, setUser] = useState(null);
 
-  const isActive = (path) => {
-    return pathname.startsWith(path);
-  };
+  useEffect(() => {
+    const supabase = createClient();
+
+    // getSession reads from cookie — instant, no network call
+    supabase.auth.getSession().then(({ data: { session } }) => setUser(session?.user ?? null));
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  async function handleLogout() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  }
+
+  const isActive = (path) => pathname.startsWith(path);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -32,29 +54,15 @@ export function Navbar() {
             <Link
               href="/profile/Parents"
               className={`transition-colors hover:text-primary ${
-                isActive("/profile/Parents")
-                  ? "text-primary font-bold border-b-2 border-primary pb-1"
-                  : ""
+                isActive("/profile/Parents") ? "text-primary font-bold border-b-2 border-primary pb-1" : ""
               }`}
             >
               For Parents
             </Link>
-            {/* <Link
-              href="/search"
-              className={`transition-colors hover:text-primary ${
-                isActive("/search")
-                  ? "text-primary font-bold border-b-2 border-primary pb-1"
-                  : ""
-              }`}
-            >
-              Find Sitters
-            </Link> */}
             <Link
               href="/profile/Sitter"
               className={`transition-colors hover:text-primary ${
-                isActive("/profile/Sitter")
-                  ? "text-primary font-bold border-b-2 border-primary pb-1"
-                  : ""
+                isActive("/profile/Sitter") ? "text-primary font-bold border-b-2 border-primary pb-1" : ""
               }`}
             >
               For Sitters
@@ -62,17 +70,26 @@ export function Navbar() {
             <Link
               href="/Testmatching"
               className={`transition-colors hover:text-primary ${
-                isActive("/Testmatching")
-                  ? "text-primary font-bold border-b-2 border-primary pb-1"
-                  : ""
+                isActive("/Testmatching") ? "text-primary font-bold border-b-2 border-primary pb-1" : ""
               }`}
             >
               Testing
             </Link>
           </div>
-          <Link href="/login">
-            <Button className="cursor-pointer">Sign In</Button>
-          </Link>
+
+          {user ? (
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="cursor-pointer"
+            >
+              Log Out
+            </Button>
+          ) : (
+            <Link href="/login">
+              <Button className="cursor-pointer">Sign In</Button>
+            </Link>
+          )}
         </div>
       </div>
     </nav>
