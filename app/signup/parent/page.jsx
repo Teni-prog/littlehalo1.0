@@ -18,6 +18,7 @@ import {
   FileText,
 } from "lucide-react";
 import { signupParent } from "@/app/actions/auth";
+import { NEIGHBOURHOODS, NEIGHBOURHOOD_COORDS } from "@/lib/neighbourhoods";
 
 const LANGUAGES = [
   "English",
@@ -58,7 +59,12 @@ const emptyChild = { name: "", age: "", needs: [] };
 export default function ParentSignupPage() {
   const [children, setChildren] = useState([{ ...emptyChild }]);
   const [selectedLanguages, setSelectedLanguages] = useState(["English"]);
+  const [neighbourhood, setNeighbourhood] = useState("");
   const [state, formAction, isPending] = useActionState(signupParent, null);
+
+  function handleNeighbourhood(name) {
+    setNeighbourhood(name);
+  }
 
   useEffect(() => {
     if (state?.error) window.scrollTo({ top: 0, behavior: "smooth" });
@@ -100,13 +106,13 @@ export default function ParentSignupPage() {
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
+        <Link
+          href="/signup"
+          className="inline-flex left-0 gap-1 text-sm text-gray-400 hover:text-gray-600 transition-colors mb-6"
+        >
+          <ArrowLeft className="w-4 h-4" /> Back
+        </Link>
         <div className="text-center mb-10">
-          <Link
-            href="/signup"
-            className="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-gray-600 transition-colors mb-6"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back
-          </Link>
           <div className="w-16 h-16 bg-[#ff6b6b] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md shadow-red-100">
             <Baby className="w-8 h-8 text-white" />
           </div>
@@ -126,8 +132,15 @@ export default function ParentSignupPage() {
         )}
 
         <form action={formAction} className="space-y-6">
-          {/* Hidden inputs for arrays */}
+          {/* Hidden inputs for arrays and location */}
           <input type="hidden" name="child_count" value={children.length} />
+          <input type="hidden" name="neighbourhood" value={neighbourhood} />
+          {neighbourhood && NEIGHBOURHOOD_COORDS[neighbourhood] && (
+            <>
+              <input type="hidden" name="latitude"  value={NEIGHBOURHOOD_COORDS[neighbourhood].lat} />
+              <input type="hidden" name="longitude" value={NEIGHBOURHOOD_COORDS[neighbourhood].lng} />
+            </>
+          )}
           {selectedLanguages.map((lang) => (
             <input key={lang} type="hidden" name="languages" value={lang} />
           ))}
@@ -225,18 +238,27 @@ export default function ParentSignupPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-gray-700">
-                  Location
+                  Neighbourhood <span className="text-[#ff6b6b]">*</span>
                 </label>
                 <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    name="location"
-                    type="text"
-                    placeholder="e.g. Fredericton, NB"
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
+                  <select
+                    value={neighbourhood}
+                    onChange={e => handleNeighbourhood(e.target.value)}
                     required
-                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm outline-none focus:border-[#ff6b6b] focus:ring-2 focus:ring-[#ff6b6b]/20 transition-all"
-                  />
+                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm outline-none appearance-none focus:border-[#ff6b6b] focus:ring-2 focus:ring-[#ff6b6b]/20 transition-all"
+                  >
+                    <option value="">Select neighbourhood…</option>
+                    {NEIGHBOURHOODS.map(n => (
+                      <option key={n.name} value={n.name}>{n.name}</option>
+                    ))}
+                  </select>
                 </div>
+                {neighbourhood && (
+                  <p className="text-xs text-[#ff6b6b] flex items-center gap-1">
+                    <MapPin className="w-3 h-3" /> {neighbourhood} area selected
+                  </p>
+                )}
               </div>
 
               <div className="space-y-1.5">

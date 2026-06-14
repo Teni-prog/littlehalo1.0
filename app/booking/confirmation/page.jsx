@@ -15,24 +15,33 @@ import {
   Star,
 } from "lucide-react";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 
 export default function BookingConfirmationPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [bookingData, setBookingData] = useState(null);
+  const [bookingData,           setBookingData]           = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("card");
-  const [loading, setLoading] = useState(true);
+  const [loading,               setLoading]               = useState(true);
+  const [userId,                setUserId]                = useState(null);
+  const [payError,              setPayError]              = useState(null);
+  const [paying,                setPaying]                = useState(false);
 
   useEffect(() => {
-    // Get booking data from localStorage (set by previous page)
-    const storedData = localStorage.getItem("pendingBooking");
-    if (storedData) {
+    async function init() {
+      // Load booking data from localStorage
+      const storedData = localStorage.getItem("pendingBooking");
+      if (!storedData) { router.push("/search"); return; }
       setBookingData(JSON.parse(storedData));
+
+      // Fetch the real logged-in user's ID
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) setUserId(user.id);
+
       setLoading(false);
-    } else {
-      // Redirect back if no booking data
-      router.push("/search");
     }
+    init();
   }, [router]);
 
   const calculateSubtotal = () => {
@@ -62,39 +71,39 @@ export default function BookingConfirmationPage() {
   };
 
   const handlePayment = async () => {
-    console.log("Processing payment...", {
-      bookingData,
-      paymentMethod: selectedPaymentMethod,
-      total: calculateTotal(),
-    });
-
+    if (!userId) { setPayError("You must be logged in to complete a booking."); return; }
+    setPayError(null);
+    setPaying(true);
     try {
       const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          sitterId: bookingData.sitter.id,
-          parentId: "797d10d4-fa8c-437f-9044-7bc118678754", // demo: Wei Chen
-          date: bookingData.date,
-          startTime: bookingData.startTime,
-          endTime: bookingData.endTime,
-          children: bookingData.children,
+          sitterId:    bookingData.sitter.id,
+          parentId:    userId,
+          date:        bookingData.date,
+          startTime:   bookingData.startTime,
+          endTime:     bookingData.endTime,
+          children:    bookingData.children,
           adventureId: bookingData.selectedAdventure?.id || null,
-          notes: bookingData.additionalNotes,
+          notes:       bookingData.additionalNotes,
           totalAmount: calculateTotal(),
         }),
       });
 
-      if (!res.ok) throw new Error("Booking failed");
+      const json = await res.json();
+      if (!res.ok) {
+        setPayError(json.error || "Booking failed. Please try again.");
+        return;
+      }
 
-      const { bookingId, outcomeId } = await res.json();
+      const { bookingId, outcomeId } = json;
 
-      // Save context for the success/rating page before clearing booking data
       localStorage.setItem(
         "ratingContext",
         JSON.stringify({
-          outcomeId: outcomeId ?? null,
-          sitterName: bookingData.sitter.name,
+          outcomeId:   outcomeId ?? null,
+          sitterName:  bookingData.sitter.name,
           sitterImage: bookingData.sitter.profile_picture || bookingData.sitter.image || null,
           sessionDate: bookingData.date,
           sessionTime: `${bookingData.startTime} – ${bookingData.endTime}`,
@@ -103,11 +112,12 @@ export default function BookingConfirmationPage() {
 
       localStorage.removeItem("pendingBooking");
       localStorage.removeItem("bookingDetails");
-
       router.push(`/booking/success?bookingId=${bookingId}`);
-    } catch (error) {
-      console.error("Payment failed:", error);
-    } 
+    } catch {
+      setPayError("Something went wrong. Please try again.");
+    } finally {
+      setPaying(false);
+    }
   };
 
   // if (loading || !bookingData) {
@@ -519,12 +529,20 @@ export default function BookingConfirmationPage() {
                       </div>
                     </div>
 
+                    {/* Error message */}
+                    {payError && (
+                      <p className="text-sm text-red-500 text-center bg-red-50 rounded-xl px-4 py-2 border border-red-100">
+                        {payError}
+                      </p>
+                    )}
+
                     {/* Pay Button */}
                     <Button
                       onClick={handlePayment}
-                      className="w-full bg-[#ff6b6b] hover:bg-[#ff5a5f] text-white h-12 text-lg font-semibold cursor-pointer"
+                      disabled={paying || !userId}
+                      className="w-full bg-[#ff6b6b] hover:bg-[#ff5a5f] text-white h-12 text-lg font-semibold cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      Pay ${calculateTotal().toFixed(2)}
+                      {paying ? "Processing…" : `Pay $${calculateTotal().toFixed(2)}`}
                     </Button>
 
                     <p className="text-xs text-gray-500 text-center">

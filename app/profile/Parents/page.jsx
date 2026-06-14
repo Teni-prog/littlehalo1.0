@@ -11,8 +11,11 @@ import {
   TrendingUp,
   Calendar,
   Clock,
+  Check,
 } from "lucide-react";
+
 import Link from "next/link";
+import ParentReviewForm from "@/components/ParentReviewForm";
 import Image from "next/image";
 import WelcomeBanner from "@/components/ui/welcomebanner";
 import sitter1 from "@/assets/sitter1.png";
@@ -24,6 +27,10 @@ import MatchedSitterCard from "@/app/search/matching-button/page";
 import ParentPreferences from "../ParentPreferences/page";
 import { runTOPSIS, CRITERIA_REGISTRY, DEFAULT_WEIGHTS } from "@/lib/matchingData";
 import { createClient } from "@/lib/supabase/client";
+import { haversineDistance } from "@/lib/distance";
+import dynamic from "next/dynamic";
+
+const SitterMapPanel = dynamic(() => import("@/components/SitterMapPanel"), { ssr: false });
 
 const LS_WEIGHTS_KEY = "lh_learned_weights";
 
@@ -35,6 +42,7 @@ export default function ParentDashboard() {
   const [matchWeights, setMatchWeights] = useState(DEFAULT_WEIGHTS);
   const [showWeightConfig, setShowWeightConfig] = useState(false);
   const [usingLearnedWeights, setUsingLearnedWeights] = useState(false);
+  const [radiusKm, setRadiusKm] = useState(null);
 
   // Load learned weights from localStorage (set by LearningDemo)
   useEffect(() => {
@@ -87,14 +95,16 @@ export default function ParentDashboard() {
 
         if (childRows) setChildren(childRows);
 
-        // Set parent profile + derived special_needs in one update
-        if (profile) {
-          const allNeeds = [...new Set((childRows || []).flatMap(c => c.special_needs || []))];
-          setCurrentParent({
-            ...profile,
-            special_needs: allNeeds.length ? allNeeds.join(", ") : null,
-          });
-        }
+        // Set parent profile + derived special_needs in one update.
+        // Fall back to auth metadata if the users row is missing (e.g. signup
+        // completed auth but the DB insert failed before the migration ran).
+        const allNeeds = [...new Set((childRows || []).flatMap(c => c.special_needs || []))];
+        setCurrentParent({
+          ...(profile || {}),
+          name: profile?.name || user.user_metadata?.name || "Parent",
+          email: profile?.email || user.email,
+          special_needs: allNeeds.length ? allNeeds.join(", ") : null,
+        });
 
         // Fetch sitters for TOPSIS
         const res = await fetch("/api/sitters");
@@ -111,18 +121,36 @@ export default function ParentDashboard() {
 
   // Re-rank sitters instantly whenever weights or parent data changes
   const topMatches = useMemo(() => {
-    if (!allSitters.length || !currentParent) return [];
-    const langs = currentParent.preferred_languages || ["English"];
+    if (!allSitters.length) return [];
+    const langs = currentParent?.preferred_languages || ["English"];
     const topsisParent = {
       language: langs.find((l) => l !== "English") || langs[0],
+      latitude: currentParent?.latitude,
+      longitude: currentParent?.longitude,
     };
     const mapped = allSitters.map((s) => ({
       ...s,
       price: s.hourly_rate ?? 20,
       languages: s.languages || [],
+      rating: s.rating ?? 0,
     }));
     return runTOPSIS(mapped, topsisParent, matchWeights).slice(0, 3);
   }, [allSitters, matchWeights, currentParent]);
+
+  // Filter topMatches by radius when a distance pill is active (for the sitter cards)
+  const sittersForDisplay = useMemo(() => {
+    if (!radiusKm || !currentParent?.latitude || !currentParent?.longitude) return topMatches;
+    return topMatches.filter((s) => {
+      if (!s.latitude || !s.longitude) return false;
+      return haversineDistance(currentParent.latitude, currentParent.longitude, s.latitude, s.longitude) <= radiusKm;
+    });
+  }, [topMatches, radiusKm, currentParent]);
+
+  // All sitters with coordinates — used by the map (not capped to top 3)
+  const mapSitters = useMemo(
+    () => allSitters.filter((s) => s.latitude && s.longitude),
+    [allSitters],
+  );
   // const user = {
   //     name: "John Doe",
   //     email: "john.doe@example.com",
@@ -131,41 +159,112 @@ export default function ParentDashboard() {
 
   const [sessions, setSessions] = useState([]);
   const [loadingSessions, setLoadingSessions] = useState(true);
+  const [markingComplete, setMarkingComplete] = useState(null);
+  const [reviewedSet, setReviewedSet] = useState(new Set());
+  const [sitterFeedback, setSitterFeedback] = useState([]);
+  const [loadingFeedback, setLoadingFeedback] = useState(false);
 
   useEffect(() => {
     async function fetchBookings() {
       try {
         const supabase = createClient();
         const { data: { user } } = await supabase.auth.getUser();
-        const res = await fetch(`/api/booking?parentId=${user?.id}`);
+        if (!user) return;
+
+        const res = await fetch(`/api/booking?parentId=${user.id}`);
         const data = await res.json();
-        if (res.ok) {
-          setSessions(
-            (data.bookings || []).map((b) => {
-              const [startH, startM] = b.start_time.split(":").map(Number);
-              const [endH, endM] = b.end_time.split(":").map(Number);
-              const fmt = (h, m) => {
-                const suffix = h >= 12 ? "PM" : "AM";
-                return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${suffix}`;
-              };
-              const firstChild = Array.isArray(b.children) ? b.children[0] : null;
-              return {
-                id: b.id,
-                status: b.status,
-                date: new Date(b.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
-                time: `${fmt(startH, startM)} – ${fmt(endH, endM)}`,
-                child: firstChild ? `${firstChild.name} (${firstChild.age})` : "Child",
-                adventure: b.adventure_id || "Not specified",
-                sitter: { name: "Your Sitter", avatar: sitter1 },
-              };
-            })
-          );
+        if (!res.ok) return;
+
+        const bookings = data.bookings || [];
+
+        setSessions(
+          bookings.map((b) => {
+            const [startH, startM] = b.start_time.split(":").map(Number);
+            const [endH,   endM]   = b.end_time.split(":").map(Number);
+            const hours = ((endH * 60 + endM) - (startH * 60 + startM)) / 60;
+            const fmt = (h, m) => {
+              const suffix = h >= 12 ? "PM" : "AM";
+              return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${suffix}`;
+            };
+            const firstChild = Array.isArray(b.children) ? b.children[0] : null;
+            const sitterName = b.sitter_profile?.user?.name || "Your Sitter";
+            const sitterAvatar = b.sitter_profile?.user?.avatar || sitter1;
+            const deadline = b.created_at
+              ? new Date(new Date(b.created_at).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString()
+              : null;
+            return {
+              id:     b.id,
+              status: b.status,
+              date:   new Date(b.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+              time:   `${fmt(startH, startM)} – ${fmt(endH, endM)}`,
+              hours:  Math.round(hours * 10) / 10,
+              child:  firstChild ? `${firstChild.name} (${firstChild.age})` : "Child",
+              adventure: b.adventure_id || "Not specified",
+              sitter: { name: sitterName, avatar: sitterAvatar },
+              parentMarkedComplete: b.parent_marked_complete ?? false,
+              sitterMarkedComplete: b.sitter_marked_complete ?? false,
+              reviewWindowOpen: deadline ? new Date() < new Date(deadline) : true,
+              deadline,
+            };
+          })
+        );
+
+        // Fetch which completed bookings this parent has already reviewed
+        const { data: existingReviews } = await supabase
+          .from("reviews")
+          .select("booking_id")
+          .eq("parent_id", user.id)
+          .eq("reviewer_type", "parent");
+        if (existingReviews) {
+          setReviewedSet(new Set(existingReviews.map(r => r.booking_id)));
         }
       } catch {}
       setLoadingSessions(false);
     }
     fetchBookings();
   }, []);
+
+  useEffect(() => {
+    async function fetchSitterFeedback() {
+      try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+        setLoadingFeedback(true);
+        const res = await fetch(`/api/reviews?parentId=${user.id}`);
+        const data = await res.json();
+        if (res.ok) setSitterFeedback(data.reviews || []);
+      } catch {}
+      setLoadingFeedback(false);
+    }
+    fetchSitterFeedback();
+  }, []);
+
+  async function handleMarkComplete(bookingId) {
+    setMarkingComplete(bookingId);
+    try {
+      const res = await fetch(`/api/booking/${bookingId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "mark_complete" }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSessions(prev => prev.map(s =>
+          s.id === bookingId
+            ? {
+                ...s,
+                status: data.booking.status,
+                parentMarkedComplete: data.booking.parent_marked_complete ?? true,
+                sitterMarkedComplete: data.booking.sitter_marked_complete ?? s.sitterMarkedComplete,
+              }
+            : s
+        ));
+      }
+    } catch {}
+    setMarkingComplete(null);
+  }
+
 
   const actions = [
     {
@@ -366,31 +465,70 @@ export default function ParentDashboard() {
             )}
           </div>
 
-          {/* TOP MATCHED SITTERS SECTION */}
+          {/* TOP MATCHED SITTERS + MAP */}
           <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8 mb-8">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-900">
-                Top Matched Sitters for You
-              </h2>
-              <Link
-                href="/search"
-                className="text-[#ff6b6b] hover:text-[#ff5252] text-sm font-semibold hover:underline"
-              >
+              <h2 className="text-xl font-bold text-gray-900">Top Matched Sitters for You</h2>
+              <Link href="/search" className="text-[#ff6b6b] hover:text-[#ff5252] text-sm font-semibold hover:underline">
                 Search Sitters
               </Link>
             </div>
             <hr />
-            {topMatches.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                {topMatches.map((sitter) => (
-                  <MatchedSitterCard key={sitter.id} sitter={sitter} />
-                ))}
+
+            {/* Distance radius filter pills */}
+            <div className="flex items-center gap-2 mt-4 mb-1 flex-wrap">
+              <span className="text-xs font-semibold text-gray-400 mr-1">Filter by distance:</span>
+              {[1, 3, 5, 10].map((km) => (
+                <button
+                  key={km}
+                  onClick={() => setRadiusKm((prev) => (prev === km ? null : km))}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold border transition-colors cursor-pointer ${
+                    radiusKm === km
+                      ? "bg-teal-500 text-white border-teal-500"
+                      : "border-gray-200 text-gray-600 hover:border-teal-400 hover:text-teal-600"
+                  }`}
+                >
+                  {km} km
+                </button>
+              ))}
+              {radiusKm && (
+                <button
+                  onClick={() => setRadiusKm(null)}
+                  className="text-xs text-gray-400 hover:text-[#ff6b6b] underline cursor-pointer ml-1"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+
+            {/* 60 / 40 grid — mobile stacks (list on top, map below) */}
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mt-4">
+              {/* Sitter cards — 60% */}
+              <div className="lg:col-span-3 flex flex-col gap-4">
+                {sittersForDisplay.length > 0 ? (
+                  sittersForDisplay.map((sitter) => (
+                    <MatchedSitterCard key={sitter.id} sitter={sitter} />
+                  ))
+                ) : radiusKm ? (
+                  <p className="text-gray-500 text-center py-8 text-sm">
+                    No sitters found within {radiusKm} km. Try a larger radius.
+                  </p>
+                ) : (
+                  <p className="text-gray-500 text-center py-8">
+                    No matching sitters found. Try adjusting your preferences.
+                  </p>
+                )}
               </div>
-            ) : (
-              <p className="text-gray-500 text-center py-8">
-                No matching sitters found. Try adjusting your preferences.
-              </p>
-            )}
+
+              {/* Map panel — 40%, max 500px tall, matching border radius */}
+              <div className="lg:col-span-2 rounded-2xl overflow-hidden border border-gray-100 h-100 lg:h-125">
+                <SitterMapPanel
+                  sitters={mapSitters}
+                  parent={currentParent}
+                  radiusKm={radiusKm}
+                />
+              </div>
+            </div>
           </div>
 
           {/* Row 1: Upcoming Sessions + My Children */}
@@ -400,7 +538,7 @@ export default function ParentDashboard() {
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-xl font-bold text-gray-900">My Bookings</h2>
                   <Link
-                    href="/sessions"
+                    href="/bookings/parent"
                     className="text-[#ff6b6b] hover:text-[#ff5252] text-sm font-semibold hover:underline"
                   >
                     View All
@@ -415,7 +553,7 @@ export default function ParentDashboard() {
                   ) : sessions.length === 0 ? (
                     <p className="text-center text-gray-400 py-8 text-sm">No bookings yet. <a href="/search" className="text-[#ff6b6b] hover:underline">Find a sitter →</a></p>
                   ) : null}
-                  {sessions.map((session) => {
+                  {sessions.slice(-1).map((session) => {
                     const badge = getStatusBadge(session.status);
                     const message = getStatusMessage(session.status, session.sitter.name);
                     return (
@@ -469,6 +607,45 @@ export default function ParentDashboard() {
                         <div className="bg-yellow-50 text-yellow-800 px-4 py-3 rounded-xl text-sm font-medium border border-yellow-100">
                           <span className="font-bold">Micro-Adventure:</span> {session.adventure}
                         </div>
+
+                        {session.status === "confirmed" && (
+                          <div className="mt-4">
+                            {session.parentMarkedComplete ? (
+                              <p className="text-sm text-center text-gray-500 py-2 bg-gray-50 rounded-xl border border-gray-100">
+                                ✓ You marked this complete — waiting for the sitter to confirm.
+                              </p>
+                            ) : (
+                              <button
+                                onClick={() => handleMarkComplete(session.id)}
+                                disabled={markingComplete === session.id}
+                                className="w-full py-3 bg-purple-500 text-white rounded-xl font-bold hover:bg-purple-600 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+                              >
+                                {markingComplete === session.id ? "Marking…" : "Mark Session as Complete"}
+                              </button>
+                            )}
+                          </div>
+                        )}
+
+                        {session.status === "completed" && (
+                          <div className="mt-4">
+                            {reviewedSet.has(session.id) ? (
+                              <div className="flex items-center justify-center gap-2 py-2.5 bg-teal-50 rounded-xl border border-teal-100">
+                                <Check className="w-4 h-4 text-teal-500" />
+                                <span className="text-sm text-teal-600 font-medium">Review submitted ✓</span>
+                              </div>
+                            ) : session.reviewWindowOpen ? (
+                              <ParentReviewForm
+                                booking={{ id: session.id, date: session.date, hours: session.hours, deadline: session.deadline }}
+                                sitterName={session.sitter.name}
+                                onSubmitted={() => setReviewedSet((prev) => new Set([...prev, session.id]))}
+                              />
+                            ) : (
+                              <p className="text-xs text-center text-gray-400 py-2 bg-gray-50 rounded-xl border border-gray-100">
+                                Review window closed — reviews must be submitted within 7 days of session completion.
+                              </p>
+                            )}
+                          </div>
+                        )}
                       </div>
                     );
                   })}
@@ -493,6 +670,39 @@ export default function ParentDashboard() {
               />
             </div>
           </div>
+
+          {/* Feedback from Sitters */}
+          {(loadingFeedback || sitterFeedback.length > 0) && (
+            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8 mt-8">
+              <h2 className="text-xl font-bold text-gray-900 mb-6">Feedback from Sitters</h2>
+              {loadingFeedback ? (
+                <div className="flex justify-center py-8">
+                  <div className="w-8 h-8 border-4 border-gray-200 border-t-[#ff6b6b] rounded-full animate-spin" />
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {sitterFeedback.map((review) => (
+                    <div key={review.id} className="border-b border-gray-100 last:border-0 pb-6 last:pb-0">
+                      <div className="flex justify-between items-start mb-3">
+                        <h3 className="font-bold text-gray-900">{review.sitter?.name || "Sitter"}</h3>
+                        <span className="text-sm text-gray-500">
+                          {new Date(review.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                        </span>
+                      </div>
+                      <div className="flex gap-1 mb-3">
+                        {[1, 2, 3, 4, 5].map((n) => (
+                          <Star key={n} className={`w-5 h-5 ${n <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-200"}`} />
+                        ))}
+                      </div>
+                      {review.comment && (
+                        <p className="text-gray-600 text-sm leading-relaxed">{review.comment}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mt-8">
             {/* <div className="lg:col-span-2">

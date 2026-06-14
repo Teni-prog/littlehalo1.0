@@ -41,7 +41,9 @@ export async function middleware(request) {
 
   // Redirect authenticated users away from auth pages
   if (isAuthRoute && user) {
-    return NextResponse.redirect(new URL('/profile/Parents', request.url))
+    const userType = user.user_metadata?.user_type
+    const destination = userType === 'sitter' ? '/profile/Sitter' : '/profile/Parents'
+    return NextResponse.redirect(new URL(destination, request.url))
   }
 
   return supabaseResponse

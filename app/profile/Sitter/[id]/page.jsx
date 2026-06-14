@@ -18,38 +18,35 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Sitter from "@/assets/sitter1.png";
+import dynamic from "next/dynamic";
+
+const NeighbourhoodMap = dynamic(() => import("@/components/NeighbourhoodMap"), { ssr: false });
+import SitterReviews from "@/components/SitterReviews";
 
 export default function SitterProfilePage() {
   const params = useParams();
-  const [sitter, setSitter] = useState(null);
+  const [sitter,  setSitter]  = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error,   setError]   = useState(null);
+  const [imgSrc,  setImgSrc]  = useState(null);
 
-  // Fetch sitter data when component mounts
   useEffect(() => {
+    if (!params.id) return;
     async function fetchSitter() {
       try {
         setLoading(true);
         const response = await fetch(`/api/sitters/${params.id}`);
-        const result = await response.json();
-
-        if (!response.ok) {
-          setError(result.error || "Failed to fetch sitter");
-          return;
-        }
-
+        const result   = await response.json();
+        if (!response.ok) { setError(result.error || "Failed to fetch sitter"); return; }
         setSitter(result.data);
-      } catch (err) {
-        console.error("Error fetching sitter:", err);
+        setImgSrc(result.data?.image || null);
+      } catch {
         setError("Failed to load sitter profile");
       } finally {
         setLoading(false);
       }
     }
-
-    if (params.id) {
-      fetchSitter();
-    }
+    fetchSitter();
   }, [params.id]);
 
   // Loading state
@@ -110,11 +107,12 @@ export default function SitterProfilePage() {
             {/* Profile Image */}
             <div className="relative h-48 w-48 shrink-0 mx-auto md:mx-0">
               <Image
-                src={sitter.image || Sitter}
+                src={imgSrc || Sitter}
                 alt={sitter.name}
                 fill
                 className="object-cover rounded-xl"
-                unoptimized={sitter.image ? true : false}
+                unoptimized={!!imgSrc}
+                onError={() => setImgSrc(null)}
               />
             </div>
 
@@ -260,21 +258,37 @@ export default function SitterProfilePage() {
                 </div>
                 <ul className="space-y-2">
                   {sitter.certifications.map((cert, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center gap-2 text-gray-700"
-                    >
-                      <div className="w-2 h-2 bg-[#ff6b6b] rounded-full"></div>
+                    <li key={index} className="flex items-center gap-2 text-gray-700">
+                      <div className="w-2 h-2 bg-[#ff6b6b] rounded-full" />
                       {cert}
                     </li>
                   ))}
                 </ul>
               </div>
             )}
+
+            {/* Reviews */}
+            <div className="bg-white rounded-2xl shadow-sm p-6">
+              <SitterReviews sitterId={params.id} />
+            </div>
           </div>
 
           {/* Right Column - Additional Info */}
           <div className="lg:col-span-1 space-y-6">
+            {/* Neighbourhood map */}
+            {sitter.latitude && sitter.longitude && (
+              <div className="bg-white rounded-2xl shadow-sm p-6">
+                <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-[#ff6b6b]" /> Location
+                </h2>
+                <NeighbourhoodMap
+                  latitude={sitter.latitude}
+                  longitude={sitter.longitude}
+                  neighbourhood={sitter.neighbourhood}
+                />
+              </div>
+            )}
+
             {/* Availability */}
             {sitter.availability && (
               <div className="bg-white rounded-2xl shadow-sm p-6">

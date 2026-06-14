@@ -38,22 +38,26 @@ export async function GET(request, { params }) {
 
     // Transform sitter to match frontend format (DRY - same format as /api/sitters)
     const formatted = {
-      id: sitterData.user.id,
-      email: sitterData.user.email,
-      name: sitterData.user.name,
-      image: sitterData.user.avatar,
-      bio: sitterData.bio,
-      hourly_rate: sitterData.hourly_rate,
-      languages: sitterData.languages,
-      location: sitterData.location,
-      is_verified: sitterData.is_verified,
-      rating: sitterData.rating,
-      reviews: sitterData.reviews_count,
-      background_check_status: sitterData.background_check_status,
-      experience: sitterData.experience,
-      special_needs: sitterData.special_needs,
-      certifications: sitterData.certifications,
-      availability: sitterData.availability,
+      id:                       sitterData.user.id,
+      profileId:                sitterData.id,       // sitter_profiles.id — used for reviews API
+      email:                    sitterData.user.email,
+      name:                     sitterData.user.name,
+      image:                    sitterData.user.avatar,
+      bio:                      sitterData.bio,
+      hourly_rate:              sitterData.hourly_rate,
+      languages:                sitterData.languages,
+      location:                 sitterData.location,
+      neighbourhood:            sitterData.neighbourhood ?? null,
+      latitude:                 sitterData.latitude ?? null,
+      longitude:                sitterData.longitude ?? null,
+      is_verified:              sitterData.is_verified,
+      rating:                   sitterData.rating,
+      reviews:                  sitterData.reviews_count ?? 0,
+      background_check_status:  sitterData.background_check_status,
+      experience:               sitterData.experience,
+      special_needs:            sitterData.special_needs,
+      certifications:           sitterData.certifications,
+      availability:             sitterData.availability,
     };
 
     return NextResponse.json({ data: formatted });

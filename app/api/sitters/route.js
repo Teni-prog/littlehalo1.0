@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
+import { NEIGHBOURHOOD_COORDS } from '@/lib/neighbourhoods';
 
 /**
  * GET /api/sitters
@@ -37,22 +38,28 @@ export async function GET(request) {
         }
 
         // Transform sitters to match frontend format
-        const formatted = sittersData?.map(sitter => ({
-            id: sitter.user.id,
-            email: sitter.user.email,
-            name: sitter.user.name,
-            image: sitter.user.avatar,
-            bio: sitter.bio,
-            hourly_rate: sitter.hourly_rate,
-            languages: sitter.languages,
-            location: sitter.location,
-            is_verified: sitter.is_verified,
-            rating: sitter.rating,
-            reviews: sitter.reviews_count,
-            background_check_status: sitter.background_check_status,
-            experience: sitter.experience,
-            special_needs: sitter.special_needs
-        })) || [];
+        const formatted = (sittersData || [])
+            .filter(sitter => sitter.user != null)
+            .map(sitter => ({
+                id: sitter.user.id,
+                email: sitter.user.email,
+                name: sitter.user.name,
+                image: sitter.user.avatar,
+                bio: sitter.bio,
+                hourly_rate: sitter.hourly_rate ?? 20,
+                languages: sitter.languages || [],
+                location: sitter.location,
+                neighbourhood: sitter.neighbourhood ?? null,
+                latitude:  sitter.latitude  ?? (sitter.neighbourhood ? (NEIGHBOURHOOD_COORDS[sitter.neighbourhood]?.lat ?? null) : null),
+                longitude: sitter.longitude ?? (sitter.neighbourhood ? (NEIGHBOURHOOD_COORDS[sitter.neighbourhood]?.lng ?? null) : null),
+                is_verified: sitter.is_verified ?? false,
+                rating: sitter.rating ?? 0,
+                reviews: sitter.reviews_count ?? 0,
+                background_check_status: sitter.background_check_status,
+                experience: sitter.experience ?? 0,
+                special_needs: sitter.special_needs_experience || [],
+                availability: sitter.availability ?? {},
+            }));
 
         return NextResponse.json({ data: formatted });
     } catch (error) {

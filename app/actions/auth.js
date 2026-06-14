@@ -3,40 +3,51 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
-export async function loginParent(prevState, formData) {
+export async function loginParent(_prevState, formData) {
   const supabase = await createClient()
 
   const email = formData.get('email')
   const password = formData.get('password')
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password })
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
   if (error) {
     return { error: error.message }
+  }
+
+  if (data.user?.user_metadata?.user_type !== 'parent') {
+    await supabase.auth.signOut()
+    return { error: 'No parent account found with these credentials.' }
   }
 
   revalidatePath('/', 'layout')
   redirect('/profile/Parents')
 }
 
-export async function loginSitter(prevState, formData) {
+export async function loginSitter(_prevState, formData) {
   const supabase = await createClient()
 
   const email = formData.get('email')
   const password = formData.get('password')
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password })
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
   if (error) {
     return { error: error.message }
+  }
+
+  if (data.user?.user_metadata?.user_type !== 'sitter') {
+    await supabase.auth.signOut()
+    return { error: 'No sitter account found with these credentials.' }
   }
 
   revalidatePath('/', 'layout')
   redirect('/profile/Sitter')
 }
 
-export async function signupParent(prevState, formData) {
+export async function signupParent(_prevState, formData) {
   const supabase = await createClient()
 
   const email = formData.get('email')
@@ -48,6 +59,9 @@ export async function signupParent(prevState, formData) {
   const maxBudget = parseInt(formData.get('max_budget')) || 25
   const languages = formData.getAll('languages')
   const childCount = parseInt(formData.get('child_count')) || 1
+  const neighbourhood = formData.get('neighbourhood') || null
+  const latitude     = formData.get('latitude')  ? parseFloat(formData.get('latitude'))  : null
+  const longitude    = formData.get('longitude') ? parseFloat(formData.get('longitude')) : null
 
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -60,7 +74,9 @@ export async function signupParent(prevState, formData) {
   }
 
   if (data.user) {
-    const { error: insertError } = await supabase.from('users').insert({
+    // Use admin client so the insert works even before email confirmation
+    const db = createAdminClient()
+    const { error: insertError } = await db.from('users').insert({
       id: data.user.id,
       email,
       name,
@@ -70,6 +86,9 @@ export async function signupParent(prevState, formData) {
       family_bio: familyBio,
       max_budget: maxBudget,
       preferred_languages: languages,
+      neighbourhood,
+      latitude,
+      longitude,
     })
 
     if (insertError) {
@@ -100,7 +119,7 @@ export async function signupParent(prevState, formData) {
   redirect('/profile/Parents')
 }
 
-export async function signupSitter(prevState, formData) {
+export async function signupSitter(_prevState, formData) {
   const supabase = await createClient()
 
   const email = formData.get('email')
@@ -151,6 +170,125 @@ export async function signupSitter(prevState, formData) {
 
   revalidatePath('/', 'layout')
   redirect('/profile/Sitter')
+}
+
+export async function completeSitterSignup(_prevState, formData) {
+  try {
+    const supabase = await createClient()
+
+    const email    = formData.get('email')
+    const password = formData.get('password')
+
+    // Pre-check: catch duplicate emails before creating an auth user
+    const { data: existing } = await supabase
+      .from('users')
+      .select('id')
+      .eq('email', email)
+      .maybeSingle()
+
+    if (existing) {
+      return { error: 'An account with this email already exists. Please sign in instead.', step: 1 }
+    }
+
+    // Create the auth user only now — nothing was created during the multi-step flow
+    const { data: authData, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { name: formData.get('name'), user_type: 'sitter' } },
+    })
+
+    if (signUpError) return { error: signUpError.message, step: 1 }
+    if (!authData.user) return { error: 'Account could not be created. Please try again.', step: 1 }
+
+    const userId = authData.user.id
+
+    const name           = formData.get('name')
+    const phone          = formData.get('phone')
+    const bio            = formData.get('bio')
+    const country        = formData.get('country')
+    const neighbourhood  = formData.get('neighbourhood') || null
+    const latitude       = formData.get('latitude')  ? parseFloat(formData.get('latitude'))  : null
+    const longitude      = formData.get('longitude') ? parseFloat(formData.get('longitude')) : null
+    const experience     = parseInt(formData.get('experience'))  || 0
+    const hourlyRate     = parseInt(formData.get('hourly_rate')) || 20
+    const availability   = JSON.parse(formData.get('availability') || '{}')
+    const languages      = formData.getAll('languages')
+    const ageGroups      = formData.getAll('age_groups')
+    const specialNeeds   = formData.getAll('special_needs')
+    const certifications = formData.getAll('certifications')
+
+    // Upload photo if provided (now we have the real user ID for the path)
+    let avatarUrl = null
+    const photoFile = formData.get('photo')
+    if (photoFile && photoFile.size > 0) {
+      try {
+        const ext  = photoFile.name.split('.').pop()
+        const path = `${userId}.${ext}`
+        const bytes = await photoFile.arrayBuffer()
+        const { error: uploadError } = await supabase.storage
+          .from('avatars')
+          .upload(path, bytes, { contentType: photoFile.type, upsert: true })
+        if (!uploadError) {
+          const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(path)
+          avatarUrl = urlData.publicUrl
+        }
+      } catch { /* photo upload is non-critical — proceed without it */ }
+    }
+
+    // Insert users row
+    const { error: userError } = await supabase.from('users').insert({
+      id:        userId,
+      email,
+      name,
+      phone,
+      user_type: 'sitter',
+      ...(avatarUrl ? { avatar: avatarUrl } : {}),
+    })
+
+    if (userError) {
+      const msg = userError.code === '23505'
+        ? 'An account with this email already exists. Please sign in instead.'
+        : `Failed to save account details: ${userError.message}`
+      return { error: msg, step: 1 }
+    }
+
+    // Insert sitter_profiles row; on retry (unique violation), update instead
+    const profileData = {
+      user_id:                  userId,
+      bio,
+      hourly_rate:              hourlyRate,
+      location:                 country,
+      neighbourhood,
+      latitude,
+      longitude,
+      languages,
+      experience,
+      age_groups:               ageGroups,
+      special_needs_experience: specialNeeds,
+      certifications,
+      availability,
+      background_check_status:  'pending',
+    }
+
+    const { error: profileError } = await supabase.from('sitter_profiles').insert(profileData)
+
+    if (profileError) {
+      if (profileError.code === '23505') {
+        const { error: updateError } = await supabase
+          .from('sitter_profiles')
+          .update(profileData)
+          .eq('user_id', userId)
+        if (updateError) return { error: `Failed to save profile: ${updateError.message}`, step: 4 }
+      } else {
+        return { error: `Failed to save profile: ${profileError.message}`, step: 4 }
+      }
+    }
+
+    revalidatePath('/', 'layout')
+    return { success: true }
+  } catch (e) {
+    return { error: e?.message || 'An unexpected error occurred. Please try again.' }
+  }
 }
 
 export async function logout() {
