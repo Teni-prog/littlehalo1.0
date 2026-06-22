@@ -55,8 +55,11 @@ export default function BookingConfirmationPage() {
   };
 
   const calculateAdventureCost = () => {
-    if (!bookingData?.selectedAdventure) return 0;
-    return bookingData.selectedAdventure.price;
+    if (!bookingData?.selectedAdventures?.length) return 0;
+    return bookingData.selectedAdventures.reduce(
+      (sum, a) => sum + (Number(a.price) || 0),
+      0,
+    );
   };
 
   const calculateServiceFee = () => {
@@ -85,7 +88,9 @@ export default function BookingConfirmationPage() {
           startTime:   bookingData.startTime,
           endTime:     bookingData.endTime,
           children:    bookingData.children,
-          adventureId: bookingData.selectedAdventure?.id || null,
+          adventureName: bookingData.selectedAdventures?.length
+            ? bookingData.selectedAdventures.map((a) => a.title).join(", ")
+            : null,
           notes:       bookingData.additionalNotes,
           totalAmount: calculateTotal(),
         }),
@@ -294,7 +299,7 @@ export default function BookingConfirmationPage() {
                   </Card>
 
                   {/* Selected Micro Adventure Section */}
-                  {bookingData.selectedAdventure && (
+                  {bookingData.selectedAdventures?.length > 0 && (
                     <Card>
                       <CardHeader>
                         <CardTitle className="flex items-center gap-2">
@@ -302,26 +307,29 @@ export default function BookingConfirmationPage() {
                           Selected Micro Adventure
                         </CardTitle>
                       </CardHeader>
-                      <CardContent>
-                        <div className="bg-gradient-to-r from-[#ff6b6b]/10 to-purple-50 p-4 rounded-lg">
-                          <div className="flex justify-between items-start mb-2">
-                            <h3 className="font-semibold text-lg">
-                              {bookingData.selectedAdventure.title}
-                            </h3>
-                            <span className="text-[#ff6b6b] font-bold text-lg">
-                              ${bookingData.selectedAdventure.price}
-                            </span>
+                      <CardContent className="space-y-3">
+                        {bookingData.selectedAdventures.map((adventure) => (
+                          <div
+                            key={adventure.id}
+                            className="bg-gradient-to-r from-[#ff6b6b]/10 to-purple-50 p-4 rounded-lg"
+                          >
+                            <div className="flex justify-between items-start mb-2">
+                              <h3 className="font-semibold text-lg">
+                                {adventure.title}
+                              </h3>
+                              <span className="text-[#ff6b6b] font-bold text-lg">
+                                ${adventure.price}
+                              </span>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-2">
+                              {adventure.description}
+                            </p>
+                            <div className="flex items-center gap-2 text-sm text-gray-500">
+                              <Clock className="h-4 w-4" />
+                              <span>{adventure.duration} minutes</span>
+                            </div>
                           </div>
-                          <p className="text-sm text-gray-600 mb-2">
-                            {bookingData.selectedAdventure.description}
-                          </p>
-                          <div className="flex items-center gap-2 text-sm text-gray-500">
-                            <Clock className="h-4 w-4" />
-                            <span>
-                              {bookingData.selectedAdventure.duration} minutes
-                            </span>
-                          </div>
-                        </div>
+                        ))}
                       </CardContent>
                     </Card>
                   )}
@@ -487,16 +495,18 @@ export default function BookingConfirmationPage() {
                         </span>
                       </div>
 
-                      {bookingData.selectedAdventure && (
+                      {bookingData.selectedAdventures?.length > 0 && (
                         <div className="flex justify-between text-sm pb-3 border-b">
                           <div>
                             <p className="text-gray-600">Micro Adventure</p>
                             <p className="text-xs text-gray-400 mt-1">
-                              {bookingData.selectedAdventure.title}
+                              {bookingData.selectedAdventures
+                                .map((a) => a.title)
+                                .join(", ")}
                             </p>
                           </div>
                           <span className="font-medium">
-                            ${bookingData.selectedAdventure.price.toFixed(2)}
+                            ${calculateAdventureCost().toFixed(2)}
                           </span>
                         </div>
                       )}

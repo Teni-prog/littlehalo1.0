@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { NEIGHBOURHOODS, NEIGHBOURHOOD_COORDS, PROVINCE_GROUPS } from "@/lib/neighbourhoods";
 
+
 // ─── Constants ─────────────────────────────────────────────────────────────────
 
 const LANGUAGES = ["English", "French", "Mandarin", "Arabic", "Spanish", "Yoruba", "Hindi", "Portuguese"];
@@ -37,11 +38,7 @@ const SPECIAL_NEEDS   = ["Autism-friendly", "ADHD experience", "Developmental de
 const CERTIFICATIONS  = ["First Aid", "CPR", "Early Childhood Education", "None"];
 const DAYS            = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 const TIME_SLOTS      = ["Morning","Afternoon","Evening"];
-const STEP_LABELS     = ["Account","Personal","Credentials","Availability"];
-
-const initialAvailability = Object.fromEntries(
-  DAYS.map(d => [d, Object.fromEntries(TIME_SLOTS.map(t => [t, false]))])
-);
+const STEP_LABELS     = ["Account","Personal","Credentials"];
 
 // ─── Progress bar ──────────────────────────────────────────────────────────────
 
@@ -386,64 +383,6 @@ function Step3({ data, update, errors }) {
 
 // ─── Step 4 — Availability ────────────────────────────────────────────────────
 
-function Step4({ data, update, errors }) {
-  function toggle(day, slot) {
-    update("availability", {
-      ...data.availability,
-      [day]: { ...data.availability[day], [slot]: !data.availability[day][slot] },
-    });
-  }
-
-  return (
-    <div>
-      <p className="text-sm text-gray-500 mb-5">
-        Select the times you're generally available each week.
-      </p>
-      <div className="overflow-x-auto rounded-xl border border-gray-100">
-        <table className="w-full">
-          <thead>
-            <tr className="bg-gray-50 border-b border-gray-100">
-              <th className="text-left text-xs font-semibold text-gray-500 py-3 px-4 w-32" />
-              {TIME_SLOTS.map(slot => (
-                <th key={slot} className="text-center text-xs font-semibold text-gray-500 py-3 px-3">
-                  {slot}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {DAYS.map((day, i) => (
-              <tr key={day} className={`border-b border-gray-50 last:border-0 ${i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}`}>
-                <td className="text-sm font-medium text-gray-700 py-3 px-4">{day}</td>
-                {TIME_SLOTS.map(slot => {
-                  const active = data.availability[day][slot];
-                  return (
-                    <td key={slot} className="text-center py-3 px-3">
-                      <button
-                        type="button"
-                        onClick={() => toggle(day, slot)}
-                        className={`w-9 h-9 rounded-xl border-2 flex items-center justify-center mx-auto transition-all cursor-pointer ${
-                          active
-                            ? "bg-teal-500 border-teal-500 text-white"
-                            : "bg-white border-gray-200 hover:border-teal-300"
-                        }`}
-                      >
-                        {active && <Check className="w-4 h-4" />}
-                      </button>
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {errors.availability && (
-        <p className="text-xs text-red-500 mt-3">{errors.availability}</p>
-      )}
-    </div>
-  );
-}
 
 // ─── Main page ─────────────────────────────────────────────────────────────────
 
@@ -463,8 +402,6 @@ export default function SitterSignupPage() {
     photoPreview: null, photoFile: null,
     // Step 3
     experience: "", ageGroups: [], specialNeeds: [], certifications: [], hourlyRate: "",
-    // Step 4
-    availability: initialAvailability,
   });
 
   function update(key, value) {
@@ -504,15 +441,6 @@ export default function SitterSignupPage() {
     return Object.keys(e).length === 0;
   }
 
-  function validate4() {
-    const hasSlot = DAYS.some(d => TIME_SLOTS.some(t => data.availability[d][t]));
-    if (!hasSlot) {
-      setErrors({ availability: "Select at least one availability slot." });
-      return false;
-    }
-    setErrors({});
-    return true;
-  }
 
   // ── Step 1: create auth user, then advance ────────────────────────────────────
 
@@ -522,13 +450,12 @@ export default function SitterSignupPage() {
 
   function handleNext() {
     if (step === 2 && validate2()) { setStep(3); setErrors({}); }
-    if (step === 3 && validate3()) { setStep(4); setErrors({}); }
+    if (step === 3 && validate3()) { handleSubmit(); }
   }
 
   // ── Final submit ──────────────────────────────────────────────────────────────
 
   async function handleSubmit() {
-    if (!validate4()) return;
     setLoading(true);
     setSubmitError(null);
     try {
@@ -544,7 +471,6 @@ export default function SitterSignupPage() {
       if (data.longitude != null) fd.append("longitude", data.longitude.toString());
       fd.append("experience",   data.experience.toString());
       fd.append("hourly_rate",  data.hourlyRate.toString());
-      fd.append("availability", JSON.stringify(data.availability));
       if (data.photoFile) fd.append("photo", data.photoFile);
       data.languages.forEach(l     => fd.append("languages",     l));
       data.ageGroups.forEach(a     => fd.append("age_groups",    a));
@@ -612,7 +538,6 @@ export default function SitterSignupPage() {
           {step === 1 && <Step1 data={data} update={update} errors={errors} />}
           {step === 2 && <Step2 data={data} update={update} errors={errors} />}
           {step === 3 && <Step3 data={data} update={update} errors={errors} />}
-          {step === 4 && <Step4 data={data} update={update} errors={errors} />}
 
           <div className="flex gap-3 mt-8">
             {step > 1 && (
@@ -634,7 +559,7 @@ export default function SitterSignupPage() {
               </button>
             )}
 
-            {(step === 2 || step === 3) && (
+            {step === 2 && (
               <button
                 type="button" onClick={handleNext}
                 className="flex-1 py-3 bg-teal-500 text-white rounded-xl font-bold hover:bg-teal-600 transition-colors cursor-pointer flex items-center justify-center gap-2"
@@ -643,7 +568,7 @@ export default function SitterSignupPage() {
               </button>
             )}
 
-            {step === 4 && (
+            {step === 3 && (
               <button
                 type="button" onClick={handleSubmit} disabled={loading}
                 className="flex-1 py-3 bg-teal-500 text-white rounded-xl font-bold hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"

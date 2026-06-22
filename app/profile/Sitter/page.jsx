@@ -19,8 +19,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import WelcomeBanner from "@/components/ui/welcomebanner";
+import SitterSidebar from "@/components/SitterSidebar";
 import { createClient } from "@/lib/supabase/client";
 import SitterFeedbackForm from "@/components/SitterFeedbackForm";
+import ReportIssueForm from "@/components/ReportIssueForm";
 
 function SessionCard({
   session,
@@ -37,6 +39,34 @@ function SessionCard({
     initialFeedbackDone ?? false,
   );
   const [actionError, setActionError] = useState(null);
+  const [reportOpen, setReportOpen] = useState(false);
+  const [reviewRating, setReviewRating] = useState(null);
+  const [loadingReview, setLoadingReview] = useState(false);
+
+  // Fetch review rating if feedback already submitted
+  useEffect(() => {
+    if (!feedbackDone || status !== "completed") return;
+
+    async function fetchReviewRating() {
+      setLoadingReview(true);
+      try {
+        const supabase = createClient();
+        const { data: review } = await supabase
+          .from("reviews")
+          .select("session_rating")
+          .eq("booking_id", session.id)
+          .eq("reviewer_role", "sitter")
+          .single();
+
+        if (review) {
+          setReviewRating(review.session_rating);
+        }
+      } catch {}
+      setLoadingReview(false);
+    }
+
+    fetchReviewRating();
+  }, [feedbackDone, status, session.id]);
 
   async function handleAction(action) {
     setLoading(action);
@@ -218,26 +248,30 @@ function SessionCard({
             )}
           </div>
         ) : status === "completed" ? (
-          <div className="pt-1">
+          <div className="pt-1 space-y-3">
             {feedbackDone ? (
-              <div className="flex items-center justify-center gap-2 py-2.5 bg-teal-50 rounded-xl border border-teal-100">
-                <Check className="w-4 h-4 text-teal-500" />
-                <span className="text-sm text-teal-600 font-medium">
-                  Feedback submitted ✓
-                </span>
+              <div className="flex items-center justify-between gap-3 py-2.5 px-3 bg-teal-50 rounded-xl border border-teal-100">
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-teal-500" />
+                  <span className="text-sm text-teal-600 font-medium">Feedback submitted ✓</span>
+                </div>
+                {reviewRating && !loadingReview && (
+                  <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <Star
+                        key={n}
+                        className={`w-4 h-4 ${n <= reviewRating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
-            ) : !reviewWindowOpen ? (
-              <p className="text-xs text-center text-gray-400 py-2 bg-gray-50 rounded-xl border border-gray-100">
-                Feedback window closed — must be submitted within 7 days of
-                session completion.
-              </p>
             ) : (
               <SitterFeedbackForm
                 booking={{
                   id: session.id,
                   date: session.date,
                   hours: session.hours,
-                  deadline: session.deadline,
                 }}
                 familyName={session.parent.name}
                 onSubmitted={() => {
@@ -245,6 +279,22 @@ function SessionCard({
                   onFeedbackSubmit?.(session.id);
                 }}
               />
+            )}
+            
+            {reportOpen ? (
+              <ReportIssueForm
+                bookingId={session.id}
+                onSubmitted={() => setReportOpen(false)}
+                onCancel={() => setReportOpen(false)}
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={() => setReportOpen(true)}
+                className="w-full py-2.5 text-sm font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl transition-colors cursor-pointer"
+              >
+                Report an issue
+              </button>
             )}
           </div>
         ) : (
@@ -274,6 +324,7 @@ export default function SitterDashboard() {
   const [loadingReviews, setLoadingReviews] = useState(false);
   const [overallRating, setOverallRating] = useState(null);
   const [totalReviews, setTotalReviews] = useState(0);
+  const [showCompletionBanner, setShowCompletionBanner] = useState(false);
 
   // Fetch the real logged-in sitter's identity
   useEffect(() => {
@@ -289,12 +340,16 @@ export default function SitterDashboard() {
 
         const { data: profile } = await supabase
           .from("sitter_profiles")
-          .select("id")
+          .select("id, recurring_availability")
           .eq("user_id", user.id)
           .single();
 
-        if (profile)
+        if (profile) {
           setSitterProfile({ id: profile.id, name, userId: user.id });
+          // Check if availability is empty/null
+          const hasAvailability = profile.recurring_availability && Object.keys(profile.recurring_availability).length > 0;
+          setShowCompletionBanner(!hasAvailability);
+        }
       } finally {
         setLoadingProfile(false);
       }
@@ -326,8 +381,8 @@ export default function SitterDashboard() {
         const { data } = await supabase
           .from("reviews")
           .select("booking_id")
-          .eq("sitter_id", sitterProfile.userId)
-          .eq("reviewer_type", "sitter");
+          .eq("reviewer_id", sitterProfile.userId)
+          .eq("reviewer_role", "sitter");
         if (data) setFeedbackBookingIds(new Set(data.map((r) => r.booking_id)));
       } catch {}
     }
@@ -449,8 +504,20 @@ export default function SitterDashboard() {
     { name: "Creative Expression", sessions: 32, color: "bg-yellow-500" },
   ];
 
-  // Map raw DB bookings → shape SessionCard expects
-  const upcomingSessions = bookings.map((b) => {
+  // Count of real upcoming sessions for the welcome banner —
+  // confirmed/pending bookings scheduled strictly after today
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const upcomingCount = bookings.filter((b) => {
+    if (b.status !== "confirmed" && b.status !== "pending_sitter") return false;
+    const [y, m, d] = b.date.split("-").map(Number);
+    return new Date(y, m - 1, d) > today;
+  }).length;
+
+  // Map raw DB bookings → shape SessionCard expects (most recent first)
+  const upcomingSessions = [...bookings]
+    .sort((a, b) => (b.date > a.date ? 1 : -1))
+    .map((b) => {
     const [startH, startM] = b.start_time.split(":").map(Number);
     const [endH, endM] = b.end_time.split(":").map(Number);
     const hours = (endH * 60 + endM - (startH * 60 + startM)) / 60;
@@ -471,7 +538,7 @@ export default function SitterDashboard() {
       time: `${fmt(startH, startM)} – ${fmt(endH, endM)}`,
       hourlyRate: hours > 0 ? Math.round(b.total_amount / hours) : 0,
       hours,
-      adventure: b.adventure_id || "Not specified",
+      adventure: b.adventure_name || "Not specified",
       parent: {
         name: b.parent?.name || "Parent",
         email: b.parent?.email || "",
@@ -504,18 +571,50 @@ export default function SitterDashboard() {
 
   if (loadingProfile) {
     return (
-      <main className="flex items-center justify-center min-h-screen">
-        <div className="w-10 h-10 border-4 border-gray-200 border-t-teal-500 rounded-full animate-spin" />
-      </main>
+      <SitterSidebar userName={sitterProfile?.name}>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="w-10 h-10 border-4 border-gray-200 border-t-teal-500 rounded-full animate-spin" />
+        </div>
+      </SitterSidebar>
     );
   }
 
   return (
-    <main className="flex flex-col min-h-screen max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      <WelcomeBanner
-        userName={sitterProfile?.name}
-        sessionCount={upcomingSessions.length}
-      />
+    <SitterSidebar userName={sitterProfile?.name}>
+      <div className="flex flex-col min-h-screen max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <WelcomeBanner
+          userName={sitterProfile?.name}
+          sessionCount={upcomingCount}
+        />
+
+      {/* Completion Banner */}
+      {showCompletionBanner && (
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 mb-8 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+              <Lightbulb className="w-5 h-5 text-amber-600" />
+            </div>
+            <div>
+              <p className="font-bold text-amber-900">Complete your profile</p>
+              <p className="text-sm text-amber-700">Set your availability so families can book you</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/settings/sitter"
+              className="px-4 py-2 bg-amber-500 text-white rounded-lg font-semibold hover:bg-amber-600 transition-colors whitespace-nowrap"
+            >
+              Set Availability
+            </Link>
+            <button
+              onClick={() => setShowCompletionBanner(false)}
+              className="text-amber-600 hover:text-amber-700 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
@@ -569,7 +668,7 @@ export default function SitterDashboard() {
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-gray-900">My Sessions</h2>
               <Link
-                href="/sitter/sessions"
+                href="/sessions/sitter"
                 className="text-teal-500 hover:text-teal-600 text-sm font-semibold hover:underline"
               >
                 View All
@@ -586,7 +685,7 @@ export default function SitterDashboard() {
                   No bookings yet.
                 </p>
               ) : (
-                upcomingSessions.map((session) => (
+                upcomingSessions.slice(0, 1).map((session) => (
                   <SessionCard
                     key={session.id}
                     session={session}
@@ -811,6 +910,7 @@ export default function SitterDashboard() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
+    </SitterSidebar>
   );
 }

@@ -35,7 +35,7 @@ function StarInput({ value, onChange }) {
   );
 }
 
-// booking: { id, date, hours, deadline }
+// booking: { id, date, hours }
 // familyName: string
 // onSubmitted?: () => void
 export default function SitterFeedbackForm({ booking, familyName, onSubmitted }) {
@@ -46,13 +46,11 @@ export default function SitterFeedbackForm({ booking, familyName, onSubmitted })
   const [error,         setError]         = useState(null);
   const [submitted,     setSubmitted]     = useState(false);
 
-  const daysLeft = booking.deadline
-    ? Math.max(0, Math.ceil((new Date(booking.deadline) - Date.now()) / (1000 * 60 * 60 * 24)))
-    : null;
 
   const initials = familyName
     ? familyName.trim().split(/\s+/).map((p) => p[0]).join("").slice(0, 2).toUpperCase()
     : "FM";
+  const firstName = familyName?.trim().split(/\s+/)[0] || familyName;
 
   async function handleSubmit() {
     if (!sessionRating) { setError("Please provide a family rating."); return; }
@@ -96,7 +94,7 @@ export default function SitterFeedbackForm({ booking, familyName, onSubmitted })
     <div className="space-y-4 pt-1">
       {/* Title */}
       <p className="text-sm font-bold text-gray-800">
-        How was your session with the {familyName} family?
+        How was your session with the {firstName} family?
       </p>
 
       {/* Family info row */}
@@ -106,7 +104,7 @@ export default function SitterFeedbackForm({ booking, familyName, onSubmitted })
             {initials}
           </div>
           <div>
-            <p className="font-semibold text-sm text-gray-900">{familyName} family</p>
+            <p className="font-semibold text-sm text-gray-900">{firstName} family</p>
             <p className="text-xs text-gray-400">
               Session · {booking.date}{booking.hours ? ` · ${booking.hours} hrs` : ""}
             </p>
@@ -161,17 +159,11 @@ export default function SitterFeedbackForm({ booking, familyName, onSubmitted })
       {error && <p className="text-sm text-red-500">{error}</p>}
 
       {/* Footer */}
-      <div className="flex items-center justify-between pt-1">
-        {daysLeft != null && (
-          <div className="flex items-center gap-1.5 text-xs text-gray-400">
-            <Clock className="w-3.5 h-3.5" />
-            {daysLeft} {daysLeft === 1 ? "day" : "days"} left to submit
-          </div>
-        )}
+      <div className="flex items-center justify-end">
         <button
           onClick={handleSubmit}
           disabled={!sessionRating || submitting}
-          className="ml-auto px-6 py-2.5 bg-teal-500 text-white rounded-xl font-semibold text-sm hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          className="px-6 py-2.5 bg-teal-500 text-white rounded-xl font-semibold text-sm hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           {submitting ? "Submitting…" : "Submit feedback"}
         </button>

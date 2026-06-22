@@ -2,6 +2,7 @@ import { Inter, Outfit } from "next/font/google";
 //It hosts font files with other static assets so that there are no additional network requests.
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
+import BodyWrapper from "@/app/BodyWrapper";
 
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -17,11 +18,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${outfit.variable} font-sans antialiased pt-16`}>
+      <body className={`${inter.variable} ${outfit.variable} font-sans antialiased`}>
         <Navbar />
-        {/* <main> */}
-        {children}
-        {/* </main> */}
+        <BodyWrapper>{children}</BodyWrapper>
       </body>
     </html>
   );

@@ -26,7 +26,7 @@ export async function GET(request) {
         sitter_profile:sitter_profiles!sitter_id ( user_id, user:users!user_id ( id, name, avatar ) )
       `,
       )
-      .order("date", { ascending: true });
+      .order("date", { ascending: false });
 
     if (sitterId) query = query.eq("sitter_id", sitterId);
     if (parentId) query = query.eq("parent_id", parentId);
@@ -53,6 +53,15 @@ export async function POST(request) {
     } = await supabase.auth.getUser();
     if (!user)
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    // Sitters cannot book other sitters
+    if (user.user_metadata?.user_type === "sitter") {
+      return NextResponse.json(
+        { error: "Sitters cannot book other sitters." },
+        { status: 403 },
+      );
+    }
+
     const parentId = user.id;
 
     // Ensure the parent has a row in public.users.
@@ -140,7 +149,8 @@ export async function POST(request) {
         start_time: body.startTime,
         end_time: body.endTime,
         children: body.children,
-        adventure_id: body.adventureId || null,
+        adventure_id: null,
+        adventure_name: body.adventureName || null,
         notes: body.notes,
         total_amount: body.totalAmount,
         status: "pending_sitter",

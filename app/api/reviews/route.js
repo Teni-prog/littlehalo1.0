@@ -144,17 +144,7 @@ export async function POST(request) {
       );
     }
 
-    // 7-day submission window
-    const completedAt = new Date(booking.created_at);
-    const deadline    = new Date(completedAt.getTime() + 7 * 24 * 60 * 60 * 1000);
-    if (new Date() > deadline) {
-      return NextResponse.json(
-        { error: "The 7-day review window for this session has closed." },
-        { status: 403 }
-      );
-    }
-
-    // Insert review
+    // Insert review (no deadline limit - reviews can be submitted anytime after completion)
     const { data: review, error: insertError } = await supabase
       .from("reviews")
       .insert({
@@ -166,7 +156,6 @@ export async function POST(request) {
         adventure_rating: reviewer_role === "parent" ? (adventure_rating ?? null) : null,
         review_text:      review_text || null,
         would_rebook:     would_rebook ?? null,
-        submission_deadline: deadline.toISOString(),
       })
       .select()
       .single();

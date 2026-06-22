@@ -5,11 +5,13 @@ import { useRouter } from "next/navigation";
 import {
   Settings, User, Shield,
   Check, X, Eye, EyeOff, AlertTriangle,
-  ChevronDown, MapPin, Camera,
+  ChevronDown, MapPin, Camera, Calendar,
 } from "lucide-react";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
+import SitterSidebar from "@/components/SitterSidebar";
 import { NEIGHBOURHOODS, PROVINCE_GROUPS } from "@/lib/neighbourhoods";
+import SimpleAvailabilityCalendar from "@/components/SimpleAvailabilityCalendar";
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
@@ -17,6 +19,7 @@ const LANGUAGES = ["English", "French", "Mandarin", "Arabic", "Spanish", "Yoruba
 
 const NAV = [
   { id: "profile", label: "Profile", Icon: User },
+  { id: "availability", label: "Availability", Icon: Calendar },
   { id: "account", label: "Account", Icon: Shield },
 ];
 
@@ -548,6 +551,78 @@ function AccountSection({ userId, userEmail, showToast }) {
   );
 }
 
+// ── Availability section ──────────────────────────────────────────────────────
+
+function AvailabilitySection({ userId, showToast, onSaved }) {
+  const supabase = createClient();
+  const [availability, setAvailability] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchAvailability() {
+      try {
+        const { data: profile } = await supabase
+          .from("sitter_profiles")
+          .select("recurring_availability")
+          .eq("user_id", userId)
+          .single();
+
+        if (profile) {
+          // Initialize with existing data or defaults
+          setAvailability(profile.recurring_availability || null);
+        }
+      } catch (err) {
+        showToast("Failed to load availability", "error");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchAvailability();
+  }, [userId, supabase, showToast]);
+
+  const handleSaveAvailability = async (newAvailability, repeatWeekly) => {
+    try {
+      const { error } = await supabase
+        .from("sitter_profiles")
+        .update({
+          recurring_availability: newAvailability,
+          repeat_weekly: repeatWeekly,
+        })
+        .eq("user_id", userId);
+
+      if (error) throw error;
+      showToast("Availability updated successfully");
+      onSaved?.();
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-12">
+        <div className="w-8 h-8 border-4 border-gray-200 border-t-teal-500 rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-xl font-bold text-gray-900 mb-1">Availability</h2>
+        <p className="text-sm text-gray-500">Set which days and hours you're available for bookings. This helps families find times that work for you.</p>
+      </div>
+
+      {availability !== null && (
+        <SimpleAvailabilityCalendar 
+          initialData={availability}
+          onSave={handleSaveAvailability}
+        />
+      )}
+    </div>
+  );
+}
+
 // ── Main page ──────────────────────────────────────────────────────────────────
 
 export default function SitterSettings() {
@@ -651,6 +726,13 @@ export default function SitterSettings() {
             {section === "profile" && (
               <ProfileSection
                 profile={profile}
+                userId={userId}
+                showToast={showToast}
+                onSaved={() => fetchProfile(userId)}
+              />
+            )}
+            {section === "availability" && (
+              <AvailabilitySection
                 userId={userId}
                 showToast={showToast}
                 onSaved={() => fetchProfile(userId)}

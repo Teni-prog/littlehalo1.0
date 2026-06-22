@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import {
   Star,
   MapPin,
@@ -23,12 +24,78 @@ import dynamic from "next/dynamic";
 const NeighbourhoodMap = dynamic(() => import("@/components/NeighbourhoodMap"), { ssr: false });
 import SitterReviews from "@/components/SitterReviews";
 
+const DAYS = [
+  { key: "monday",    label: "Monday"    },
+  { key: "tuesday",   label: "Tuesday"   },
+  { key: "wednesday", label: "Wednesday" },
+  { key: "thursday",  label: "Thursday"  },
+  { key: "friday",    label: "Friday"    },
+  { key: "saturday",  label: "Saturday"  },
+  { key: "sunday",    label: "Sunday"    },
+];
+
+function formatHour(h) {
+  const n = parseInt(h, 10);
+  if (n === 0)  return "12:00 AM";
+  if (n < 12)   return `${n}:00 AM`;
+  if (n === 12) return "12:00 PM";
+  return `${n - 12}:00 PM`;
+}
+
+function AvailabilityList({ availability }) {
+  const avail = typeof availability === "string" ? JSON.parse(availability) : (availability ?? {});
+
+  const rows = DAYS.flatMap(({ key, label }) => {
+    const dayData = avail[key] ?? {};
+    const activeHours = Object.keys(dayData)
+      .filter((h) => dayData[h] === true)
+      .map((h) => parseInt(h, 10))
+      .sort((a, b) => a - b);
+
+    if (activeHours.length === 0) return [];
+
+    const start = formatHour(activeHours[0]);
+    const end   = formatHour(activeHours[activeHours.length - 1] + 1);
+    return [{ label, range: `${start} – ${end}` }];
+  });
+
+  if (rows.length === 0) {
+    return (
+      <p className="text-sm text-gray-400 italic">
+        This sitter hasn&apos;t set their availability yet.
+      </p>
+    );
+  }
+
+  return (
+    <ul className="space-y-2">
+      {rows.map(({ label, range }) => (
+        <li key={label} className="flex items-center gap-3">
+          <Calendar className="w-4 h-4 text-teal-500 shrink-0" />
+          <span className="font-semibold text-gray-800 w-28">{label}</span>
+          <span className="text-gray-600 text-sm">{range}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function SitterProfilePage() {
   const params = useParams();
-  const [sitter,  setSitter]  = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error,   setError]   = useState(null);
-  const [imgSrc,  setImgSrc]  = useState(null);
+  const [sitter,     setSitter]     = useState(null);
+  const [loading,    setLoading]    = useState(true);
+  const [error,      setError]      = useState(null);
+  const [imgSrc,     setImgSrc]     = useState(null);
+  const [viewerRole, setViewerRole] = useState(null);
+
+  useEffect(() => {
+    async function checkViewer() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      setViewerRole(user?.user_metadata?.user_type ?? null);
+    }
+    checkViewer();
+  }, []);
 
   useEffect(() => {
     if (!params.id) return;
@@ -187,11 +254,13 @@ export default function SitterProfilePage() {
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link href={`/booking?sitterId=${sitter.id}`}>
-                  <Button className="flex-1 bg-[#ff6b6b] hover:bg-[#ff5252] cursor-pointer">
-                    Book Now
-                  </Button>
-                </Link>
+                {viewerRole !== "sitter" && (
+                  <Link href={`/booking?sitterId=${sitter.id}`}>
+                    <Button className="flex-1 bg-[#ff6b6b] hover:bg-[#ff5252] cursor-pointer">
+                      Book Now
+                    </Button>
+                  </Link>
+                )}
                 {/* <Button variant="outline" className="flex-1">
                   Send Message
                 </Button> */}
@@ -290,14 +359,10 @@ export default function SitterProfilePage() {
             )}
 
             {/* Availability */}
-            {sitter.availability && (
-              <div className="bg-white rounded-2xl shadow-sm p-6">
-                <h2 className="text-xl font-bold mb-4">Availability</h2>
-                <p className="text-gray-700">
-                  {JSON.stringify(sitter.availability)}
-                </p>
-              </div>
-            )}
+            <div className="bg-white rounded-2xl shadow-sm p-6">
+              <h2 className="text-xl font-bold mb-4">Availability</h2>
+              <AvailabilityList availability={sitter.recurring_availability} />
+            </div>
 
             {/* Contact Card */}
             <div className="bg-white rounded-2xl shadow-sm p-6">
@@ -314,18 +379,20 @@ export default function SitterProfilePage() {
               </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="bg-gradient-to-br from-[#ff6b6b]/10 to-teal-50 rounded-2xl shadow-sm p-6">
-              <h3 className="font-bold mb-3">Ready to book?</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Schedule a session with {sitter.name.split(" ")[0]} today!
-              </p>
-              <Link href={`/booking?sitterId=${sitter.id}`}>
-                <Button className="w-full bg-[#ff6b6b] hover:bg-[#ff5252] cursor-pointer">
-                  Book Now
-                </Button>
-              </Link>
-            </div>
+            {/* Quick Actions — only shown to parents */}
+            {viewerRole !== "sitter" && (
+              <div className="bg-gradient-to-br from-[#ff6b6b]/10 to-teal-50 rounded-2xl shadow-sm p-6">
+                <h3 className="font-bold mb-3">Ready to book?</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Schedule a session with {sitter.name.split(" ")[0]} today!
+                </p>
+                <Link href={`/booking?sitterId=${sitter.id}`}>
+                  <Button className="w-full bg-[#ff6b6b] hover:bg-[#ff5252] cursor-pointer">
+                    Book Now
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

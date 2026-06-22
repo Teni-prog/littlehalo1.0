@@ -2,10 +2,12 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  AlertCircle,
   Calendar,
   Clock,
   User,
@@ -20,6 +22,20 @@ import {
   getBookingAdventures,
   getLibraryActivityById,
 } from "@/lib/mock-data/activities";
+
+// Hourly slots shown in the booking slot picker (6 AM – 10 PM)
+const BOOKING_SLOTS = Array.from({ length: 17 }, (_, i) =>
+  (6 + i).toString().padStart(2, "0")
+);
+const DAY_NAMES_LOWER = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+
+function formatSlotHour(h) {
+  const n = parseInt(h, 10);
+  if (n === 0) return "12 AM";
+  if (n < 12) return `${n} AM`;
+  if (n === 12) return "12 PM";
+  return `${n - 12} PM`;
+}
 
 export default function BookingPage() {
   const searchParams = useSearchParams();
@@ -69,6 +85,11 @@ export default function BookingPage() {
   const [showAdventureAddedBanner, setShowAdventureAddedBanner] =
     useState(false);
   const [lastAddedAdventureTitle, setLastAddedAdventureTitle] = useState("");
+  const [sitterAvailability, setSitterAvailability] = useState({});
+  const [sitterBookings, setSitterBookings] = useState([]);
+  const [slotToast, setSlotToast] = useState(null);
+  const [userRole, setUserRole] = useState(null);
+  const [roleChecked, setRoleChecked] = useState(false);
 
   const selectedAdventureFromLibrary = useMemo(
     () =>
@@ -117,6 +138,17 @@ export default function BookingPage() {
     () => new Set((bookingDetails.selectedAdventures || []).map(String)),
     [bookingDetails.selectedAdventures],
   );
+
+  // Check user role on mount — sitters are not allowed to book
+  useEffect(() => {
+    async function checkRole() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      setUserRole(user?.user_metadata?.user_type ?? null);
+      setRoleChecked(true);
+    }
+    checkRole();
+  }, []);
 
   useEffect(() => {
     if (!sitterId) router.replace("/search");
@@ -181,6 +213,20 @@ export default function BookingPage() {
         if (sitterRes.ok) {
           const { data } = await sitterRes.json();
           setSelectedSitter(data);
+          setSitterAvailability(data.recurring_availability || {});
+
+          // Fetch existing (pending/confirmed) bookings for this sitter
+          if (data.profileId) {
+            const bookingsRes = await fetch(`/api/booking?sitterId=${data.profileId}`);
+            if (bookingsRes.ok) {
+              const { bookings } = await bookingsRes.json();
+              setSitterBookings(
+                (bookings || []).filter(
+                  (b) => b.status === "pending_sitter" || b.status === "confirmed"
+                )
+              );
+            }
+          }
         }
 
         if (childrenRes.ok) {
@@ -224,6 +270,96 @@ export default function BookingPage() {
     return total.toFixed(2);
   };
 
+  // ── Slot picker helpers ──────────────────────────────────────────────────
+  const getDayName = (dateStr) => {
+    if (!dateStr) return "";
+    const [y, m, d] = dateStr.split("-").map(Number);
+    return DAY_NAMES_LOWER[new Date(y, m - 1, d).getDay()];
+  };
+
+  const getSlotStatus = (hour) => {
+    if (!bookingDetails.date) return "unavailable";
+    const dayName = getDayName(bookingDetails.date);
+    if (!dayName) return "unavailable";
+
+    const dayAvail = sitterAvailability[dayName] || {};
+    const hasAnyAvailabilityData = Object.keys(sitterAvailability).length > 0;
+    // If the sitter hasn't configured availability yet, treat all slots as open
+    const isInSchedule = !hasAnyAvailabilityData || dayAvail[hour] === true;
+
+    const hourInt = parseInt(hour, 10);
+    const isBooked = sitterBookings.some((b) => {
+      if (b.date !== bookingDetails.date) return false;
+      const startH = parseInt((b.start_time || "").split(":")[0], 10);
+      const endH   = parseInt((b.end_time   || "").split(":")[0], 10);
+      return hourInt >= startH && hourInt < endH;
+    });
+
+    if (isBooked) return "booked";
+    if (!isInSchedule) return "unavailable";
+    return "available";
+  };
+
+  const isSlotInSelectedRange = (hour) => {
+    if (!bookingDetails.startTime) return false;
+    const startH = parseInt(bookingDetails.startTime, 10);
+    const endH   = bookingDetails.endTime ? parseInt(bookingDetails.endTime, 10) : startH + 1;
+    const h      = parseInt(hour, 10);
+    return h >= startH && h < endH;
+  };
+
+  const showSlotToast = (msg) => {
+    setSlotToast(msg);
+    setTimeout(() => setSlotToast(null), 3500);
+  };
+
+  const handleSlotClick = (hour) => {
+    const status = getSlotStatus(hour);
+    if (status === "booked") {
+      showSlotToast("This sitter is already booked at this time.");
+      return;
+    }
+    if (status === "unavailable") {
+      showSlotToast(
+        "This sitter isn't available at this time. Please choose a different time."
+      );
+      return;
+    }
+
+    const clickedH     = parseInt(hour, 10);
+    const currentStartH = bookingDetails.startTime
+      ? parseInt(bookingDetails.startTime, 10)
+      : null;
+    const hasEnd = !!bookingDetails.endTime;
+
+    // Click ≤ existing start, or range already complete → set new start
+    if (currentStartH === null || hasEnd || clickedH <= currentStartH) {
+      setBookingDetails((prev) => ({
+        ...prev,
+        startTime: `${hour}:00`,
+        endTime: "",
+      }));
+    } else {
+      // Second click after start → set end time
+      setBookingDetails((prev) => ({
+        ...prev,
+        endTime: `${hour}:00`,
+      }));
+    }
+  };
+  // ─────────────────────────────────────────────────────────────────────────
+
+  // True when the selected range contains any hour the sitter can't cover
+  const rangeHasUnavailableHours = (() => {
+    if (!bookingDetails.startTime || !bookingDetails.endTime) return false;
+    const startH = parseInt(bookingDetails.startTime, 10);
+    const endH = parseInt(bookingDetails.endTime, 10);
+    return BOOKING_SLOTS.some((h) => {
+      const hInt = parseInt(h, 10);
+      return hInt >= startH && hInt < endH && getSlotStatus(h) !== "available";
+    });
+  })();
+
   const handleSubmitBooking = () => {
     const bookingData = {
       sitter: selectedSitter,
@@ -262,6 +398,24 @@ export default function BookingPage() {
       ),
     }));
   };
+
+  // Block sitters after role is resolved (avoids flash for parents)
+  if (roleChecked && userRole === "sitter") {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-2xl shadow-sm p-10 max-w-md w-full text-center">
+          <AlertCircle className="w-14 h-14 text-amber-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Access Restricted</h2>
+          <p className="text-gray-600 mb-8">Sitters cannot book other sitters.</p>
+          <Link href="/profile/Sitter">
+            <Button className="bg-teal-500 hover:bg-teal-600 text-white font-semibold px-8 py-3 cursor-pointer">
+              Go to Your Dashboard
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -320,8 +474,9 @@ export default function BookingPage() {
                       Date & Time
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="cursor-pointer">
+                  <CardContent className="space-y-5">
+                    {/* Date picker */}
+                    <div>
                       <label className="block text-sm font-medium mb-2">
                         Date
                       </label>
@@ -332,52 +487,132 @@ export default function BookingPage() {
                           setBookingDetails((prev) => ({
                             ...prev,
                             date: e.target.value,
+                            startTime: "",
+                            endTime: "",
                           }))
                         }
                         className="w-full cursor-pointer"
                         min={new Date().toISOString().split("T")[0]}
                       />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium mb-2">
-                          Start Time
-                        </label>
-                        <div className="relative">
-                          <Clock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 " />
-                          <Input
-                            type="time"
-                            value={bookingDetails.startTime}
-                            onChange={(e) =>
-                              setBookingDetails((prev) => ({
-                                ...prev,
-                                startTime: e.target.value,
-                              }))
-                            }
-                            className="pl-10 cursor-pointer"
-                          />
+
+                    {/* Time slot picker */}
+                    {!bookingDetails.date ? (
+                      <p className="text-sm text-gray-400 italic">
+                        Select a date above to see available times.
+                      </p>
+                    ) : (
+                      <div className="space-y-3">
+                        {/* Legend */}
+                        <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-3 h-3 rounded border border-teal-500 bg-white inline-block" />
+                            Available
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-3 h-3 rounded bg-[#FAECE7] border border-[#993C1D]/30 inline-block" />
+                            Already booked
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-3 h-3 rounded bg-gray-200 inline-block" />
+                            Unavailable
+                          </span>
                         </div>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-2">
-                          End Time
-                        </label>
-                        <div className="relative">
-                          <Clock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 " />
-                          <Input
-                            type="time"
-                            value={bookingDetails.endTime}
-                            onChange={(e) =>
-                              setBookingDetails((prev) => ({
-                                ...prev,
-                                endTime: e.target.value,
-                              }))
+
+                        {/* Selected time summary or instruction */}
+                        {!bookingDetails.startTime ? (
+                          <p className="text-sm text-gray-500">
+                            Click a slot to set your start time, then click again to set the end.
+                          </p>
+                        ) : !bookingDetails.endTime ? (
+                          <div className="flex items-center justify-between rounded-lg bg-teal-50 border border-teal-200 px-3 py-2">
+                            <span className="flex items-center gap-2 text-sm font-medium text-teal-800">
+                              <Clock className="h-4 w-4 shrink-0" />
+                              Start: {formatSlotHour(bookingDetails.startTime.split(":")[0])} — now click an end slot
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => setBookingDetails((prev) => ({ ...prev, startTime: "", endTime: "" }))}
+                              className="ml-4 text-xs font-medium text-teal-600 hover:text-teal-900 shrink-0"
+                            >
+                              Clear
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-between rounded-lg bg-teal-50 border border-teal-200 px-3 py-2">
+                            <span className="flex items-center gap-2 text-sm font-medium text-teal-800">
+                              <Clock className="h-4 w-4 shrink-0" />
+                              Selected: {formatSlotHour(bookingDetails.startTime.split(":")[0])}
+                              {" – "}
+                              {formatSlotHour(bookingDetails.endTime.split(":")[0])}
+                              {" "}
+                              ({parseInt(bookingDetails.endTime, 10) - parseInt(bookingDetails.startTime, 10)} hours)
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => setBookingDetails((prev) => ({ ...prev, startTime: "", endTime: "" }))}
+                              className="ml-4 text-xs font-medium text-teal-600 hover:text-teal-900 shrink-0"
+                            >
+                              Clear
+                            </button>
+                          </div>
+                        )}
+
+                        {/* Slot grid — 4 columns */}
+                        <div className="grid grid-cols-4 gap-2">
+                          {BOOKING_SLOTS.map((hour) => {
+                            const status  = getSlotStatus(hour);
+                            const inRange = isSlotInSelectedRange(hour);
+
+                            let cls =
+                              "py-2.5 rounded-lg text-xs font-medium text-center transition-all select-none ";
+                            if (inRange) {
+                              cls += "bg-teal-500 text-white shadow-sm cursor-pointer ring-2 ring-teal-400 ring-offset-1";
+                            } else if (status === "unavailable") {
+                              cls += "bg-gray-100 text-gray-400 cursor-not-allowed";
+                            } else if (status === "booked") {
+                              cls += "bg-[#FAECE7] text-[#993C1D] cursor-not-allowed";
+                            } else {
+                              cls += "bg-white border border-teal-500 text-gray-800 hover:bg-teal-50 cursor-pointer";
                             }
-                            className="pl-10 cursor-pointer"
-                          />
+
+                            return (
+                              <button
+                                key={hour}
+                                type="button"
+                                onClick={() => handleSlotClick(hour)}
+                                className={cls}
+                                title={
+                                  status === "booked"
+                                    ? "Already booked"
+                                    : status === "unavailable"
+                                    ? "Sitter not available"
+                                    : ""
+                                }
+                              >
+                                {formatSlotHour(hour)}
+                              </button>
+                            );
+                          })}
                         </div>
+
+                        {/* Partial-availability warning */}
+                        {rangeHasUnavailableHours && (
+                          <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
+                            <AlertCircle className="h-4 w-4 shrink-0 text-amber-500" />
+                            This sitter isn't available for part of this time range.
+                          </div>
+                        )}
+
+                        {/* Blocked-slot toast */}
+                        {slotToast && (
+                          <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
+                            <AlertCircle className="h-4 w-4 shrink-0 text-amber-500" />
+                            {slotToast}
+                          </div>
+                        )}
                       </div>
-                    </div>
+                    )}
                   </CardContent>
                 </Card>
 
@@ -586,15 +821,15 @@ export default function BookingPage() {
                     <p className="text-sm text-gray-500 mb-2">Date & Time</p>
                     {bookingDetails.date ? (
                       <p className="font-medium">
-                        {new Date(bookingDetails.date).toLocaleDateString(
-                          "en-US",
-                          {
+                        {(() => {
+                          const [y, m, d] = bookingDetails.date.split("-").map(Number);
+                          return new Date(y, m - 1, d).toLocaleDateString("en-US", {
                             weekday: "long",
                             year: "numeric",
                             month: "long",
                             day: "numeric",
-                          },
-                        )}
+                          });
+                        })()}
                       </p>
                     ) : (
                       <p className="text-gray-400 italic">No date selected</p>

@@ -58,6 +58,7 @@ export async function GET(request, { params }) {
       special_needs:            sitterData.special_needs,
       certifications:           sitterData.certifications,
       availability:             sitterData.availability,
+      recurring_availability:   sitterData.recurring_availability ?? {},
     };
 
     return NextResponse.json({ data: formatted });

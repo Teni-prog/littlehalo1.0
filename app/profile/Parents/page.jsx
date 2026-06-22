@@ -29,6 +29,7 @@ import { runTOPSIS, CRITERIA_REGISTRY, DEFAULT_WEIGHTS } from "@/lib/matchingDat
 import { createClient } from "@/lib/supabase/client";
 import { haversineDistance } from "@/lib/distance";
 import dynamic from "next/dynamic";
+import ParentSidebar from "@/components/ParentSidebar";
 
 const SitterMapPanel = dynamic(() => import("@/components/SitterMapPanel"), { ssr: false });
 
@@ -158,11 +159,11 @@ export default function ParentDashboard() {
   // };
 
   const [sessions, setSessions] = useState([]);
+  const [upcomingCount, setUpcomingCount] = useState(0);
   const [loadingSessions, setLoadingSessions] = useState(true);
   const [markingComplete, setMarkingComplete] = useState(null);
   const [reviewedSet, setReviewedSet] = useState(new Set());
-  const [sitterFeedback, setSitterFeedback] = useState([]);
-  const [loadingFeedback, setLoadingFeedback] = useState(false);
+  const [reviewRatings, setReviewRatings] = useState({}); // Map of booking_id to session_rating
 
   useEffect(() => {
     async function fetchBookings() {
@@ -176,6 +177,18 @@ export default function ParentDashboard() {
         if (!res.ok) return;
 
         const bookings = data.bookings || [];
+
+        // Count real upcoming sessions for the welcome banner —
+        // confirmed/pending bookings scheduled strictly after today
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        setUpcomingCount(
+          bookings.filter((b) => {
+            if (b.status !== "confirmed" && b.status !== "pending_sitter") return false;
+            const [y, m, d] = b.date.split("-").map(Number);
+            return new Date(y, m - 1, d) > today;
+          }).length,
+        );
 
         setSessions(
           bookings.map((b) => {
@@ -212,11 +225,18 @@ export default function ParentDashboard() {
         // Fetch which completed bookings this parent has already reviewed
         const { data: existingReviews } = await supabase
           .from("reviews")
-          .select("booking_id")
-          .eq("parent_id", user.id)
-          .eq("reviewer_type", "parent");
+          .select("booking_id, session_rating")
+          .eq("reviewer_id", user.id)
+          .eq("reviewer_role", "parent");
         if (existingReviews) {
-          setReviewedSet(new Set(existingReviews.map(r => r.booking_id)));
+          const reviewed = new Set();
+          const ratings = {};
+          existingReviews.forEach((r) => {
+            reviewed.add(r.booking_id);
+            ratings[r.booking_id] = r.session_rating;
+          });
+          setReviewedSet(reviewed);
+          setReviewRatings(ratings);
         }
       } catch {}
       setLoadingSessions(false);
@@ -224,21 +244,6 @@ export default function ParentDashboard() {
     fetchBookings();
   }, []);
 
-  useEffect(() => {
-    async function fetchSitterFeedback() {
-      try {
-        const supabase = createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-        setLoadingFeedback(true);
-        const res = await fetch(`/api/reviews?parentId=${user.id}`);
-        const data = await res.json();
-        if (res.ok) setSitterFeedback(data.reviews || []);
-      } catch {}
-      setLoadingFeedback(false);
-    }
-    fetchSitterFeedback();
-  }, []);
 
   async function handleMarkComplete(bookingId) {
     setMarkingComplete(bookingId);
@@ -285,17 +290,15 @@ export default function ParentDashboard() {
       icon: MessageCircle,
       label: "Messages",
       desc: "Chat with sitters",
-      // color: "bg-yellow-50 text-yellow-600",
-      color: "bg-gray-50 text-gray-300 ",
-      href: "/messages",
+      color: "bg-gray-100 text-gray-400",
+      comingSoon: true,
     },
     {
       icon: CreditCard,
       label: "Payments",
       desc: "View billing history",
-      // color: "bg-purple-50 text-purple-500",
-      color: "bg-gray-50 text-gray-300",
-      href: "/payments",
+      color: "bg-gray-100 text-gray-400",
+      comingSoon: true,
     },
   ];
 
@@ -357,38 +360,52 @@ export default function ParentDashboard() {
     ],
   };
   return (
-    <>
+    <ParentSidebar userName={currentParent?.name}>
       {loading ? (
-        <div className="min-h-screen bg-gray-50 flex justify-center items-center">
+        <div className="flex-1 flex justify-center items-center min-h-screen">
           <div className="flex flex-col items-center gap-3">
             <div className="w-10 h-10 border-4 border-gray-200 border-t-[#ff6b6b] rounded-full animate-spin" />
             <p className="text-gray-500 text-sm">Loading...</p>
           </div>
         </div>
       ) : (
-        <main className="flex flex-col min-h-screen max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <div className="flex flex-col min-h-screen max-w-7xl mx-auto px-4 sm:px-6 py-8">
           <WelcomeBanner
             userName={currentParent?.name || "Parent"}
-            sessionCount={sessions.length}
+            sessionCount={upcomingCount}
           />
 
           {/* Quick Actions */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8">
-            {actions.map((action, index) => (
-              <Link
-                key={index}
-                href={action.href}
-                className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center group"
-              >
+            {actions.map((action, index) =>
+              action.comingSoon ? (
                 <div
-                  className={`w-12 h-12 rounded-xl ${action.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
+                  key={index}
+                  className="bg-gray-50 p-6 rounded-2xl border border-gray-100 flex flex-col items-center text-center cursor-not-allowed"
+                  title="Coming soon"
                 >
-                  <action.icon className="w-6 h-6" />
+                  <div className={`w-12 h-12 rounded-xl ${action.color} flex items-center justify-center mb-4`}>
+                    <action.icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-bold text-gray-400 mb-1">{action.label}</h3>
+                  <p className="text-xs text-gray-400">Coming soon</p>
                 </div>
-                <h3 className="font-bold text-gray-900 mb-1">{action.label}</h3>
-                <p className="text-xs text-gray-500">{action.desc}</p>
-              </Link>
-            ))}
+              ) : (
+                <Link
+                  key={index}
+                  href={action.href}
+                  className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center group"
+                >
+                  <div
+                    className={`w-12 h-12 rounded-xl ${action.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
+                  >
+                    <action.icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-bold text-gray-900 mb-1">{action.label}</h3>
+                  <p className="text-xs text-gray-500">{action.desc}</p>
+                </Link>
+              ),
+            )}
           </div>
           <ParentPreferences
             parent={currentParent}
@@ -629,20 +646,42 @@ export default function ParentDashboard() {
                         {session.status === "completed" && (
                           <div className="mt-4">
                             {reviewedSet.has(session.id) ? (
-                              <div className="flex items-center justify-center gap-2 py-2.5 bg-teal-50 rounded-xl border border-teal-100">
-                                <Check className="w-4 h-4 text-teal-500" />
-                                <span className="text-sm text-teal-600 font-medium">Review submitted ✓</span>
+                              <div className="flex items-center justify-between gap-3 py-2.5 px-3 bg-teal-50 rounded-xl border border-teal-100">
+                                <div className="flex items-center gap-2">
+                                  <Check className="w-4 h-4 text-teal-500" />
+                                  <span className="text-sm text-teal-600 font-medium">Review submitted ✓</span>
+                                </div>
+                                {reviewRatings[session.id] && (
+                                  <div className="flex items-center gap-1">
+                                    {[1, 2, 3, 4, 5].map((n) => (
+                                      <Star
+                                        key={n}
+                                        className={`w-4 h-4 ${n <= reviewRatings[session.id] ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
+                                      />
+                                    ))}
+                                  </div>
+                                )}
                               </div>
-                            ) : session.reviewWindowOpen ? (
-                              <ParentReviewForm
-                                booking={{ id: session.id, date: session.date, hours: session.hours, deadline: session.deadline }}
-                                sitterName={session.sitter.name}
-                                onSubmitted={() => setReviewedSet((prev) => new Set([...prev, session.id]))}
-                              />
                             ) : (
-                              <p className="text-xs text-center text-gray-400 py-2 bg-gray-50 rounded-xl border border-gray-100">
-                                Review window closed — reviews must be submitted within 7 days of session completion.
-                              </p>
+                              <ParentReviewForm
+                                booking={{ id: session.id, date: session.date, hours: session.hours }}
+                                sitterName={session.sitter.name}
+                                onSubmitted={() => {
+                                  setReviewedSet((prev) => new Set([...prev, session.id]));
+                                  // Fetch the rating from the database
+                                  fetch(`/api/reviews?bookingId=${session.id}`)
+                                    .then((res) => res.json())
+                                    .then((data) => {
+                                      if (data.reviews && data.reviews.length > 0) {
+                                        setReviewRatings((prev) => ({
+                                          ...prev,
+                                          [session.id]: data.reviews[0].rating,
+                                        }));
+                                      }
+                                    })
+                                    .catch(() => {});
+                                }}
+                              />
                             )}
                           </div>
                         )}
@@ -671,38 +710,6 @@ export default function ParentDashboard() {
             </div>
           </div>
 
-          {/* Feedback from Sitters */}
-          {(loadingFeedback || sitterFeedback.length > 0) && (
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8 mt-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Feedback from Sitters</h2>
-              {loadingFeedback ? (
-                <div className="flex justify-center py-8">
-                  <div className="w-8 h-8 border-4 border-gray-200 border-t-[#ff6b6b] rounded-full animate-spin" />
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  {sitterFeedback.map((review) => (
-                    <div key={review.id} className="border-b border-gray-100 last:border-0 pb-6 last:pb-0">
-                      <div className="flex justify-between items-start mb-3">
-                        <h3 className="font-bold text-gray-900">{review.sitter?.name || "Sitter"}</h3>
-                        <span className="text-sm text-gray-500">
-                          {new Date(review.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                        </span>
-                      </div>
-                      <div className="flex gap-1 mb-3">
-                        {[1, 2, 3, 4, 5].map((n) => (
-                          <Star key={n} className={`w-5 h-5 ${n <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-200"}`} />
-                        ))}
-                      </div>
-                      {review.comment && (
-                        <p className="text-gray-600 text-sm leading-relaxed">{review.comment}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mt-8">
             {/* <div className="lg:col-span-2">
@@ -735,8 +742,8 @@ export default function ParentDashboard() {
                     />
                 </div> */}
           </div>
-        </main>
+        </div>
       )}
-    </>
+    </ParentSidebar>
   );
 }

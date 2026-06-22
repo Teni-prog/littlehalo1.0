@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import { Calendar, Clock, Check, Search, X, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Calendar, Clock, Check, Search, X, Star } from "lucide-react";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import ParentReviewForm from "@/components/ParentReviewForm";
+import ReportIssueForm from "@/components/ReportIssueForm";
+import ParentSidebar from "@/components/ParentSidebar";
 import sitter1 from "@/assets/sitter1.png";
 
 const STATUS_FILTERS = [
@@ -28,9 +29,11 @@ export default function AllBookingsPage() {
   const [sessions, setSessions]           = useState([]);
   const [loading, setLoading]             = useState(true);
   const [reviewedSet, setReviewedSet]     = useState(new Set());
+  const [reviewRatings, setReviewRatings] = useState({}); // Map of booking_id to session_rating
   const [markingComplete, setMarkingComplete] = useState(null);
   const [statusFilter, setStatusFilter]   = useState("all");
   const [search, setSearch]               = useState("");
+  const [reportOpen, setReportOpen]       = useState(null); // booking ID with report form open
 
   useEffect(() => {
     async function fetchData() {
@@ -43,7 +46,7 @@ export default function AllBookingsPage() {
           fetch(`/api/booking?parentId=${user.id}`),
           supabase
             .from("reviews")
-            .select("booking_id")
+            .select("booking_id, session_rating")
             .eq("reviewer_id", user.id)
             .eq("reviewer_role", "parent"),
         ]);
@@ -88,7 +91,14 @@ export default function AllBookingsPage() {
         }
 
         if (!reviewRows.error) {
-          setReviewedSet(new Set((reviewRows.data || []).map((r) => r.booking_id)));
+          const reviewed = new Set();
+          const ratings = {};
+          (reviewRows.data || []).forEach((r) => {
+            reviewed.add(r.booking_id);
+            ratings[r.booking_id] = r.session_rating;
+          });
+          setReviewedSet(reviewed);
+          setReviewRatings(ratings);
         }
       } catch {}
       setLoading(false);
@@ -133,18 +143,12 @@ export default function AllBookingsPage() {
   }, [sessions, statusFilter, search]);
 
   return (
+    <ParentSidebar>
     <main className="min-h-screen bg-gray-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
-          <Link
-            href="/profile/Parents"
-            className="flex items-center gap-1 text-gray-400 hover:text-gray-600 transition-colors text-sm font-medium"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back
-          </Link>
           <h1 className="text-2xl font-bold text-gray-900">My Bookings</h1>
           {sessions.length > 0 && (
             <span className="text-sm text-gray-400 font-normal">
@@ -289,33 +293,72 @@ export default function AllBookingsPage() {
                     </div>
                   )}
 
-                  {/* Completed: review */}
+                  {/* Completed: review & report */}
                   {session.status === "completed" && (
-                    <div className="mt-4">
-                      {reviewedSet.has(session.id) ? (
-                        <div className="flex items-center justify-center gap-2 py-2.5 bg-teal-50 rounded-xl border border-teal-100">
-                          <Check className="w-4 h-4 text-teal-500" />
-                          <span className="text-sm text-teal-600 font-medium">
-                            Review submitted ✓
-                          </span>
-                        </div>
-                      ) : session.reviewWindowOpen ? (
-                        <ParentReviewForm
-                          booking={{
-                            id: session.id,
-                            date: session.date,
-                            hours: session.hours,
-                            deadline: session.deadline,
-                          }}
-                          sitterName={session.sitter.name}
-                          onSubmitted={() =>
-                            setReviewedSet((prev) => new Set([...prev, session.id]))
-                          }
+                    <div className="mt-4 space-y-3">
+                      {/* Review section */}
+                      <div>
+                        {reviewedSet.has(session.id) ? (
+                          <div className="flex items-center justify-between gap-3 py-2.5 px-3 bg-teal-50 rounded-xl border border-teal-100">
+                            <div className="flex items-center gap-2">
+                              <Check className="w-4 h-4 text-teal-500" />
+                              <span className="text-sm text-teal-600 font-medium">
+                                Review submitted ✓
+                              </span>
+                            </div>
+                            {reviewRatings[session.id] && (
+                              <div className="flex items-center gap-1">
+                                {[1, 2, 3, 4, 5].map((n) => (
+                                  <Star
+                                    key={n}
+                                    className={`w-4 h-4 ${n <= reviewRatings[session.id] ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
+                                  />
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <ParentReviewForm
+                            booking={{
+                              id: session.id,
+                              date: session.date,
+                              hours: session.hours,
+                            }}
+                            sitterName={session.sitter.name}
+                            onSubmitted={() => {
+                              setReviewedSet((prev) => new Set([...prev, session.id]));
+                              // Fetch the rating from the database
+                              fetch(`/api/reviews?bookingId=${session.id}`)
+                                .then((res) => res.json())
+                                .then((data) => {
+                                  if (data.reviews && data.reviews.length > 0) {
+                                    setReviewRatings((prev) => ({
+                                      ...prev,
+                                      [session.id]: data.reviews[0].rating,
+                                    }));
+                                  }
+                                })
+                                .catch(() => {});
+                            }}
+                          />
+                        )}
+                      </div>
+
+                      {/* Report section */}
+                      {reportOpen === session.id ? (
+                        <ReportIssueForm
+                          bookingId={session.id}
+                          onSubmitted={() => setReportOpen(null)}
+                          onCancel={() => setReportOpen(null)}
                         />
                       ) : (
-                        <p className="text-xs text-center text-gray-400 py-2.5 bg-gray-50 rounded-xl border border-gray-100">
-                          Review window closed — reviews must be submitted within 7 days.
-                        </p>
+                        <button
+                          type="button"
+                          onClick={() => setReportOpen(session.id)}
+                          className="w-full py-2.5 text-sm font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl transition-colors cursor-pointer"
+                        >
+                          Report an issue
+                        </button>
                       )}
                     </div>
                   )}
@@ -326,5 +369,6 @@ export default function AllBookingsPage() {
         )}
       </div>
     </main>
+    </ParentSidebar>
   );
 }

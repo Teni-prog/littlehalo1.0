@@ -1,25 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Logo from "@/public/Logo1.png";
 import Image from "next/image";
 import { UserCircle, Settings } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import SignupPage from "@/app/signup/page";
 
 const NAV_LINKS = [
-  { label: "Features", href: "/#features" },
-  { label: "How It Works", href: "/#how-it-works" },
-  { label: "For Parents", href: "/#for-parents" },
-  { label: "For Sitters", href: "/#for-sitters" },
+  // { label: "Features", href: "/#features" },
+  // { label: "How It Works", href: "/#how-it-works" },
+  // { label: "For Parents", href: "/#for-parents" },
+  // { label: "For Sitters", href: "/#for-sitters" },
   { label: "Activities", href: "/microadventure" },
 ];
 
 export function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState(null);
+  const [hasAvailability, setHasAvailability] = useState(true); // true = no notification
 
   useEffect(() => {
     const supabase = createClient();
@@ -30,11 +33,51 @@ export function Navbar() {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Check if sitter has availability set
+  useEffect(() => {
+    if (user?.user_metadata?.user_type !== "sitter") return;
+
+    const supabase = createClient();
+    const checkAvailability = async () => {
+      try {
+        const { data: profile } = await supabase
+          .from("sitter_profiles")
+          .select("recurring_availability")
+          .eq("user_id", user.id)
+          .single();
+
+        if (profile) {
+          const hasAvail = profile.recurring_availability && Object.keys(profile.recurring_availability).length > 0;
+          setHasAvailability(hasAvail);
+        }
+      } catch (err) {
+        setHasAvailability(true); // Default to no notification on error
+      }
+    };
+
+    checkAvailability();
+  }, [user]);
+
   async function handleLogout() {
     const supabase = createClient();
     await supabase.auth.signOut();
     router.push("/login");
     router.refresh();
+  }
+
+  // Hide navbar on pages that use a sidebar layout (sitter or parent)
+  const isSidebarPage =
+    pathname?.startsWith("/profile/Sitter")  ||
+    pathname?.startsWith("/schedule/sitter") ||
+    pathname?.startsWith("/settings/sitter") ||
+    pathname?.startsWith("/sessions/sitter") ||
+    pathname?.startsWith("/profile/Parents") ||
+    pathname?.startsWith("/schedule/parent") ||
+    pathname?.startsWith("/settings/parent") ||
+    pathname?.startsWith("/bookings/parent");
+
+  if (isSidebarPage) {
+    return null;
   }
 
   const userType = user?.user_metadata?.user_type;
@@ -73,8 +116,12 @@ export function Navbar() {
                 <Link
                   href={userType === "sitter" ? "/settings/sitter" : "/settings/parent"}
                   aria-label="Settings"
+                  className="relative"
                 >
                   <Settings className="w-5 h-5 text-gray-500 hover:text-primary transition-colors cursor-pointer" />
+                  {userType === "sitter" && !hasAvailability && (
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full" />
+                  )}
                 </Link>
               )}
               <Link href={profileHref} aria-label="Go to profile">
@@ -92,7 +139,7 @@ export function Navbar() {
               >
                 Log in
               </Link>
-              <Link href="/auth/signup">
+              <Link href="/signup">
                 <Button className="cursor-pointer bg-primary hover:bg-primary/90 text-white">
                   Sign Up
                 </Button>

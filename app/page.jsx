@@ -469,7 +469,7 @@ export default function Home() {
                 ))}
               </ul>
               <Link
-                href="/auth/signup?role=parent"
+                href="/signup/parent"
                 className="inline-flex items-center gap-1 text-teal-400 hover:text-teal-300 font-semibold transition-colors"
               >
                 Create Family Profile <ChevronRight className="w-4 h-4" />
@@ -493,7 +493,7 @@ export default function Home() {
                 <span className="text-xl font-bold text-gray-400">/hr</span>
               </div>
               <Link
-                href="/auth/signup?role=sitter"
+                href="/signup/sitter"
                 className="inline-flex items-center gap-1 text-primary hover:text-red-400 font-semibold transition-colors"
               >
                 Become a Sitter <ChevronRight className="w-4 h-4" />
@@ -575,7 +575,7 @@ export default function Home() {
                 </h4>
                 <ul className="space-y-2">
                   <li>
-                    <Link href="/auth/signup?role=sitter" className="text-sm hover:text-white transition-colors">
+                    <Link href="/signup/sitter" className="text-sm hover:text-white transition-colors">
                       Become a Sitter
                     </Link>
                   </li>
