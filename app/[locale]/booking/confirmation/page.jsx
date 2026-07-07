@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
@@ -19,7 +19,7 @@ import {
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-export default function BookingConfirmationPage() {
+function BookingConfirmationContent() {
   const t = useTranslations("bookingConfirmation");
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -569,5 +569,22 @@ export default function BookingConfirmationPage() {
         </div>
       )}
     </>
+  );
+}
+
+// useSearchParams() requires a Suspense boundary in the App Router — the
+// content component reads it directly, so it's wrapped here rather than
+// forcing every caller of this page to provide one.
+export default function BookingConfirmationPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gray-50 flex justify-center items-center">
+          <div className="w-10 h-10 border-4 border-gray-200 border-t-[#ff6b6b] rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <BookingConfirmationContent />
+    </Suspense>
   );
 }
