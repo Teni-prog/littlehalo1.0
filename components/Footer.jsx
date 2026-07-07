@@ -1,7 +1,9 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Heart } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function SiteFooter() {
+  const t = useTranslations("footer");
   const currentYear = new Date().getFullYear();
 
   return (
@@ -21,8 +23,7 @@ export function SiteFooter() {
               </div>
             </Link>
             <p className="text-sm text-gray-600 mb-6 max-w-xs">
-              Connecting newcomer families with culturally-matched, verified
-              childcare in Atlantic Canada.
+              {t("tagline")}
             </p>
 
             {/* Social Icons */}
@@ -30,7 +31,7 @@ export function SiteFooter() {
               <a
                 href="#"
                 className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-peach flex items-center justify-center transition-colors group"
-                aria-label="Twitter"
+                aria-label={t("social.twitter")}
               >
                 <svg
                   className="w-4 h-4 text-gray-600 group-hover:text-primary"
@@ -43,7 +44,7 @@ export function SiteFooter() {
               <a
                 href="#"
                 className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-peach flex items-center justify-center transition-colors group"
-                aria-label="Facebook"
+                aria-label={t("social.facebook")}
               >
                 <svg
                   className="w-4 h-4 text-gray-600 group-hover:text-primary"
@@ -56,7 +57,7 @@ export function SiteFooter() {
               <a
                 href="#"
                 className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-peach flex items-center justify-center transition-colors group"
-                aria-label="Instagram"
+                aria-label={t("social.instagram")}
               >
                 <svg
                   className="w-4 h-4 text-gray-600 group-hover:text-primary"
@@ -69,7 +70,7 @@ export function SiteFooter() {
               <a
                 href="#"
                 className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-peach flex items-center justify-center transition-colors group"
-                aria-label="LinkedIn"
+                aria-label={t("social.linkedin")}
               >
                 <svg
                   className="w-4 h-4 text-gray-600 group-hover:text-primary"
@@ -84,14 +85,14 @@ export function SiteFooter() {
 
           {/* Product */}
           <div className="md:col-span-2">
-            <h3 className="font-semibold text-[#111827] mb-4">Product</h3>
+            <h3 className="font-semibold text-[#111827] mb-4">{t("columns.product.title")}</h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   href="/features"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Features
+                  {t("columns.product.features")}
                 </Link>
               </li>
               <li>
@@ -99,7 +100,7 @@ export function SiteFooter() {
                   href="/how-it-works"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  How It Works
+                  {t("columns.product.howItWorks")}
                 </Link>
               </li>
               <li>
@@ -107,7 +108,7 @@ export function SiteFooter() {
                   href="#pricing"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Pricing
+                  {t("columns.product.pricing")}
                 </Link>
               </li>
               <li>
@@ -115,7 +116,7 @@ export function SiteFooter() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Safety
+                  {t("columns.product.safety")}
                 </Link>
               </li>
             </ul>
@@ -123,14 +124,14 @@ export function SiteFooter() {
 
           {/* For Families */}
           <div className="md:col-span-2">
-            <h3 className="font-semibold text-[#111827] mb-4">For Families</h3>
+            <h3 className="font-semibold text-[#111827] mb-4">{t("columns.families.title")}</h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   href="/browse-sitters"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Find a Sitter
+                  {t("columns.families.findASitter")}
                 </Link>
               </li>
               <li>
@@ -138,7 +139,7 @@ export function SiteFooter() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Parent Resources
+                  {t("columns.families.parentResources")}
                 </Link>
               </li>
               <li>
@@ -146,7 +147,7 @@ export function SiteFooter() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Newcomer Guide
+                  {t("columns.families.newcomerGuide")}
                 </Link>
               </li>
               <li>
@@ -154,7 +155,7 @@ export function SiteFooter() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Reviews
+                  {t("columns.families.reviews")}
                 </Link>
               </li>
             </ul>
@@ -162,14 +163,14 @@ export function SiteFooter() {
 
           {/* For Sitters */}
           <div className="md:col-span-2">
-            <h3 className="font-semibold text-[#111827] mb-4">For Sitters</h3>
+            <h3 className="font-semibold text-[#111827] mb-4">{t("columns.sitters.title")}</h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   href="/signup"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Become a Sitter
+                  {t("columns.sitters.becomeASitter")}
                 </Link>
               </li>
               <li>
@@ -177,7 +178,7 @@ export function SiteFooter() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Sitter Resources
+                  {t("columns.sitters.sitterResources")}
                 </Link>
               </li>
               <li>
@@ -185,7 +186,7 @@ export function SiteFooter() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Background Check
+                  {t("columns.sitters.backgroundCheck")}
                 </Link>
               </li>
               <li>
@@ -193,7 +194,7 @@ export function SiteFooter() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Earnings
+                  {t("columns.sitters.earnings")}
                 </Link>
               </li>
             </ul>
@@ -201,14 +202,14 @@ export function SiteFooter() {
 
           {/* Company */}
           <div className="md:col-span-2">
-            <h3 className="font-semibold text-[#111827] mb-4">Company</h3>
+            <h3 className="font-semibold text-[#111827] mb-4">{t("columns.company.title")}</h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   href="#"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  About Us
+                  {t("columns.company.aboutUs")}
                 </Link>
               </li>
               <li>
@@ -216,7 +217,7 @@ export function SiteFooter() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Blog
+                  {t("columns.company.blog")}
                 </Link>
               </li>
               <li>
@@ -224,7 +225,7 @@ export function SiteFooter() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Careers
+                  {t("columns.company.careers")}
                 </Link>
               </li>
               <li>
@@ -232,7 +233,7 @@ export function SiteFooter() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-primary transition-colors"
                 >
-                  Contact
+                  {t("columns.company.contact")}
                 </Link>
               </li>
             </ul>
@@ -247,19 +248,19 @@ export function SiteFooter() {
             {/* Legal Links */}
             <div className="flex items-center gap-6 text-sm text-gray-600">
               <Link href="#" className="hover:text-primary transition-colors">
-                Privacy Policy
+                {t("legal.privacyPolicy")}
               </Link>
               <Link href="#" className="hover:text-primary transition-colors">
-                Terms of Service
+                {t("legal.termsOfService")}
               </Link>
               <Link href="#" className="hover:text-primary transition-colors">
-                Cookie Policy
+                {t("legal.cookiePolicy")}
               </Link>
             </div>
 
             {/* Copyright */}
             <p className="text-sm text-gray-600">
-              © {currentYear} littlëHALO. All rights reserved. 🇨🇦
+              {t("copyright", { year: currentYear })}
             </p>
           </div>
         </div>

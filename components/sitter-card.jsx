@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Star, MapPin, BadgeCheck, Clock, Calendar } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Star, MapPin, BadgeCheck, Clock, Calendar, ShieldCheck, Shield } from "lucide-react";
 import Image from "next/image";
 import Sitter from "@/assets/sitter1.png";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { haversineDistance, formatDistance } from "@/lib/distance";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export function SitterCard({ sitter, parentLocation = null }) {
+  const t = useTranslations("sitterCard");
   const [imgSrc, setImgSrc] = useState(sitter.image || null);
 
   const distanceKm =
@@ -53,10 +55,22 @@ export function SitterCard({ sitter, parentLocation = null }) {
                 </h3>
                 {sitter.is_verified && (
                   <span className="flex items-center gap-1 text-xs font-semibold text-teal-600 bg-teal-50 border border-teal-100 px-2 py-0.5 rounded-full whitespace-nowrap">
-                    <BadgeCheck className="w-3.5 h-3.5" /> Verified
+                    <BadgeCheck className="w-3.5 h-3.5" /> {t("verified")}
                   </span>
                 )}
               </div>
+
+              {/* Document verification badge */}
+              {sitter.verification_status === "approved" && (
+                <div className="flex items-center gap-1 text-xs font-semibold text-teal-600 mb-1">
+                  <ShieldCheck className="w-3.5 h-3.5" /> {t("verificationBadge.approved")}
+                </div>
+              )}
+              {sitter.verification_status === "pending" && (
+                <div className="flex items-center gap-1 text-xs font-semibold text-gray-500 mb-1">
+                  <Shield className="w-3.5 h-3.5" /> {t("verificationBadge.pending")}
+                </div>
+              )}
 
               {/* Rating + distance */}
               <div className="flex items-center gap-3 text-sm mb-1 flex-wrap">
@@ -66,7 +80,7 @@ export function SitterCard({ sitter, parentLocation = null }) {
                     {sitter.rating}
                   </span>
                   <span className="text-gray-400">
-                    ({sitter.reviews} reviews)
+                    {t("reviewsCount", { count: sitter.reviews })}
                   </span>
                 </span>
                 <span className="flex items-center gap-1 text-gray-500 text-xs">
@@ -75,7 +89,7 @@ export function SitterCard({ sitter, parentLocation = null }) {
                     ? formatDistance(distanceKm)
                     : sitter.neighbourhood ||
                       sitter.location ||
-                      "Atlantic Canada"}
+                      t("atlanticCanada")}
                 </span>
               </div>
 
@@ -83,7 +97,7 @@ export function SitterCard({ sitter, parentLocation = null }) {
               {sitter.response_time && (
                 <div className="flex items-center gap-1 text-xs text-gray-400 mb-3">
                   <Clock className="w-3.5 h-3.5" />
-                  Responds &lt; {sitter.response_time}
+                  {t("respondsUnder", { time: sitter.response_time })}
                 </div>
               )}
 
@@ -91,8 +105,7 @@ export function SitterCard({ sitter, parentLocation = null }) {
               <div className="flex flex-wrap gap-1.5 mt-2">
                 {sitter.experience > 0 && (
                   <span className="text-xs font-semibold bg-gray-100 text-gray-700 px-2.5 py-1 rounded-full">
-                    {sitter.experience} {sitter.experience === 1 ? "yr" : "yrs"}{" "}
-                    exp.
+                    {t("experience", { count: sitter.experience })}
                   </span>
                 )}
                 {sitter.special_needs?.slice(0, 3).map((need) => (
@@ -109,7 +122,7 @@ export function SitterCard({ sitter, parentLocation = null }) {
             {/* Hourly rate — top right */}
             <div className="text-right shrink-0">
               <p className="text-xs text-gray-500 font-medium mb-0.5">
-                Hourly Rate
+                {t("hourlyRate")}
               </p>
               <p className="text-2xl font-bold text-[#ff6b6b]">
                 ${sitter.hourly_rate}
@@ -123,7 +136,7 @@ export function SitterCard({ sitter, parentLocation = null }) {
               <div className="flex items-center gap-1.5 mb-2">
                 <Calendar className="w-3.5 h-3.5 text-[#ff6b6b]" />
                 <span className="text-xs font-semibold text-gray-600">
-                  Available Days This Week
+                  {t("availableDaysThisWeek")}
                 </span>
               </div>
               <div className="flex gap-1.5 flex-wrap">
@@ -136,7 +149,7 @@ export function SitterCard({ sitter, parentLocation = null }) {
                         : "border border-gray-200 text-gray-400"
                     }`}
                   >
-                    {day}
+                    {t(`days.${day}`)}
                   </span>
                 ))}
               </div>
@@ -149,12 +162,12 @@ export function SitterCard({ sitter, parentLocation = null }) {
       <div className="flex gap-2 justify-center px-5 pb-5">
         <Link href={`/profile/Sitter/${sitter.id}`}>
           <button className="px-5 py-2 border border-gray-200 text-gray-700 rounded-xl font-semibold text-sm hover:bg-gray-100 hover:border-gray-300 transition-colors cursor-pointer">
-            View Profile
+            {t("viewProfile")}
           </button>
         </Link>
         <Link href={`/booking?sitterId=${sitter.id}`}>
           <button className="px-5 py-2 bg-[#ff6b6b] text-white rounded-xl font-bold text-sm hover:bg-[#e85d5d] transition-colors cursor-pointer">
-            Book Now
+            {t("bookNow")}
           </button>
         </Link>
       </div>

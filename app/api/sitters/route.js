@@ -27,7 +27,7 @@ export async function GET(request) {
             .from('sitter_profiles')
             .select(`
                 *,
-                user:users!user_id(id, name, email, avatar)
+                user:users!user_id(id, name, email, avatar, sitter_verifications(status))
             `);
 
         if (error) {
@@ -53,6 +53,7 @@ export async function GET(request) {
                 latitude:  sitter.latitude  ?? (sitter.neighbourhood ? (NEIGHBOURHOOD_COORDS[sitter.neighbourhood]?.lat ?? null) : null),
                 longitude: sitter.longitude ?? (sitter.neighbourhood ? (NEIGHBOURHOOD_COORDS[sitter.neighbourhood]?.lng ?? null) : null),
                 is_verified: sitter.is_verified ?? false,
+                verification_status: sitter.user.sitter_verifications?.[0]?.status ?? null,
                 rating: sitter.rating ?? 0,
                 reviews: sitter.reviews_count ?? 0,
                 background_check_status: sitter.background_check_status,

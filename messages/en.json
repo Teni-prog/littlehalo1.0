@@ -1,0 +1,1942 @@
+{
+  "navbar": {
+    "activities": "Activities",
+    "logIn": "Log in",
+    "signUp": "Sign Up",
+    "logOut": "Log Out",
+    "settingsAriaLabel": "Settings",
+    "profileAriaLabel": "Go to profile"
+  },
+  "footer": {
+    "tagline": "Connecting newcomer families with culturally-matched, verified childcare in Atlantic Canada.",
+    "social": {
+      "twitter": "Twitter",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn"
+    },
+    "columns": {
+      "product": {
+        "title": "Product",
+        "features": "Features",
+        "howItWorks": "How It Works",
+        "pricing": "Pricing",
+        "safety": "Safety"
+      },
+      "families": {
+        "title": "For Families",
+        "findASitter": "Find a Sitter",
+        "parentResources": "Parent Resources",
+        "newcomerGuide": "Newcomer Guide",
+        "reviews": "Reviews"
+      },
+      "sitters": {
+        "title": "For Sitters",
+        "becomeASitter": "Become a Sitter",
+        "sitterResources": "Sitter Resources",
+        "backgroundCheck": "Background Check",
+        "earnings": "Earnings"
+      },
+      "company": {
+        "title": "Company",
+        "aboutUs": "About Us",
+        "blog": "Blog",
+        "careers": "Careers",
+        "contact": "Contact"
+      }
+    },
+    "legal": {
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service",
+      "cookiePolicy": "Cookie Policy"
+    },
+    "copyright": "© {year} littlëHALO. All rights reserved. 🇨🇦"
+  },
+  "authErrors": {
+    "noParentAccount": "No parent account found with these credentials.",
+    "noSitterAccount": "No sitter account found with these credentials.",
+    "accountAlreadyExists": "An account with this email already exists. Please sign in instead.",
+    "accountCreationFailed": "Account could not be created. Please try again.",
+    "failedToSaveAccount": "Failed to save account details: {message}",
+    "failedToSaveProfile": "Failed to save profile: {message}",
+    "unexpectedError": "An unexpected error occurred. Please try again.",
+    "notAuthenticated": "Not authenticated"
+  },
+  "login": {
+    "welcomeBack": "Welcome Back!",
+    "welcomeMessage": "Sign in to access your dashboard, manage bookings, and connect with your community.",
+    "chooseAccountType": "Choose your account type",
+    "selectLoginMethod": "Select how you want to log in",
+    "forParents": "For Parents",
+    "forParentsDesc": "Find care for your little ones",
+    "forSitters": "For Sitters",
+    "forSittersDesc": "Find jobs and manage bookings",
+    "newToLittleHalo": "New to Little Halo?",
+    "createAccount": "Create an account"
+  },
+  "signup": {
+    "joinLittleHalo": "Join Little Halo",
+    "joinDescription": "Connect with culturally matched sitters and keep your child rooted in their heritage.",
+    "createYourAccount": "Create your account",
+    "selectSignupMethod": "Select how you want to sign up",
+    "imAParent": "I’m a Parent",
+    "imAParentDesc": "Find culturally matched care for my child",
+    "imASitter": "I’m a Sitter",
+    "imASitterDesc": "Offer my skills and connect with families",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in"
+  },
+  "signupCheckEmail": {
+    "checkYourEmail": "Check your email",
+    "confirmationLinkSent": "We sent a confirmation link to your email. Click it to verify your account and complete your profile setup.",
+    "afterConfirming": "After confirming, you’ll be taken to a short form to finish setting up your profile.",
+    "wrongEmail": "Wrong email?",
+    "startOver": "Start over"
+  },
+  "signinParent": {
+    "welcomeBack": "Welcome Back!",
+    "welcomeMessage": "Sign in to access your dashboard, manage bookings, and connect with your community.",
+    "safeSecure": "Safe & Secure",
+    "safeSecureDesc": "Your data is protected with industry-leading security",
+    "personalizedExperience": "Personalized Experience",
+    "personalizedExperienceDesc": "Access your bookings, favorites, and recommendations",
+    "changeAccountType": "Change account type",
+    "parentSignIn": "Parent Sign In",
+    "enterCredentials": "Enter your credentials to continue",
+    "emailAddress": "Email Address",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "signingIn": "Signing in...",
+    "signIn": "Sign In",
+    "dontHaveAccount": "Don’t have an account?",
+    "signUp": "Sign up"
+  },
+  "signinSitter": {
+    "welcomeBack": "Welcome Back!",
+    "welcomeMessage": "Sign in to access your dashboard, manage bookings, and connect with your community.",
+    "safeSecure": "Safe & Secure",
+    "safeSecureDesc": "Your data is protected with industry-leading security",
+    "personalizedExperience": "Personalized Experience",
+    "personalizedExperienceDesc": "Access your bookings, favorites, and recommendations",
+    "changeAccountType": "Change account type",
+    "sitterSignIn": "Sitter Sign In",
+    "enterCredentials": "Enter your credentials to continue",
+    "emailAddress": "Email Address",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "signingIn": "Signing in...",
+    "signIn": "Sign In",
+    "dontHaveAccount": "Don’t have an account?",
+    "signUp": "Sign up"
+  },
+  "bookingConfirmation": {
+    "loading": "Loading...",
+    "backToBooking": "← Back to Booking",
+    "title": "Confirm Your Booking",
+    "subtitle": "Review your booking details and complete payment",
+    "duration": {
+      "minutesOnly": "{minutes}m",
+      "hoursOnly": "{hours}h",
+      "hoursAndMinutes": "{hours}h {minutes}m"
+    },
+    "bookingDetails": {
+      "title": "Booking Details",
+      "dateLabel": "Date",
+      "timeLabel": "Time",
+      "durationLabel": "Duration",
+      "specialInstructions": "Special Instructions"
+    },
+    "childInfo": {
+      "title": "Child Information",
+      "yearsOld": "{age} years old"
+    },
+    "selectedAdventure": {
+      "title": "Selected Micro Adventure",
+      "minutes": "{duration} minutes"
+    },
+    "paymentMethod": {
+      "title": "Payment Method",
+      "cardLabel": "Credit/Debit Card",
+      "cardDescription": "Pay securely with your card",
+      "cardNumberLabel": "Card Number",
+      "cardNumberPlaceholder": "1234 5678 9012 3456",
+      "expiryDateLabel": "Expiry Date",
+      "expiryPlaceholder": "MM/YY",
+      "cvvLabel": "CVV",
+      "cvvPlaceholder": "123",
+      "paypalLabel": "PayPal",
+      "paypalDescription": "Pay with your PayPal account"
+    },
+    "paymentSummary": {
+      "title": "Payment Summary",
+      "hourlyRateLabel": "Hourly Rate",
+      "hourlyRateValue": "${rate}/hr",
+      "durationLabel": "Duration",
+      "babysittingSubtotal": "Babysitting Subtotal",
+      "microAdventureLabel": "Micro Adventure",
+      "subtotalLabel": "Subtotal",
+      "taxLabel": "Tax",
+      "taxPercent": "15%",
+      "totalLabel": "Total"
+    },
+    "errors": {
+      "mustBeLoggedIn": "You must be logged in to complete a booking.",
+      "bookingFailed": "Booking failed. Please try again.",
+      "somethingWrong": "Something went wrong. Please try again."
+    },
+    "payButton": {
+      "processing": "Processing…",
+      "pay": "Pay ${amount}"
+    },
+    "termsNotice": "By confirming, you agree to our Terms of Service and Cancellation Policy"
+  },
+  "bookingSuccess": {
+    "pending": {
+      "title": "Booking Pending",
+      "description": "Waiting for your sitter to confirm. We’ll notify you once they do! In the meantime, feel free to explore more sitters or activities on our platform.",
+      "bookingId": "Booking ID:"
+    },
+    "rating": {
+      "title": "How would you rate this match?",
+      "promptNamed": "How was {sitterName} as a match for your family?",
+      "promptGeneric": "How was your sitter as a match for your family?",
+      "hint": "You can rate now or come back after your session.",
+      "greatMatch": "Great match",
+      "wouldBookAgain": "Would book again",
+      "notRightFit": "Not the right fit",
+      "wouldntBookAgain": "Wouldn’t book again",
+      "noteLabel": "Anything specific?",
+      "noteOptional": "(optional)",
+      "notePlaceholderGood": "e.g. Great with the kids, very punctual…",
+      "notePlaceholderBad": "e.g. Language barrier, different energy with the kids…",
+      "submitError": "Couldn’t save your rating. Please try again.",
+      "saving": "Saving…",
+      "submit": "Submit rating",
+      "skip": "Skip",
+      "privacyNote": "Your rating is private and used only to improve your future matches."
+    },
+    "thankYou": {
+      "title": "Thanks for your feedback!",
+      "description": "Your rating helps us recommend better matches for your family over time.",
+      "prioritizeNote": "We’ll prioritise sitters like <strong>{sitterName}</strong> in future matches."
+    },
+    "cta": {
+      "findAnotherSitter": "Find Another Sitter",
+      "findAnotherSitterArrow": "Find another sitter →"
+    }
+  },
+  "bookingsParent": {
+    "header": {
+      "title": "My Bookings"
+    },
+    "statusFilters": {
+      "all": "All",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "declined": "Declined"
+    },
+    "statusBadge": {
+      "confirmed": "Confirmed",
+      "awaitingSitter": "Awaiting sitter",
+      "declined": "Declined",
+      "cancelled": "Cancelled",
+      "completed": "Completed"
+    },
+    "searchPlaceholder": "Search sitter…",
+    "empty": {
+      "noBookingsYet": "No bookings yet.",
+      "findASitter": "Find a sitter →",
+      "noBookingsMatchFilter": "No bookings match your filter."
+    },
+    "session": {
+      "for": "For",
+      "microAdventure": "Micro-Adventure:"
+    },
+    "markComplete": {
+      "markedWaiting": "✓ You marked this complete — waiting for the sitter to confirm.",
+      "marking": "Marking…",
+      "markComplete": "Mark Session as Complete"
+    },
+    "review": {
+      "reviewSubmitted": "Review submitted ✓"
+    },
+    "report": {
+      "reportAnIssue": "Report an issue"
+    },
+    "fallback": {
+      "yourSitter": "Your Sitter",
+      "child": "Child",
+      "notSpecified": "Not specified"
+    }
+  },
+  "booking": {
+    "backToSearch": "← Back to Search",
+    "title": "Complete Your Booking",
+    "subtitle": "Fill in the details below to book your sitter",
+    "loading": "Loading...",
+    "accessRestricted": {
+      "title": "Access Restricted",
+      "message": "Sitters cannot book other sitters.",
+      "dashboardButton": "Go to Your Dashboard"
+    },
+    "banner": {
+      "added": "Micro adventure added to your booking",
+      "selected": "{title} is now selected.",
+      "dismiss": "Dismiss"
+    },
+    "adventureCountLabel": "{count, plural, one {# micro adventure} other {# micro adventures}}",
+    "toast": {
+      "booked": "This sitter is already booked at this time.",
+      "unavailable": "This sitter isn’t available at this time. Please choose a different time."
+    },
+    "time": {
+      "am": "AM",
+      "pm": "PM"
+    },
+    "dateTime": {
+      "title": "Date & Time",
+      "dateLabel": "Date",
+      "selectDatePrompt": "Select a date above to see available times.",
+      "legend": {
+        "available": "Available",
+        "booked": "Already booked",
+        "unavailable": "Unavailable"
+      },
+      "instructions": "Click a slot to set your start time, then click again to set the end.",
+      "startSelected": "Start: {time} — now click an end slot",
+      "clear": "Clear",
+      "selectedRange": "Selected: {start} – {end} ({hours, plural, one {# hour} other {# hours}})",
+      "slotTooltipBooked": "Already booked",
+      "slotTooltipUnavailable": "Sitter not available",
+      "partialAvailabilityWarning": "This sitter isn’t available for part of this time range."
+    },
+    "children": {
+      "title": "Child Information",
+      "subtitle": "Select which child needs care",
+      "yearsOld": "{age} years old",
+      "addNew": "+ Add New Child"
+    },
+    "adventures": {
+      "title": "Micro Adventures (Optional)",
+      "browseMore": "Browse More",
+      "subtitle": "Add a fun activity to your booking",
+      "priceValue": "+${price}",
+      "durationLabel": "Duration: {duration}",
+      "add": "Add",
+      "remove": "Remove",
+      "showingSelectedPrefix": "Showing selected adventures only. Use",
+      "showingSelectedSuffix": "to add more."
+    },
+    "notes": {
+      "title": "Additional Notes",
+      "placeholder": "Share any important information with your sitter (allergies, bedtime routines, emergency contacts, etc.)",
+      "helperText": "Include details about allergies, preferences, routines, or special instructions"
+    },
+    "summary": {
+      "title": "Booking Summary",
+      "sitterLabel": "Sitter",
+      "dateTimeLabel": "Date & Time",
+      "noDateSelected": "No date selected",
+      "noTimeSelected": "No time selected",
+      "childrenLabel": "Children",
+      "childAgeShort": "{name} ({age}y)",
+      "noChildrenSelected": "No children selected",
+      "adventuresLabel": "Micro Adventures",
+      "hourlyRateLabel": "Hourly Rate",
+      "hourlyRateValue": "${rate}/hr",
+      "durationLabel": "Duration",
+      "adventuresPriceLabel": "Adventures",
+      "adventuresTotal": "+${total}",
+      "total": "Total",
+      "totalValue": "${total}",
+      "confirmButton": "Confirm Booking",
+      "fillRequiredFields": "Please fill in all required fields"
+    },
+    "durationHoursMinutes": "{hours}h {minutes}m",
+    "durationHoursOnly": "{hours}h",
+    "durationMinutesOnly": "{minutes}m"
+  },
+  "adventures": {
+    "title": "Micro-Adventures Library",
+    "subtitle": "Don’t just book a sitter, book an experience. Educational and fun activities for your children.",
+    "searchPlaceholder": "Search adventures..."
+  },
+  "adventureCard": {
+    "placeholderLabel": "Micro-Adventure",
+    "by": "by {name}",
+    "durationMinutes": "{minutes} mins",
+    "details": "Details"
+  },
+  "neighbourhoodMap": {
+    "defaultLocation": "Sitter location",
+    "areaLabel": "{neighbourhood} area"
+  },
+  "reportIssueForm": {
+    "issueTypes": {
+      "noShow": "No-show",
+      "safetyConcern": "Safety concern",
+      "paymentIssue": "Payment issue",
+      "other": "Other"
+    },
+    "errors": {
+      "selectIssueAndDescription": "Please select an issue type and provide a description.",
+      "failedToSubmit": "Failed to submit report.",
+      "somethingWentWrong": "Something went wrong. Please try again."
+    },
+    "successMessage": "Issue reported. Our team will review this shortly.",
+    "title": "Report an issue",
+    "subtitle": "Let us know if something went wrong with this session",
+    "issueTypeLabel": "Issue Type",
+    "selectIssueTypePlaceholder": "Select an issue type...",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Please explain what happened...",
+    "charCount": "{count}/{max}",
+    "cancel": "Cancel",
+    "submitting": "Submitting...",
+    "submit": "Report Issue"
+  },
+  "welcomeBanner": {
+    "welcomeMessage": "Welcome back, {name}! 👋",
+    "youHave": "You have",
+    "sessionCountLabel": "{count, plural, one {# upcoming session} other {# upcoming sessions}}",
+    "thisWeek": "this week",
+    "noUpcomingSessions": "You have no upcoming sessions this week"
+  },
+  "home": {
+    "hero": {
+      "titleLine1": "Culturally-Matched",
+      "titleLine2": "Childcare",
+      "subtitle": "Connect with verified babysitters who understand your family’s culture and language. Book trusted care in under 2 hours—no waitlists.",
+      "searchPlaceholder": "Enter your location or postal code",
+      "searchButton": "Search Sitters",
+      "imageAlt": "Babysitter playing with child",
+      "trust": {
+        "verified": "100% Verified",
+        "matchTime": "<2 hours to match",
+        "languages": "15+ Languages"
+      },
+      "badges": {
+        "verifiedLabel": "100% Verified",
+        "backgroundChecked": "Background Checked",
+        "backgroundCheckedDesc": "All sitters screened & verified",
+        "languagesCount": "+11",
+        "languagesLabel": "15+ Languages"
+      }
+    },
+    "features": {
+      "badge": "FEATURES",
+      "title": "Everything You Need for Peace of Mind",
+      "subtitle": "We’ve reimagined childcare for modern families. Safe, educational, and culturally aligned.",
+      "smartMatching": {
+        "title": "Smart Matching",
+        "desc": "Find sitters who match your language, cultural background, and special needs requirements.",
+        "tags": {
+          "tag1": "Language Match",
+          "tag2": "Special Needs",
+          "tag3": "Education Support"
+        }
+      },
+      "culturalMatch": {
+        "title": "Cultural Match",
+        "desc": "Find sitters who speak your language and understand your cultural traditions.",
+        "languagesAvailable": "15+ languages available"
+      },
+      "verified": {
+        "title": "100% Verified",
+        "desc": "Every sitter undergoes rigorous background checks, ID verification, and reference screening."
+      },
+      "microAdventures": {
+        "title": "Micro-Adventures",
+        "desc": "Turn babysitting into learning time with science experiments, creative arts, and cooking activities."
+      }
+    },
+    "comparisonTable": {
+      "badge": "COMPARISON",
+      "title": "The Smart Choice for Newcomers",
+      "subtitle": "See how we compare to traditional childcare options",
+      "headers": {
+        "feature": "Feature",
+        "daycare": "Daycare",
+        "informalSitter": "Informal Sitter",
+        "littleHalo": "littleHALO"
+      },
+      "rows": {
+        "waitlist": {
+          "label": "Waitlist",
+          "daycare": "9–12 Months",
+          "informalSitter": "None",
+          "littleHalo": "None (Instant)"
+        },
+        "backgroundChecks": {
+          "label": "Background Checks",
+          "littleHalo": "Verified"
+        },
+        "culturalMatch": {
+          "label": "Cultural Match",
+          "daycare": "Random",
+          "informalSitter": "Luck-based",
+          "littleHalo": "Available"
+        },
+        "insurance": {
+          "label": "Insurance",
+          "daycare": "Yes",
+          "informalSitter": "No",
+          "littleHalo": "Coming Soon"
+        },
+        "cost": {
+          "label": "Cost",
+          "daycare": "High (Monthly)",
+          "informalSitter": "$15–25/hr",
+          "littleHalo": "$18–28/hr"
+        }
+      }
+    },
+    "howItWorks": {
+      "badge": "HOW IT WORKS",
+      "title": "Getting Started is Easy",
+      "subtitle": "Finding trusted childcare has never been easier. Get matched in minutes.",
+      "steps": {
+        "step1": {
+          "title": "Create Your Profile",
+          "desc": "Tell us about your family’s needs, language preferences, and any special requirements.",
+          "note": "Takes 3 minutes"
+        },
+        "step2": {
+          "title": "Find Your Match",
+          "desc": "Browse verified, culturally-matched sitters in your area. Read reviews and check availability.",
+          "note": "100% verified sitters"
+        },
+        "step3": {
+          "title": "Book with Confidence",
+          "desc": "Schedule care and relax knowing your kids are in safe, caring hands. Track everything in-app.",
+          "note": "Secure booking"
+        }
+      }
+    },
+    "forParents": {
+      "badge": "FOR PARENTS",
+      "title": "Find your village instantly.",
+      "desc": "Stop calling daycares that are full. Browse profiles, check reviews, and book a verified sitter for tonight or next month.",
+      "points": {
+        "point1": "Same-day booking available for emergencies.",
+        "point2": "Special needs support with specialized filters."
+      },
+      "cta": "Create Family Profile"
+    },
+    "forSitters": {
+      "badge": "FOR SITTERS",
+      "title": "Earn meaningful income.",
+      "desc": "Turn your childcare experience into flexible earnings. Set your rates, choose your hours, and help newcomer families thrive.",
+      "rate": "$18–28",
+      "rateUnit": "/hr",
+      "cta": "Become a Sitter"
+    },
+    "footer": {
+      "logoAlt": "Little Halo",
+      "description": "Connecting newcomer families with culturally-matched, verified childcare in Atlantic Canada.",
+      "columns": {
+        "product": {
+          "title": "Product",
+          "features": "Features",
+          "howItWorks": "How It Works"
+        },
+        "forFamilies": {
+          "title": "For Families",
+          "findSitter": "Find a Sitter",
+          "reviews": "Reviews"
+        },
+        "forSitters": {
+          "title": "For Sitters",
+          "becomeSitter": "Become a Sitter"
+        },
+        "company": {
+          "title": "Company",
+          "aboutUs": "About Us",
+          "contact": "Contact"
+        }
+      },
+      "copyright": "© 2026 littleHALO. All rights reserved.",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service"
+    }
+  },
+  "activityLibrary": {
+    "header": {
+      "eyebrow": "Micro-Adventures",
+      "title": "Educational Activities for Every Child",
+      "description": "Structured, educator-approved activities designed to make every session a growth opportunity. Each adventure targets a developmental skill — parents assign them before the session; sitters bring them to life.",
+      "badges": {
+        "activityCount": "{count} Activities",
+        "specialNeedsReviewed": "All special-needs reviewed",
+        "sitterTested": "Sitter-tested"
+      }
+    },
+    "search": {
+      "placeholder": "Search by title, skill, or goal...",
+      "filtersButton": "Filters"
+    },
+    "filters": {
+      "ageRange": {
+        "label": "Age Range",
+        "options": {
+          "under3": "0–3 yrs",
+          "threeToSix": "3–6 yrs",
+          "sixToNine": "6–9 yrs",
+          "ninePlus": "9+ yrs"
+        }
+      },
+      "duration": {
+        "label": "Duration",
+        "options": {
+          "under15": "Under 15 min",
+          "fifteenToThirty": "15–30 min",
+          "thirtyPlus": "30+ min"
+        }
+      },
+      "difficulty": {
+        "label": "Difficulty"
+      },
+      "specialNeeds": {
+        "label": "Special Needs",
+        "options": {
+          "autismFriendly": "Autism-Friendly",
+          "sensorySafe": "Sensory-Safe",
+          "adhdSuitable": "ADHD-Suitable",
+          "nonVerbalOk": "Non-Verbal OK",
+          "lowStimulation": "Low-Stimulation"
+        }
+      },
+      "resetAll": "Reset all filters"
+    },
+    "categoryCount": "({count})",
+    "booking": {
+      "activeMessage": "<strong>Booking Mode Active:</strong> Select activities below to add them to your reservation.",
+      "confirmButton": "Confirm {count} Adventures"
+    },
+    "states": {
+      "networkError": "Network Error",
+      "noMatches": "No adventures match your criteria.",
+      "noMatchesHint": "Try widening your filters or search constraints.",
+      "clearFilters": "Clear all filters"
+    },
+    "pagination": {
+      "showing": "Showing {count} of {total, plural, one {# activity} other {# activities}}",
+      "loadMore": "Load More"
+    }
+  },
+  "activityCard": {
+    "removeBookmark": "Remove bookmark",
+    "bookmarkActivity": "Bookmark activity",
+    "viewDetails": "View Details",
+    "added": "✓ Added",
+    "addToSession": "Add to Session"
+  },
+  "featuredCarousel": {
+    "heading": "Featured Adventures"
+  },
+  "activityModal": {
+    "close": "Close",
+    "stats": {
+      "ageRange": "Age Range",
+      "duration": "Duration",
+      "savedBySitters": "Saved by sitters"
+    },
+    "sections": {
+      "learningGoals": "Learning Goals",
+      "materialsNeeded": "Materials Needed",
+      "stepByStepGuide": "Step-by-Step Guide",
+      "accessibility": "Accessibility"
+    },
+    "actions": {
+      "saveActivity": "Save Activity",
+      "addedToSession": "✓ Added to Session",
+      "addToSession": "Add to Session"
+    }
+  },
+  "adventuresBenefits": {
+    "heading": "What Makes Our Activities Special?",
+    "intro": "Micro-adventures are structured, educational activities designed to engage children’s minds, bodies, and creativity. They’re called <strong>’micro’</strong> because they fit into 20-60 minute time blocks, and <strong>’adventures’</strong> because they make learning feel exciting, not like homework.",
+    "exampleLabel": "Example",
+    "items": {
+      "realLearning": {
+        "title": "Real Learning, Real Skills",
+        "description": "Every activity targets specific developmental goals—from fine motor skills and problem-solving to cultural awareness and emotional intelligence. Your child grows with every session.",
+        "example": "Science experiments teach cause-and-effect thinking and scientific method basics"
+      },
+      "perfectForStage": {
+        "title": "Perfect for Your Child’s Stage",
+        "description": "Each activity is tagged with appropriate age ranges and difficulty levels. Whether your child is 2 or 12, we have engaging options that challenge without frustrating.",
+        "example": "Storytime for ages 2-5, coding basics for ages 8-12"
+      },
+      "includedInBooking": {
+        "title": "Included in Your Booking",
+        "description": "All materials, supplies, and planning are included in your babysitter’s hourly rate. No surprise charges. No hidden fees. Just quality activities that maximize your childcare investment.",
+        "example": "Science experiments use household items; craft materials provided by sitter"
+      },
+      "tailoredToInterests": {
+        "title": "Tailored to Your Child’s Interests",
+        "description": "Choose from our library, request specific activities, or let babysitters create custom adventures based on your child’s unique interests. Obsessed with dinosaurs? Space? Princesses? We’ve got activities for that.",
+        "example": "Dinosaur dig excavation, rocket ship building, royal castle crafts"
+      },
+      "heritageHonored": {
+        "title": "Your Heritage, Honored",
+        "description": "Many activities incorporate cultural elements—traditional stories, cultural cooking, heritage crafts, language practice—helping your child maintain cultural identity while learning new skills.",
+        "example": "Making dumplings teaches measurements and cultural traditions simultaneously"
+      },
+      "handsOnNotScreenTime": {
+        "title": "Hands-On, Not Screen Time",
+        "description": "Every micro-adventure prioritizes active engagement over passive entertainment. Real materials, real experiences, real learning—not just another YouTube video.",
+        "example": "Building actual structures vs. watching building videos"
+      }
+    },
+    "difference": {
+      "heading": "The Difference",
+      "traditionalLabel": "Traditional Babysitting",
+      "traditionalDescription": "Keeping kids safe while they entertain themselves with screens or toys. Passive supervision.",
+      "haloLabel": "littlëHALO Micro-Adventures",
+      "haloDescription": "Active, guided learning experiences that develop skills, build knowledge, and create lasting memories."
+    }
+  },
+  "adventuresCTA": {
+    "badge": "Start Your Child’s Learning Journey Today",
+    "heading": "Ready to Turn Babysitting Into Learning Time?",
+    "description": "Join hundreds of parents who’ve discovered the littlëHALO difference. Book a sitter and choose your first micro-adventure today.",
+    "actions": {
+      "getStartedFree": "Get Started Free",
+      "browseSitters": "Browse Sitters"
+    },
+    "sitterCta": {
+      "question": "Are you a babysitter looking to stand out with unique activities?",
+      "link": "Learn how to add activities to your profile"
+    }
+  },
+  "activityUtils": {
+    "categories": {
+      "allActivities": "All Activities",
+      "empathy": "Empathy",
+      "creativity": "Creativity",
+      "problemSolving": "Problem Solving",
+      "language": "Language",
+      "physical": "Physical",
+      "nature": "Nature",
+      "socialSkills": "Social Skills",
+      "general": "General"
+    },
+    "difficulty": {
+      "easy": "Easy",
+      "moderate": "Moderate",
+      "advanced": "Advanced"
+    },
+    "allAges": "All ages",
+    "upToYears": "Up to {max} yrs",
+    "yearsSingle": "{age} yrs",
+    "yearsRange": "{min}–{max} yrs",
+    "durationMinutes": "{minutes} min",
+    "durationUnknown": "—"
+  },
+  "profileParentPreferences": {
+    "title": "Your Preferences",
+    "editPreferences": "Edit Preferences",
+    "view": {
+      "budget": "Budget",
+      "budgetValue": "Up to ${amount}/hour",
+      "languages": "Languages",
+      "any": "Any",
+      "location": "Location",
+      "notSet": "Not set",
+      "specialNeeds": "Special Needs",
+      "noneNoted": "None noted"
+    },
+    "form": {
+      "location": "Location",
+      "locationPlaceholder": "e.g. Fredericton, NB",
+      "maxBudget": "Max Hourly Budget (CAD)",
+      "preferredLanguages": "Preferred Languages",
+      "languagesPlaceholder": "e.g. English, Yoruba, French",
+      "languagesHint": "Separate languages with commas",
+      "languagesError": "Enter at least one language",
+      "saving": "Saving...",
+      "saveChanges": "Save Changes",
+      "cancel": "Cancel"
+    }
+  },
+  "scheduleParent": {
+    "header": {
+      "greeting": "Hello, {name}",
+      "subtitle": "Here’s your schedule"
+    },
+    "days": {
+      "sun": "Sun",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat"
+    },
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelledDeclined": "Cancelled/Declined"
+    },
+    "viewToggle": {
+      "month": "Month",
+      "week": "Week"
+    },
+    "time": {
+      "am": "AM",
+      "pm": "PM"
+    },
+    "fallback": {
+      "parent": "Parent",
+      "sitter": "Sitter"
+    },
+    "details": {
+      "title": "Booking Details",
+      "sitter": "Sitter",
+      "dateTime": "Date & Time",
+      "child": "Child",
+      "yearsOld": "{age} years old",
+      "microAdventure": "Micro-Adventure",
+      "leaveReview": "Leave a Review",
+      "reviewSubmitted": "Review submitted ✓"
+    }
+  },
+  "parentSidebar": {
+    "logoAlt": "Little Halo Logo",
+    "brandName": "Little Halo",
+    "nav": {
+      "dashboard": "Dashboard",
+      "schedule": "Schedule",
+      "activities": "Activities",
+      "settings": "Settings"
+    },
+    "loggingOut": "Logging out…",
+    "logOut": "Log Out"
+  },
+  "myChildren": {
+    "title": "My Children",
+    "noChildrenYet": "No children added yet.",
+    "addAnotherChild": "Add Another Child",
+    "yearsOld": "{age} years old",
+    "noSpecialNeeds": "No special needs noted",
+    "form": {
+      "name": "Name",
+      "age": "Age",
+      "specialNeeds": "Special Needs",
+      "saving": "Saving...",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "specialNeeds": {
+      "autism": "Autism",
+      "adhd": "ADHD",
+      "languageBarrier": "Language Barrier",
+      "hearingImpairment": "Hearing Impairment",
+      "visualImpairment": "Visual Impairment",
+      "downSyndrome": "Down Syndrome",
+      "cerebralPalsy": "Cerebral Palsy",
+      "speechDelay": "Speech Delay",
+      "anxiety": "Anxiety",
+      "sensoryProcessing": "Sensory Processing"
+    }
+  },
+  "childProgress": {
+    "title": "{name}’s Progress",
+    "totalSessions": "Total Sessions",
+    "adventuresCompleted": "Adventures Completed",
+    "skillsPracticed": "Skills Practiced",
+    "viewFullReport": "View Full Report"
+  },
+  "parentReviewForm": {
+    "titleWithSitter": "How was your session with {sitterName}?",
+    "completed": "Completed",
+    "overallQuality": "Overall session quality",
+    "adventureExecution": "Micro-adventure execution",
+    "yourReview": "Your review",
+    "reviewPlaceholder": "What did you love? What could be better?",
+    "sessionInfo": "Session · {date}",
+    "sessionInfoWithHours": "Session · {date} · {hours} hrs",
+    "wouldYouRebook": "Would you rebook {sitterName}?",
+    "rebookOptions": {
+      "yes": "Yes, definitely",
+      "maybe": "Maybe",
+      "no": "No"
+    },
+    "submitting": "Submitting…",
+    "submitReview": "Submit review",
+    "submittedThanks": "Review submitted. Thank you!",
+    "errors": {
+      "rateRequired": "Please rate the session quality.",
+      "submitFailed": "Failed to submit review.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "profileParent": {
+    "loading": "Loading...",
+    "quickActions": {
+      "comingSoon": "Coming soon",
+      "findSitters": {
+        "label": "Find Sitters",
+        "desc": "Search for new sitters"
+      },
+      "adventures": {
+        "label": "Adventures",
+        "desc": "Browse activities"
+      },
+      "messages": {
+        "label": "Messages",
+        "desc": "Chat with sitters"
+      },
+      "payments": {
+        "label": "Payments",
+        "desc": "View billing history"
+      }
+    },
+    "matchPriorities": {
+      "title": "Match Priorities",
+      "learnedWeightsActive": "🧠 learned weights active",
+      "subtitle": "Adjust what matters most — sitters re-rank instantly",
+      "hide": "▲ Hide",
+      "show": "▼ Show",
+      "resetToDefaults": "Reset to defaults"
+    },
+    "topMatches": {
+      "title": "Top Matched Sitters for You",
+      "searchSitters": "Search Sitters",
+      "filterByDistance": "Filter by distance:",
+      "kmLabel": "{km} km",
+      "clear": "Clear",
+      "noneWithinRadius": "No sitters found within {radiusKm} km. Try a larger radius.",
+      "noneFound": "No matching sitters found. Try adjusting your preferences."
+    },
+    "bookings": {
+      "title": "My Bookings",
+      "viewAll": "View All",
+      "empty": "No bookings yet.",
+      "findASitter": "Find a sitter →",
+      "statusBadges": {
+        "confirmed": "Confirmed",
+        "awaitingSitter": "Awaiting sitter",
+        "declined": "Declined",
+        "cancelled": "Cancelled",
+        "completed": "Completed"
+      },
+      "statusMessages": {
+        "pendingSitter": "Waiting for {sitterName} to confirm your booking.",
+        "confirmed": "{sitterName} has confirmed your booking. You’re all set!",
+        "declined": "{sitterName} couldn’t take this booking. Try finding another sitter."
+      },
+      "forChild": "For",
+      "microAdventure": "Micro-Adventure:",
+      "markedCompleteWaiting": "✓ You marked this complete — waiting for the sitter to confirm.",
+      "marking": "Marking…",
+      "markComplete": "Mark Session as Complete",
+      "reviewSubmitted": "Review submitted ✓"
+    }
+  },
+  "profileSitter": {
+    "completionBanner": {
+      "title": "Complete your profile",
+      "description": "Set your availability so families can book you",
+      "setAvailability": "Set Availability"
+    },
+    "verificationBanner": {
+      "incomplete": {
+        "title": "Complete your verification to start receiving bookings",
+        "cta": "Complete Verification"
+      },
+      "pending": {
+        "title": "Your documents are under review. We will notify you within 2–3 business days."
+      },
+      "rejected": {
+        "title": "Your verification was unsuccessful. Please resubmit your documents.",
+        "cta": "Resubmit"
+      }
+    },
+    "stats": {
+      "monthlyEarnings": "This Month’s Earnings",
+      "totalSessions": "Total Sessions",
+      "averageRating": "Average Rating{hasReviews, select, yes { ({totalReviews})} other {}}",
+      "activeFamilies": "Active Families"
+    },
+    "quickActions": {
+      "schedule": {
+        "label": "My Schedule",
+        "desc": "View availability"
+      },
+      "messages": {
+        "label": "Messages",
+        "desc": "Chat with families"
+      },
+      "earnings": {
+        "label": "Earnings",
+        "desc": "Payment history"
+      },
+      "profile": {
+        "label": "Profile",
+        "desc": "Edit your profile"
+      }
+    },
+    "sessions": {
+      "title": "My Sessions",
+      "viewAll": "View All",
+      "empty": "No bookings yet."
+    },
+    "sessionCard": {
+      "status": {
+        "confirmed": "Confirmed",
+        "declined": "Declined",
+        "awaitingResponse": "Awaiting your response"
+      },
+      "age": "Age {age}",
+      "microAdventure": "Micro-Adventure:",
+      "noteFromParent": "Note from parent:",
+      "acceptBooking": "Accept Booking",
+      "accepting": "Accepting…",
+      "decline": "Decline",
+      "declining": "Declining…",
+      "markComplete": "Mark Session as Complete",
+      "marking": "Marking…",
+      "markedCompleteNotice": "✓ You marked this complete — waiting for the parent to confirm.",
+      "feedbackSubmitted": "Feedback submitted ✓",
+      "reportIssue": "Report an issue",
+      "viewDetails": "View Details",
+      "getDirections": "Get Directions",
+      "errors": {
+        "failedUpdate": "Failed to update booking",
+        "generic": "Something went wrong. Please try again."
+      }
+    },
+    "reviews": {
+      "title": "Recent Reviews",
+      "empty": "No reviews yet.",
+      "defaultParentName": "Parent"
+    },
+    "profileCompletion": {
+      "title": "Profile Completion",
+      "percentComplete": "{percentage}% Complete",
+      "almostThere": "Almost there!",
+      "items": {
+        "backgroundCheck": "Background check verified",
+        "profilePhoto": "Profile photo uploaded",
+        "certifications": "Add more certifications"
+      }
+    },
+    "earningsBreakdown": {
+      "title": "Earnings Breakdown",
+      "thisWeek": "This Week",
+      "completedSessions": "Completed Sessions",
+      "tipsReceived": "Tips Received",
+      "totalThisMonth": "Total This Month",
+      "requestPayout": "Request Payout"
+    },
+    "thisMonth": {
+      "title": "This Month",
+      "sessions": "Sessions",
+      "completedCount": "{count} completed",
+      "adventures": "Adventures",
+      "facilitatedCount": "{count} facilitated",
+      "newReviews": "New Reviews",
+      "reviewsThisMonthCount": "{count} this month"
+    },
+    "topSkills": {
+      "title": "Top Skills",
+      "sessionsCount": "{count} sessions",
+      "items": {
+        "empathyBuilding": "Empathy Building",
+        "problemSolving": "Problem Solving",
+        "creativeExpression": "Creative Expression"
+      }
+    }
+  },
+  "search": {
+    "loading": "Loading...",
+    "header": {
+      "title": "Find Your Perfect Sitter"
+    },
+    "resultsAvailable": "{count, plural, one {# sitter} other {# sitters}} available in your area",
+    "searchPlaceholder": "Search by name…",
+    "filters": {
+      "title": "Filters",
+      "clearAll": "Clear all",
+      "hourlyRate": "Hourly Rate",
+      "minPlaceholder": "Min",
+      "maxPlaceholder": "Max",
+      "experienceYears": "Experience (years)",
+      "zero": "0",
+      "yearsPlus": "{count}+ yrs",
+      "maxExperienceLabel": "10+",
+      "specialNeeds": "Special Needs",
+      "specialNeedsOptions": {
+        "autism": "Autism",
+        "adhd": "ADHD",
+        "sensory": "Sensory",
+        "languageSupport": "Language Support",
+        "anxiety": "Anxiety",
+        "speechDelay": "Speech Delay",
+        "downSyndrome": "Down Syndrome"
+      },
+      "languages": "Languages",
+      "languageOptions": {
+        "english": "English",
+        "french": "French",
+        "spanish": "Spanish",
+        "mandarin": "Mandarin",
+        "asl": "ASL"
+      },
+      "availability": "Availability",
+      "availabilityOptions": {
+        "weekdays": "Weekdays",
+        "weekends": "Weekends"
+      },
+      "matchPriorities": "Match Priorities",
+      "learned": "learned",
+      "criteria": {
+        "language": "Language Match",
+        "price": "Price",
+        "rating": "Rating",
+        "experience": "Experience"
+      },
+      "resetDefaults": "Reset to defaults"
+    },
+    "emptyState": {
+      "title": "No sitters match your filters",
+      "subtitle": "Try adjusting your search criteria",
+      "clearFilters": "Clear all filters"
+    }
+  },
+  "searchMatchingButton": {
+    "sitterFallbackAlt": "Sitter",
+    "scoreMatch": "{percent}% match",
+    "reviewsCount": "({count, plural, one {# review} other {# reviews}})",
+    "experienceYears": "{count, plural, one {# year experience} other {# years experience}}",
+    "hourlyRate": "${rate}/hour",
+    "viewProfile": "View Profile"
+  },
+  "sitters": {
+    "header": {
+      "title": "Browse Sitters"
+    },
+    "resultsFound": "{count, plural, one {# sitter} other {# sitters}} found",
+    "resultsFoundWithinRadius": "{count, plural, one {# sitter} other {# sitters}} found within {km} km",
+    "radiusLabel": "Radius:",
+    "radiusKmOption": "{km} km",
+    "clearRadius": "Clear",
+    "yourLocationTitle": "Your location",
+    "hourlyRate": "${rate}/hr",
+    "viewProfile": "View Profile",
+    "setNeighbourhoodPrompt": "Set your neighbourhood during signup to see distances.",
+    "locationNotSet": "Location not set",
+    "distanceUnavailable": "Distance unavailable",
+    "emptyState": {
+      "title": "No sitters found in this radius.",
+      "clearRadius": "Clear radius filter"
+    }
+  },
+  "settingsParent": {
+    "nav": {
+      "back": "Back",
+      "profile": "Profile",
+      "children": "Children",
+      "preferences": "Preferences",
+      "account": "Account"
+    },
+    "common": {
+      "settings": "Settings",
+      "saveChanges": "Save changes",
+      "saving": "Saving…",
+      "cancel": "Cancel",
+      "selectCountry": "Select country…",
+      "search": "Search…",
+      "noResults": "No results",
+      "province": "Province",
+      "city": "City",
+      "selectProvince": "Select province…",
+      "selectCity": "Select city…",
+      "dash": "—",
+      "neighbourhood": "Neighbourhood",
+      "optional": "optional",
+      "clear": "Clear",
+      "searchOrSelectNeighbourhood": "Search or select a neighbourhood…",
+      "typeToFilter": "Type to filter…",
+      "noNeighbourhoodsFound": "No neighbourhoods found",
+      "days": {
+        "Mon": "Mon",
+        "Tue": "Tue",
+        "Wed": "Wed",
+        "Thu": "Thu",
+        "Fri": "Fri",
+        "Sat": "Sat",
+        "Sun": "Sun"
+      },
+      "slots": {
+        "morning": "morning",
+        "afternoon": "afternoon",
+        "evening": "evening"
+      },
+      "languages": {
+        "english": "English",
+        "french": "French",
+        "mandarin": "Mandarin",
+        "arabic": "Arabic",
+        "spanish": "Spanish",
+        "yoruba": "Yoruba",
+        "hindi": "Hindi",
+        "portuguese": "Portuguese"
+      },
+      "countries": {
+        "canada": "Canada",
+        "unitedStates": "United States",
+        "nigeria": "Nigeria",
+        "ghana": "Ghana",
+        "unitedKingdom": "United Kingdom",
+        "india": "India",
+        "china": "China",
+        "philippines": "Philippines",
+        "jamaica": "Jamaica",
+        "kenya": "Kenya",
+        "ethiopia": "Ethiopia",
+        "southAfrica": "South Africa",
+        "pakistan": "Pakistan",
+        "bangladesh": "Bangladesh",
+        "sriLanka": "Sri Lanka",
+        "mexico": "Mexico",
+        "brazil": "Brazil",
+        "france": "France",
+        "germany": "Germany",
+        "italy": "Italy",
+        "spain": "Spain",
+        "portugal": "Portugal",
+        "australia": "Australia",
+        "newZealand": "New Zealand",
+        "haiti": "Haiti",
+        "somalia": "Somalia",
+        "sudan": "Sudan",
+        "egypt": "Egypt",
+        "trinidadAndTobago": "Trinidad and Tobago",
+        "barbados": "Barbados",
+        "guyana": "Guyana",
+        "senegal": "Senegal",
+        "cameroon": "Cameroon",
+        "uganda": "Uganda",
+        "tanzania": "Tanzania"
+      },
+      "specialNeeds": {
+        "autism": "Autism",
+        "adhd": "ADHD",
+        "developmentalDelays": "Developmental delays",
+        "none": "None"
+      }
+    },
+    "toasts": {
+      "profileUpdated": "Profile updated successfully",
+      "profileUpdateFailed": "Failed to save profile",
+      "childAdded": "Child added",
+      "childUpdated": "Child updated",
+      "childSaveFailed": "Failed to save child",
+      "childRemoveFailed": "Failed to remove child",
+      "childRemoved": "Child removed",
+      "preferencesUpdated": "Preferences updated successfully",
+      "preferencesUpdateFailed": "Failed to save preferences"
+    },
+    "tabs": {
+      "profile": {
+        "title": "Profile",
+        "subtitle": "Your public-facing information shown to sitters.",
+        "avatarAlt": "avatar",
+        "changePhoto": "Change photo",
+        "uploadPhoto": "Upload photo",
+        "previewHint": "Preview — save to apply",
+        "photoRequirements": "JPG, PNG or WEBP · max 2 MB",
+        "fullNameLabel": "Full name",
+        "fullNamePlaceholder": "Jane Doe",
+        "nameRequired": "Name is required.",
+        "phoneLabel": "Phone number",
+        "phonePlaceholder": "(506) 555-0100",
+        "countryLabel": "Country of origin",
+        "locationLabel": "Location",
+        "locationHint": "Select your province and city. Neighbourhood is optional and auto-sets your coordinates.",
+        "languagesLabel": "Languages spoken",
+        "noteLabel": "Short note to sitters",
+        "noteCounterHint": "{count}/300",
+        "notePlaceholder": "Tell sitters about your family, routines, or anything helpful…",
+        "photoUploadFailed": "Photo upload failed: {message}"
+      },
+      "children": {
+        "title": "Children",
+        "subtitle": "Manage the children in your care.",
+        "addChild": "Add child",
+        "noChildrenYet": "No children added yet. Click \"Add child\" to get started.",
+        "childNameLabel": "Child’s name",
+        "childNamePlaceholder": "Emma",
+        "nameRequired": "Name is required.",
+        "dobLabel": "Date of birth",
+        "dobRequired": "Date of birth is required.",
+        "specialNeedsLabel": "Special needs",
+        "medicalNotesLabel": "Allergies / medical notes",
+        "medicalNotesPlaceholder": "Peanut allergy, EpiPen in red bag…",
+        "saveChild": "Save child",
+        "yearsOld": "{age, plural, one {# year old} other {# years old}}",
+        "removeConfirm": "Remove {name}? This cannot be undone.",
+        "remove": "Remove"
+      },
+      "preferences": {
+        "title": "Preferences",
+        "subtitle": "Help sitters understand what you’re looking for.",
+        "budgetLabel": "Budget range ($/hr)",
+        "budgetMinPlaceholder": "Min",
+        "budgetMaxPlaceholder": "Max",
+        "to": "to",
+        "availabilityLabel": "Preferred availability",
+        "availabilityHint": "Select the times that work best for your family"
+      },
+      "account": {
+        "title": "Account",
+        "subtitle": "Manage your credentials and account status.",
+        "emailLabel": "Email address",
+        "emailCannotChange": "Email cannot be changed here. Contact support if needed.",
+        "changePasswordTitle": "Change password",
+        "currentPasswordLabel": "Current password",
+        "newPasswordLabel": "New password",
+        "confirmPasswordLabel": "Confirm new password",
+        "passwordsNoMatch": "Passwords do not match.",
+        "passwordTooShort": "Password must be at least 6 characters.",
+        "passwordUpdated": "Password updated successfully.",
+        "updatePassword": "Update password",
+        "dangerZoneTitle": "Danger zone",
+        "deleteWarning": "Deleting your account is permanent. All your data, bookings history, and children profiles will be removed.",
+        "deleteAccountButton": "Delete my account",
+        "areYouSure": "Are you sure?",
+        "deleteConfirmInstructions": "This cannot be undone. Type <strong>DELETE</strong> to confirm.",
+        "typeDeletePlaceholder": "Type DELETE",
+        "deleteAccountConfirmBtn": "Delete account",
+        "deleting": "Deleting…",
+        "deleteAccountFailed": "Failed to delete account. Please try again."
+      }
+    }
+  },
+  "settingsSitter": {
+    "common": {
+      "saving": "Saving…",
+      "saveChanges": "Save changes"
+    },
+    "nav": {
+      "back": "Back",
+      "settingsTitle": "Settings",
+      "profile": "Profile",
+      "availability": "Availability",
+      "verification": "Verification",
+      "account": "Account"
+    },
+    "shared": {
+      "languages": {
+        "English": "English",
+        "French": "French",
+        "Mandarin": "Mandarin",
+        "Arabic": "Arabic",
+        "Spanish": "Spanish",
+        "Yoruba": "Yoruba",
+        "Hindi": "Hindi",
+        "Portuguese": "Portuguese"
+      }
+    },
+    "toasts": {
+      "profileUpdated": "Profile updated successfully",
+      "profileSaveFailed": "Failed to save profile"
+    },
+    "tabs": {
+      "profile": {
+        "title": "Profile",
+        "subtitle": "Your public-facing information shown to families.",
+        "avatarAlt": "avatar",
+        "changePhoto": "Change photo",
+        "uploadPhoto": "Upload photo",
+        "previewHint": "Preview — save to apply",
+        "fileHint": "JPG, PNG or WEBP · max 2 MB",
+        "fullNameLabel": "Full name",
+        "fullNamePlaceholder": "Your name",
+        "phoneLabel": "Phone number",
+        "phonePlaceholder": "(506) 555-0100",
+        "bioLabel": "Short bio",
+        "bioHint": "{count}/300",
+        "bioPlaceholder": "Tell families about yourself…",
+        "hourlyRateLabel": "Hourly rate (CAD $)",
+        "hourlyRatePlaceholder": "e.g. 20",
+        "languagesLabel": "Languages spoken",
+        "locationLabel": "Your location",
+        "locationHint": "Select your neighbourhood — this sets your pin on the parent map.",
+        "errors": {
+          "nameRequired": "Name is required.",
+          "photoUploadFailed": "Photo upload failed: {message}"
+        },
+        "location": {
+          "provinceLabel": "Province",
+          "selectProvince": "Select province…",
+          "cityLabel": "City",
+          "selectCity": "Select city…",
+          "dash": "—",
+          "neighbourhoodLabel": "Neighbourhood",
+          "optionalLabel": "(optional)",
+          "clearButton": "Clear",
+          "searchPlaceholder": "Search or select a neighbourhood…",
+          "typeToFilter": "Type to filter…",
+          "noResults": "No neighbourhoods found",
+          "pinnedTo": "Location pinned to {neighbourhood}"
+        }
+      },
+      "availability": {
+        "title": "Availability",
+        "subtitle": "Set which days and hours you’re available for bookings. This helps families find times that work for you.",
+        "saveSuccess": "Availability updated successfully",
+        "errors": {
+          "loadFailed": "Failed to load availability"
+        }
+      },
+      "account": {
+        "title": "Account",
+        "subtitle": "Manage your credentials and account status.",
+        "emailLabel": "Email address",
+        "emailHint": "Email cannot be changed here. Contact support if needed.",
+        "changePasswordTitle": "Change password",
+        "newPasswordLabel": "New password",
+        "confirmPasswordLabel": "Confirm new password",
+        "updatePasswordButton": "Update password",
+        "passwordUpdated": "Password updated successfully.",
+        "dangerZoneTitle": "Danger zone",
+        "dangerZoneText": "Deleting your account is permanent. All your data and booking history will be removed.",
+        "deleteAccountButton": "Delete my account",
+        "confirmDeleteTitle": "Are you sure?",
+        "deleteConfirmBefore": "This cannot be undone. Type",
+        "deleteConfirmAfter": "to confirm.",
+        "deleteInputPlaceholder": "Type DELETE",
+        "deletingLabel": "Deleting…",
+        "deleteAccountConfirmButton": "Delete account",
+        "cancelButton": "Cancel",
+        "deleteFailed": "Failed to delete account. Please try again.",
+        "errors": {
+          "passwordMismatch": "Passwords do not match.",
+          "passwordTooShort": "Password must be at least 6 characters."
+        }
+      }
+    }
+  },
+  "signupParent": {
+    "back": "Back",
+    "title": "Create your parent account",
+    "subtitle": "Tell us about yourself and your family so we can find the perfect sitter",
+    "sections": {
+      "account": {
+        "title": "Account Details",
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "Your full name",
+        "phone": "Phone Number",
+        "phonePlaceholder": "(506) 555-0100",
+        "email": "Email Address",
+        "emailPlaceholder": "your@email.com",
+        "password": "Password",
+        "passwordPlaceholder": "Min. 6 characters"
+      },
+      "family": {
+        "title": "Your Family",
+        "neighbourhood": "Neighbourhood",
+        "neighbourhoodPlaceholder": "Select neighbourhood…",
+        "neighbourhoodSelected": "{neighbourhood} area selected",
+        "maxBudget": "Max Hourly Budget (CAD)",
+        "maxBudgetPlaceholder": "e.g. 25",
+        "aboutFamily": "About Your Family",
+        "aboutFamilyPlaceholder": "Tell sitters a bit about your family, your values, routines, and what you’re looking for...",
+        "preferredLanguages": "Preferred Languages",
+        "preferredLanguagesHint": "Languages you’d like your sitter to speak",
+        "languageRequired": "Please select at least one language"
+      },
+      "children": {
+        "title": "Your Children",
+        "addButton": "Add child",
+        "childLabel": "Child {number}",
+        "name": "Name",
+        "namePlaceholder": "Child’s name",
+        "age": "Age",
+        "agePlaceholder": "Age",
+        "specialNeeds": "Special needs",
+        "optional": "(optional)"
+      }
+    },
+    "languageOptions": {
+      "English": "English",
+      "French": "French",
+      "Spanish": "Spanish",
+      "Mandarin": "Mandarin",
+      "Arabic": "Arabic",
+      "Hindi": "Hindi",
+      "Yoruba": "Yoruba",
+      "Igbo": "Igbo",
+      "Hausa": "Hausa",
+      "Swahili": "Swahili",
+      "Portuguese": "Portuguese",
+      "Punjabi": "Punjabi",
+      "Tagalog": "Tagalog",
+      "Urdu": "Urdu",
+      "Bengali": "Bengali",
+      "Tamil": "Tamil",
+      "Somali": "Somali",
+      "Amharic": "Amharic"
+    },
+    "specialNeedsOptions": {
+      "Autism": "Autism",
+      "ADHD": "ADHD",
+      "Language Barrier": "Language Barrier",
+      "Hearing Impairment": "Hearing Impairment",
+      "Visual Impairment": "Visual Impairment",
+      "Down Syndrome": "Down Syndrome",
+      "Cerebral Palsy": "Cerebral Palsy",
+      "Speech Delay": "Speech Delay",
+      "Anxiety": "Anxiety",
+      "Sensory Processing": "Sensory Processing"
+    },
+    "submit": {
+      "creating": "Creating account...",
+      "createAccount": "Create Account"
+    },
+    "footer": {
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    }
+  },
+  "signupSitter": {
+    "common": {
+      "back": "Back",
+      "continue": "Continue"
+    },
+    "progress": {
+      "account": "Account",
+      "personal": "Personal",
+      "credentials": "Credentials"
+    },
+    "header": {
+      "title": "Become a Sitter",
+      "subtitle": "Share your culture and skills with families who value authentic heritage care"
+    },
+    "stepIndicator": "Step {step} — {title}",
+    "stepTitles": {
+      "account": "Basic Account",
+      "personal": "Personal Info",
+      "credentials": "Caregiver Credentials",
+      "availability": "Availability"
+    },
+    "steps": {
+      "account": {
+        "nameLabel": "Full Name",
+        "namePlaceholder": "Your full name",
+        "emailLabel": "Email Address",
+        "emailPlaceholder": "your@email.com",
+        "passwordLabel": "Password",
+        "passwordPlaceholder": "Min. 6 characters"
+      },
+      "personal": {
+        "photoLabel": "Profile Photo",
+        "photoPreviewAlt": "Preview",
+        "choosePhoto": "Choose photo",
+        "photoHint": "JPG or PNG, up to 5 MB",
+        "phoneLabel": "Phone Number",
+        "phonePlaceholder": "(506) 555-0100",
+        "areaLabel": "Area",
+        "areaPlaceholder": "Select your area…",
+        "areaSet": "Location set to {neighbourhood} area",
+        "languagesLabel": "Languages Spoken",
+        "languagesPlaceholder": "Search and add languages…",
+        "countryLabel": "Country of Origin",
+        "countryPlaceholder": "Search country…",
+        "bioLabel": "Short Bio",
+        "bioPlaceholder": "Tell families about yourself, your background, and childcare experience…"
+      },
+      "credentials": {
+        "experienceLabel": "Years of Experience",
+        "experiencePlaceholder": "e.g. 3",
+        "hourlyRateLabel": "Hourly Rate (CAD)",
+        "hourlyRatePlaceholder": "e.g. 20",
+        "ageGroupsLabel": "Age Groups",
+        "specialNeedsLabel": "Special Needs Experience",
+        "certificationsLabel": "Certifications"
+      }
+    },
+    "buttons": {
+      "completeProfile": "Complete Profile",
+      "savingProfile": "Saving profile…"
+    },
+    "footer": {
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "errors": {
+      "nameRequired": "Name is required.",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Enter a valid email.",
+      "passwordRequired": "Password is required.",
+      "passwordTooShort": "Password must be at least 6 characters.",
+      "phoneRequired": "Phone number is required.",
+      "neighbourhoodRequired": "Select your neighbourhood.",
+      "languagesRequired": "Select at least one language.",
+      "countryRequired": "Country of origin is required.",
+      "experienceRequired": "Enter years of experience (0 is fine).",
+      "ageGroupsRequired": "Select at least one age group.",
+      "hourlyRateRequired": "Hourly rate is required.",
+      "genericSubmit": "Something went wrong. Please try again."
+    }
+  },
+  "profileSitterPublic": {
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "noAvailabilitySet": "This sitter hasn’t set their availability yet.",
+    "loading": "Loading sitter profile...",
+    "errors": {
+      "fetchFailed": "Failed to fetch sitter",
+      "loadFailed": "Failed to load sitter profile",
+      "notFound": "Sitter not found"
+    },
+    "backToSearch": "Back to Search",
+    "backgroundChecked": "Background Checked",
+    "reviewsCount": "({count, plural, one {# review} other {# reviews}})",
+    "bookNow": "Book Now",
+    "stats": {
+      "experience": "Experience",
+      "experienceYears": "{count, plural, one {# year} other {# years}}",
+      "reviews": "Reviews"
+    },
+    "sections": {
+      "aboutMe": "About Me",
+      "languages": "Languages",
+      "specialNeeds": "Special Needs Experience",
+      "certifications": "Certifications",
+      "location": "Location",
+      "availability": "Availability",
+      "contact": "Contact"
+    },
+    "perHourShort": "/hr",
+    "perHour": "/hour",
+    "readyToBook": "Ready to book?",
+    "scheduleSessionWith": "Schedule a session with {firstName} today!"
+  },
+  "scheduleSitter": {
+    "greeting": "Hello, {name}",
+    "subtitle": "Here’s your schedule",
+    "editAvailability": "Edit Availability",
+    "defaultName": "Sitter",
+    "errors": {
+      "notAuthenticated": "Not authenticated",
+      "saveToDatabaseFailed": "Failed to save availability to database",
+      "saveFailed": "Failed to save availability"
+    }
+  },
+  "sessionsSitter": {
+    "header": {
+      "title": "All Sessions",
+      "subtitle": "Manage and review all your bookings"
+    },
+    "filters": {
+      "statusLabel": "Status",
+      "searchLabel": "Search",
+      "searchPlaceholder": "Search by family name...",
+      "status": {
+        "all": "All",
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "completed": "Completed",
+        "declined": "Declined"
+      }
+    },
+    "empty": {
+      "noSessions": "No sessions yet.",
+      "noMatches": "No sessions match your filters."
+    },
+    "defaults": {
+      "sitterName": "Sitter",
+      "parentName": "Parent",
+      "childName": "Child",
+      "adventureNotSpecified": "Not specified"
+    },
+    "card": {
+      "status": {
+        "confirmed": "Confirmed",
+        "declined": "Declined",
+        "pendingSitter": "Awaiting your response",
+        "pending": "Awaiting your response",
+        "completed": "Completed"
+      },
+      "childAge": "{name}, {age} years old",
+      "dateAt": "{date} at {time}",
+      "sessionRate": "{hours}h @ ${rate}/hr",
+      "errors": {
+        "updateFailed": "Failed to update booking",
+        "generic": "Something went wrong. Please try again."
+      },
+      "accept": "Accept",
+      "accepting": "Accepting…",
+      "decline": "Decline",
+      "declining": "Declining…",
+      "markedCompleteWaiting": "✓ Marked complete — waiting for the parent to confirm.",
+      "markComplete": "Mark Complete",
+      "markingComplete": "Marking complete…",
+      "feedbackSubmitted": "Feedback submitted ✓",
+      "leaveFeedback": "Leave feedback",
+      "reportIssue": "Report issue"
+    }
+  },
+  "sitterSidebar": {
+    "logoAlt": "Little Halo Logo",
+    "brandName": "Little Halo",
+    "nav": {
+      "dashboard": "Dashboard",
+      "schedule": "Schedule",
+      "activities": "Activities",
+      "settings": "Settings"
+    },
+    "loggingOut": "Logging out…",
+    "logOut": "Log Out"
+  },
+  "sitterCard": {
+    "verified": "Verified",
+    "verificationBadge": {
+      "approved": "ID Verified",
+      "pending": "Verification Pending"
+    },
+    "reviewsCount": "{count, plural, one {# review} other {# reviews}}",
+    "atlanticCanada": "Atlantic Canada",
+    "respondsUnder": "Responds within {time}",
+    "experience": "{count, plural, one {# year experience} other {# years experience}}",
+    "hourlyRate": "Hourly rate",
+    "availableDaysThisWeek": "Available this week",
+    "days": {
+      "Mon": "Mon",
+      "Tue": "Tue",
+      "Wed": "Wed",
+      "Thu": "Thu",
+      "Fri": "Fri",
+      "Sat": "Sat",
+      "Sun": "Sun"
+    },
+    "viewProfile": "View Profile",
+    "bookNow": "Book Now"
+  },
+  "sitterVerification": {
+    "title": "Identity Verification",
+    "subtitle": "Complete these steps so families can trust and book you with confidence.",
+    "stepIndicator": "Step {step} of {total}",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "submitting": "Submitting…",
+    "steps": {
+      "1": {
+        "title": "Personal Details",
+        "fullLegalNameLabel": "Full legal name",
+        "fullLegalNamePlaceholder": "As shown on your ID",
+        "dateOfBirthLabel": "Date of birth"
+      },
+      "2": {
+        "title": "Identity Document",
+        "documentTypeLabel": "Document type",
+        "documentTypes": {
+          "passport": "Passport",
+          "driversLicense": "Driver’s License",
+          "provincialId": "Provincial ID"
+        },
+        "frontLabel": "Document front",
+        "backLabel": "Document back"
+      },
+      "3": {
+        "title": "Proof of Address",
+        "uploadLabel": "Proof of address",
+        "hint": "Accepted documents: utility bill, bank statement, or government letter dated within the last 3 months."
+      }
+    },
+    "chooseFile": "Choose file",
+    "uploading": "Uploading…",
+    "uploaded": "Uploaded",
+    "replace": "Replace",
+    "fileTypeHint": "JPG, PNG, or PDF · max 5MB",
+    "rejectedNotice": {
+      "title": "Your previous submission was not approved"
+    },
+    "errors": {
+      "required": "This field is required.",
+      "invalidFileType": "Please upload a JPG, PNG, or PDF file.",
+      "fileTooLarge": "File must be 5MB or smaller.",
+      "uploadFailed": "Upload failed. Please try again.",
+      "submitFailed": "Submission failed. Please try again.",
+      "sdkLoadFailed": "We couldn’t start the verification session. Please try again."
+    },
+    "success": {
+      "heading": "Documents submitted successfully",
+      "subtext": "We will review your documents within 2–3 business days. You will be notified by email once the review is complete."
+    },
+    "statusScreen": {
+      "pending": {
+        "heading": "Your documents are under review",
+        "subtext": "We will notify you within 2–3 business days once the review is complete."
+      },
+      "approved": {
+        "heading": "You’re verified!",
+        "subtext": "Your identity has been verified. Families can now see your verified badge."
+      }
+    }
+  },
+  "sitterCalendar": {
+    "toast": {
+      "availabilityUpdated": "Availability updated",
+      "saveFailed": "Failed to save: {message}",
+      "unknownError": "Unknown error"
+    },
+    "days": {
+      "Sun": "Sun",
+      "Mon": "Mon",
+      "Tue": "Tue",
+      "Wed": "Wed",
+      "Thu": "Thu",
+      "Fri": "Fri",
+      "Sat": "Sat"
+    },
+    "available": "Available",
+    "bookedWith": "Booked with {name}",
+    "months": {
+      "January": "January",
+      "February": "February",
+      "March": "March",
+      "April": "April",
+      "May": "May",
+      "June": "June",
+      "July": "July",
+      "August": "August",
+      "September": "September",
+      "October": "October",
+      "November": "November",
+      "December": "December"
+    },
+    "viewModes": {
+      "month": "Month",
+      "week": "Week",
+      "day": "Day"
+    },
+    "editAvailability": "Edit Availability",
+    "booked": "Booked",
+    "panel": {
+      "family": "Family",
+      "child": "Child",
+      "age": "Age {age}",
+      "date": "Date",
+      "time": "Time",
+      "status": "Status",
+      "confirmed": "Confirmed",
+      "pending": "Pending",
+      "microAdventure": "Micro-Adventure",
+      "markComplete": "Mark as Complete"
+    }
+  },
+  "sitterMapPanel": {
+    "parentPinTitle": "{name}’s location",
+    "yourLocation": "Your location",
+    "hourlyRate": "${rate}/hr",
+    "viewProfile": "View Profile"
+  },
+  "sitterReviews": {
+    "reviews": "Reviews",
+    "reviewsCount": "{count, plural, one {# review} other {# reviews}}",
+    "sessionQuality": "Session Quality",
+    "adventureQuality": "Adventure Quality",
+    "noReviewsYet": "No reviews yet",
+    "showLess": "Show less",
+    "seeAllReviews": "See all {count, plural, one {# review} other {# reviews}}"
+  },
+  "sitterFeedbackForm": {
+    "errors": {
+      "ratingRequired": "Please select a rating",
+      "submitFailed": "Failed to submit feedback",
+      "generic": "Something went wrong. Please try again."
+    },
+    "submittedThanks": "Thanks for your feedback!",
+    "sessionQuestion": "How was your session with {firstName}?",
+    "familyLabel": "{firstName}",
+    "sessionInfoWithHours": "{date} · {hours} hrs",
+    "sessionInfo": "{date}",
+    "completed": "Completed",
+    "familyRating": "Rate the family",
+    "yourFeedback": "Your feedback",
+    "feedbackPlaceholder": "Share your experience (optional)",
+    "rebookQuestion": "Would you work with this family again?",
+    "rebookOptions": {
+      "yes": "Yes",
+      "maybe": "Maybe",
+      "no": "No"
+    },
+    "submitting": "Submitting...",
+    "submitFeedback": "Submit Feedback"
+  },
+  "availabilityCalendar": {
+    "weekOf": "Week of {date}",
+    "copyLastWeek": "Copy last week",
+    "repeatWeekly": "Repeat weekly",
+    "days": {
+      "Monday": "Monday",
+      "Tuesday": "Tuesday",
+      "Wednesday": "Wednesday",
+      "Thursday": "Thursday",
+      "Friday": "Friday",
+      "Saturday": "Saturday",
+      "Sunday": "Sunday"
+    },
+    "dragInfo": "Click or drag to toggle availability.",
+    "repeatInfo": "Repeats every week."
+  },
+  "simpleAvailabilityCalendar": {
+    "loading": "Loading...",
+    "toast": {
+      "enableOneDayFirst": "Enable at least one day first",
+      "timesCopied": "Times copied to all enabled days",
+      "availabilityUpdated": "Availability updated",
+      "saveFailed": "Failed to save availability"
+    },
+    "setYourAvailability": "Set Your Availability",
+    "chooseDaysAndHours": "Choose the days and hours you’re available",
+    "copyToAllDays": "Copy to all days",
+    "repeatWeekly": "Repeat weekly",
+    "repeatWeeklyDescription": "Apply this schedule every week",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "from": "From",
+    "to": "To",
+    "saving": "Saving...",
+    "saveAvailability": "Save Availability"
+  }
+}

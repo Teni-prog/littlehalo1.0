@@ -1,0 +1,1942 @@
+{
+  "navbar": {
+    "activities": "Activités",
+    "logIn": "Ouvrir une session",
+    "signUp": "S'inscrire",
+    "logOut": "Se déconnecter",
+    "settingsAriaLabel": "Paramètres",
+    "profileAriaLabel": "Aller au profil"
+  },
+  "footer": {
+    "tagline": "Mettre en relation les familles de nouveaux arrivants avec des services de garde d’enfants adaptés à leur culture et vérifiés dans le Canada atlantique.",
+    "social": {
+      "twitter": "Twitter",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn"
+    },
+    "columns": {
+      "product": {
+        "title": "Produit",
+        "features": "Caractéristiques",
+        "howItWorks": "Comment ça fonctionne",
+        "pricing": "Tarifs",
+        "safety": "Sécurité"
+      },
+      "families": {
+        "title": "Pour les familles",
+        "findASitter": "Trouver une gardienne",
+        "parentResources": "Ressources pour les parents",
+        "newcomerGuide": "Guide du nouvel arrivant",
+        "reviews": "Commentaires"
+      },
+      "sitters": {
+        "title": "Pour les gardiennes d'enfants",
+        "becomeASitter": "Devenez gardien d’enfants",
+        "sitterResources": "Ressources pour les gardiennes d'enfants",
+        "backgroundCheck": "Vérification des antécédents",
+        "earnings": "Résultats financiers"
+      },
+      "company": {
+        "title": "Entreprise",
+        "aboutUs": "À propos de nous",
+        "blog": "Blogue",
+        "careers": "Carrières",
+        "contact": "Contact"
+      }
+    },
+    "legal": {
+      "privacyPolicy": "Politique de confidentialité",
+      "termsOfService": "Conditions d'utilisation",
+      "cookiePolicy": "Politique relative aux témoins"
+    },
+    "copyright": "© {year} littlëHALO. Tous droits réservés. 🇨🇦"
+  },
+  "authErrors": {
+    "noParentAccount": "Aucun compte parent n'a été trouvé avec ces identifiants.",
+    "noSitterAccount": "Aucun compte de gardienne n'a été trouvé avec ces identifiants.",
+    "accountAlreadyExists": "Un compte associé à cette adresse courriel existe déjà. Veuillez plutôt vous connecter.",
+    "accountCreationFailed": "Impossible de créer le compte. Veuillez réessayer.",
+    "failedToSaveAccount": "Échec de l'enregistrement des renseignements sur le compte : {message}",
+    "failedToSaveProfile": "Échec de l'enregistrement du profil : {message}",
+    "unexpectedError": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+    "notAuthenticated": "Non authentifié"
+  },
+  "login": {
+    "welcomeBack": "Bon retour parmi nous!",
+    "welcomeMessage": "Ouvrez une session pour accéder à votre tableau de bord, gérer vos réservations et interagir avec votre communauté.",
+    "chooseAccountType": "Choisissez votre type de compte",
+    "selectLoginMethod": "Choisissez votre mode de connexion",
+    "forParents": "À l'intention des parents",
+    "forParentsDesc": "Trouvez des services de garde pour vos tout-petits",
+    "forSitters": "Pour les gardiennes d'enfants",
+    "forSittersDesc": "Trouver des emplois et gérer les réservations",
+    "newToLittleHalo": "Vous découvrez Little Halo?",
+    "createAccount": "Créer un compte"
+  },
+  "signup": {
+    "joinLittleHalo": "Joignez-vous à Little Halo",
+    "joinDescription": "Entrez en contact avec des gardiennes issues de la même culture que la vôtre et permettez à votre enfant de rester en contact avec ses racines culturelles.",
+    "createYourAccount": "Créez votre compte",
+    "selectSignupMethod": "Choisissez la façon dont vous souhaitez vous inscrire",
+    "imAParent": "Je suis parent",
+    "imAParentDesc": "Trouver des services de garde adaptés à la culture de mon enfant",
+    "imASitter": "Je suis gardienne d'enfants",
+    "imASitterDesc": "Mettre mes compétences à contribution et entrer en contact avec des familles",
+    "alreadyHaveAccount": "Vous avez déjà un compte?",
+    "signIn": "Ouvrir une session"
+  },
+  "signupCheckEmail": {
+    "checkYourEmail": "Vérifie tes courriels",
+    "confirmationLinkSent": "Nous vous avons envoyé un lien de confirmation à votre adresse courriel. Cliquez dessus pour valider votre compte et terminer la configuration de votre profil.",
+    "afterConfirming": "Une fois que vous aurez confirmé, vous serez redirigé vers un court formulaire pour terminer la configuration de votre profil.",
+    "wrongEmail": "Adresse courriel incorrecte?",
+    "startOver": "Recommencer"
+  },
+  "signinParent": {
+    "welcomeBack": "Bon retour!",
+    "welcomeMessage": "Ouvrez une session pour accéder à votre tableau de bord, gérer vos réservations et interagir avec votre communauté.",
+    "safeSecure": "Sûr et sécurisé",
+    "safeSecureDesc": "Vos données sont protégées par des mesures de sécurité à la fine pointe de l'industrie",
+    "personalizedExperience": "Expérience personnalisée",
+    "personalizedExperienceDesc": "Accédez à vos réservations, à vos favoris et à vos recommandations",
+    "changeAccountType": "Modifier le type de compte",
+    "parentSignIn": "Connexion des parents",
+    "enterCredentials": "Entrez vos identifiants pour continuer",
+    "emailAddress": "Adresse courriel",
+    "emailPlaceholder": "Entrez votre adresse courriel",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "signingIn": "Connexion en cours...",
+    "signIn": "Ouvrir une session",
+    "dontHaveAccount": "Vous n'avez pas de compte?",
+    "signUp": "S'inscrire"
+  },
+  "signinSitter": {
+    "welcomeBack": "Bon retour parmi nous!",
+    "welcomeMessage": "Ouvrez une session pour accéder à votre tableau de bord, gérer vos réservations et interagir avec votre communauté.",
+    "safeSecure": "Sûr et sécurisé",
+    "safeSecureDesc": "Vos données sont protégées par des mesures de sécurité à la fine pointe de l'industrie",
+    "personalizedExperience": "Expérience personnalisée",
+    "personalizedExperienceDesc": "Accédez à vos réservations, à vos favoris et à vos recommandations",
+    "changeAccountType": "Modifier le type de compte",
+    "sitterSignIn": "Connexion",
+    "enterCredentials": "Entrez vos identifiants pour continuer",
+    "emailAddress": "Adresse courriel",
+    "emailPlaceholder": "Entrez votre adresse courriel",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "signingIn": "Connexion en cours...",
+    "signIn": "Ouvrir une session",
+    "dontHaveAccount": "Vous n'avez pas de compte?",
+    "signUp": "S'inscrire"
+  },
+  "bookingConfirmation": {
+    "loading": "Chargement en cours...",
+    "backToBooking": "← Retour à la réservation",
+    "title": "Confirmez votre réservation",
+    "subtitle": "Vérifiez les détails de votre réservation et effectuez le paiement",
+    "duration": {
+      "minutesOnly": "{minutes}Je suis désolé",
+      "hoursOnly": "{hours}et",
+      "hoursAndMinutes": "{hours}et {minutes}Je suis désolé"
+    },
+    "bookingDetails": {
+      "title": "Détails de la réservation",
+      "dateLabel": "Données",
+      "timeLabel": "Heure",
+      "durationLabel": "Durée",
+      "specialInstructions": "Instructions spéciales"
+    },
+    "childInfo": {
+      "title": "Renseignements sur l'enfant",
+      "yearsOld": "{age} ans"
+    },
+    "selectedAdventure": {
+      "title": "Micro-aventure choisie",
+      "minutes": "{duration} minutes"
+    },
+    "paymentMethod": {
+      "title": "Mode de paiement",
+      "cardLabel": "Carte de crédit/débit",
+      "cardDescription": "Payez en toute sécurité avec votre carte",
+      "cardNumberLabel": "Numéro de carte",
+      "cardNumberPlaceholder": "1234 5678 9012 3456",
+      "expiryDateLabel": "Date d'expiration",
+      "expiryPlaceholder": "MM/AA",
+      "cvvLabel": "Code de vérification de la carte",
+      "cvvPlaceholder": "123",
+      "paypalLabel": "PayPal",
+      "paypalDescription": "Payez avec votre compte PayPal"
+    },
+    "paymentSummary": {
+      "title": "Sommaire des paiements",
+      "hourlyRateLabel": "Taux horaire",
+      "hourlyRateValue": "${rate}/hr",
+      "durationLabel": "Durée",
+      "babysittingSubtotal": "Sous-total pour la garde d'enfants",
+      "microAdventureLabel": "Micro-aventure",
+      "subtotalLabel": "Sous-total",
+      "taxLabel": "Pourquoi",
+      "taxPercent": "15 %",
+      "totalLabel": "Total"
+    },
+    "errors": {
+      "mustBeLoggedIn": "Vous devez être connecté pour finaliser une réservation.",
+      "bookingFailed": "La réservation a échoué. Veuillez réessayer.",
+      "somethingWrong": "Une erreur s'est produite. Veuillez réessayer."
+    },
+    "payButton": {
+      "processing": "Traitement en cours…",
+      "pay": "Payer ${amount}"
+    },
+    "termsNotice": "En confirmant, vous acceptez nos conditions d'utilisation et notre politique d'annulation."
+  },
+  "bookingSuccess": {
+    "pending": {
+      "title": "Réservation en attente",
+      "description": "Nous attendons la confirmation de votre gardienne. Nous vous aviserons dès qu’elle aura confirmé! En attendant, n’hésitez pas à découvrir d’autres gardiennes ou activités sur notre plateforme.",
+      "bookingId": "Numéro de réservation :"
+    },
+    "rating": {
+      "title": "Comment évalueriez-vous ce match?",
+      "promptNamed": "Comment c'était? {sitterName} pour votre famille?",
+      "promptGeneric": "Votre gardienne correspondait-elle bien à votre famille?",
+      "hint": "Vous pouvez donner votre évaluation dès maintenant ou revenir après votre séance.",
+      "greatMatch": "Super match!",
+      "wouldBookAgain": "Je réserverais de nouveau",
+      "notRightFit": "Ce n'est pas ce qu'il me faut",
+      "wouldntBookAgain": "Je ne réserverais plus ici",
+      "noteLabel": "Quelque chose en particulier?",
+      "noteOptional": "(facultatif)",
+      "notePlaceholderGood": "p. ex. : super avec les enfants, très ponctuel…",
+      "notePlaceholderBad": "p. ex. : la barrière linguistique, une dynamique différente avec les enfants…",
+      "submitError": "Impossible d'enregistrer votre évaluation. Veuillez réessayer.",
+      "saving": "Enregistrement en cours…",
+      "submit": "Soumettre une évaluation",
+      "skip": "Navire",
+      "privacyNote": "Votre cote est confidentielle et sert uniquement à améliorer vos appariements futurs."
+    },
+    "thankYou": {
+      "title": "Merci pour vos commentaires!",
+      "description": "Votre évaluation nous aide à vous proposer, au fil du temps, des choix encore plus adaptés à votre famille.",
+      "prioritizeNote": "Nous donnerons la priorité aux gardiennes comme <strong>{sitterName}</strong> lors des prochains matchs."
+    },
+    "cta": {
+      "findAnotherSitter": "Trouver une autre gardienne",
+      "findAnotherSitterArrow": "Trouver une autre gardienne →"
+    }
+  },
+  "bookingsParent": {
+    "header": {
+      "title": "Mes réservations"
+    },
+    "statusFilters": {
+      "all": "Tout",
+      "pending": "En attente",
+      "confirmed": "Confirmé",
+      "completed": "Terminé",
+      "declined": "Refusé"
+    },
+    "statusBadge": {
+      "confirmed": "Confirmé",
+      "awaitingSitter": "En attente d'une gardienne",
+      "declined": "Refusé",
+      "cancelled": "Annulé",
+      "completed": "Terminé"
+    },
+    "searchPlaceholder": "La fonction de recherche est…",
+    "empty": {
+      "noBookingsYet": "Aucune réservation pour l'instant.",
+      "findASitter": "Trouver une gardienne →",
+      "noBookingsMatchFilter": "Aucune réservation ne correspond à vos critères de recherche."
+    },
+    "session": {
+      "for": "Pour",
+      "microAdventure": "Micro-aventure :"
+    },
+    "markComplete": {
+      "markedWaiting": "✓ Vous avez indiqué que cette tâche était terminée — en attente de la confirmation de la gardienne.",
+      "marking": "Marquage…",
+      "markComplete": "Marquer la séance comme terminée"
+    },
+    "review": {
+      "reviewSubmitted": "Avis soumis ✓"
+    },
+    "report": {
+      "reportAnIssue": "Signaler un problème"
+    },
+    "fallback": {
+      "yourSitter": "Votre gardienne",
+      "child": "Enfant",
+      "notSpecified": "Non précisé"
+    }
+  },
+  "booking": {
+    "backToSearch": "← Retour à la recherche",
+    "title": "Finalisez votre réservation",
+    "subtitle": "Remplissez le formulaire ci-dessous pour réserver votre gardienne ou votre gardien",
+    "loading": "Chargement en cours...",
+    "accessRestricted": {
+      "title": "Accès restreint",
+      "message": "Les gardiens ne peuvent pas réserver les services d'autres gardiens.",
+      "dashboardButton": "Accédez à votre tableau de bord"
+    },
+    "banner": {
+      "added": "Une micro-aventure ajoutée à votre réservation",
+      "selected": "{title} est maintenant sélectionné.",
+      "dismiss": "Ignorer"
+    },
+    "adventureCountLabel": "{count, plural, one {# micro-aventure} other {# micro-aventures}}",
+    "toast": {
+      "booked": "Cette gardienne est déjà réservée à cette heure-là.",
+      "unavailable": "Cette gardienne n’est pas disponible pour le moment. Veuillez choisir un autre horaire."
+    },
+    "time": {
+      "am": "Pour l'instant",
+      "pm": "Premier ministre"
+    },
+    "dateTime": {
+      "title": "Date et heure",
+      "dateLabel": "Données",
+      "selectDatePrompt": "Sélectionnez une date ci-dessus pour voir les horaires disponibles.",
+      "legend": {
+        "available": "Disponible",
+        "booked": "Déjà réservé",
+        "unavailable": "Indisponible"
+      },
+      "instructions": "Cliquez sur un créneau pour définir l'heure de début, puis cliquez à nouveau pour définir l'heure de fin.",
+      "startSelected": "Début : {time} — cliquez maintenant sur un emplacement de fin",
+      "clear": "Effacer",
+      "selectedRange": "Sélectionné : {start} – {end} ({hours, plural, one {# heure} other {# heures}})",
+      "slotTooltipBooked": "Déjà réservé",
+      "slotTooltipUnavailable": "Garde d'enfants indisponible",
+      "partialAvailabilityWarning": "Cette gardienne n’est pas disponible pendant une partie de cette période."
+    },
+    "children": {
+      "title": "Renseignements sur l'enfant",
+      "subtitle": "Choisissez l'enfant qui a besoin de soins",
+      "yearsOld": "{age} ans",
+      "addNew": "+ Ajouter un nouvel enfant"
+    },
+    "adventures": {
+      "title": "Micro-aventures (facultatif)",
+      "browseMore": "En savoir plus",
+      "subtitle": "Ajoutez une activité amusante à votre réservation",
+      "priceValue": "+${price}",
+      "durationLabel": "Durée : {duration}",
+      "add": "Ajouter",
+      "remove": "Supprimer",
+      "showingSelectedPrefix": "Affichage des aventures sélectionnées uniquement. Utiliser",
+      "showingSelectedSuffix": "pour en ajouter d'autres."
+    },
+    "notes": {
+      "title": "Remarques supplémentaires",
+      "placeholder": "Communiquez toute information importante à votre gardienne (allergies, routine du coucher, personnes à contacter en cas d'urgence, etc.)",
+      "helperText": "Veuillez indiquer toute information concernant les allergies, les préférences, les habitudes ou les consignes particulières"
+    },
+    "summary": {
+      "title": "Résumé de la réservation",
+      "sitterLabel": "Assis",
+      "dateTimeLabel": "Date et heure",
+      "noDateSelected": "Aucune date sélectionnée",
+      "noTimeSelected": "Aucune heure n'a été sélectionnée",
+      "childrenLabel": "Enfants",
+      "childAgeShort": "{name} ({age}y)",
+      "noChildrenSelected": "Aucun enfant n'a été sélectionné",
+      "adventuresLabel": "Micro-aventures",
+      "hourlyRateLabel": "Taux horaire",
+      "hourlyRateValue": "${rate}/hr",
+      "durationLabel": "Durée",
+      "adventuresPriceLabel": "Aventures",
+      "adventuresTotal": "+${total}",
+      "total": "Total",
+      "totalValue": "${total}",
+      "confirmButton": "Confirmer la réservation",
+      "fillRequiredFields": "Veuillez remplir tous les champs obligatoires"
+    },
+    "durationHoursMinutes": "{hours}et {minutes}Je suis désolé",
+    "durationHoursOnly": "{hours}et",
+    "durationMinutesOnly": "{minutes}Je suis désolé"
+  },
+  "adventures": {
+    "title": "Bibliothèque des micro-aventures",
+    "subtitle": "Ne vous contentez pas de réserver une gardienne, réservez une expérience. Des activités éducatives et amusantes pour vos enfants.",
+    "searchPlaceholder": "Rechercher des aventures..."
+  },
+  "adventureCard": {
+    "placeholderLabel": "Micro-aventure",
+    "by": "par {name}",
+    "durationMinutes": "{minutes} moins",
+    "details": "Détails"
+  },
+  "neighbourhoodMap": {
+    "defaultLocation": "Lieu de garde",
+    "areaLabel": "{neighbourhood} région"
+  },
+  "reportIssueForm": {
+    "issueTypes": {
+      "noShow": "Absence sans préavis",
+      "safetyConcern": "Problème de sécurité",
+      "paymentIssue": "Problème de paiement",
+      "other": "Autres"
+    },
+    "errors": {
+      "selectIssueAndDescription": "Veuillez sélectionner un type de problème et fournir une description.",
+      "failedToSubmit": "Échec de l'envoi du rapport.",
+      "somethingWentWrong": "Une erreur s'est produite. Veuillez réessayer."
+    },
+    "successMessage": "Problème signalé. Notre équipe va l'examiner sous peu.",
+    "title": "Signaler un problème",
+    "subtitle": "Faites-nous savoir si vous avez rencontré des problèmes lors de cette séance",
+    "issueTypeLabel": "Type de problème",
+    "selectIssueTypePlaceholder": "Sélectionnez un type de problème…",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Explique-moi ce qui s'est passé...",
+    "charCount": "{count}/{max}",
+    "cancel": "Annuler",
+    "submitting": "Envoi en cours...",
+    "submit": "Signaler un problème"
+  },
+  "welcomeBanner": {
+    "welcomeMessage": "Bon retour parmi nous, {name}! 👋",
+    "youHave": "Vous avez",
+    "sessionCountLabel": "{count, plural, one {# Prochaine séance} other {# Prochaines séances}}",
+    "thisWeek": "cette semaine",
+    "noUpcomingSessions": "Vous n'avez aucune séance prévue cette semaine"
+  },
+  "home": {
+    "hero": {
+      "titleLine1": "Adapté à la culture locale",
+      "titleLine2": "Services de garde d'enfants",
+      "subtitle": "Entrez en contact avec des gardiennes d’enfants vérifiées qui comprennent la culture et la langue de votre famille. Réservez des services de garde fiables en moins de deux heures — sans liste d’attente.",
+      "searchPlaceholder": "Entrez votre emplacement ou votre code postal",
+      "searchButton": "Rechercher des gardiennes",
+      "imageAlt": "Une gardienne qui joue avec un enfant",
+      "trust": {
+        "verified": "100 % vérifié",
+        "matchTime": "< 2 heures pour trouver une correspondance",
+        "languages": "Plus de 15 langues"
+      },
+      "badges": {
+        "verifiedLabel": "100 % vérifié",
+        "backgroundChecked": "Antécédents vérifiés",
+        "backgroundCheckedDesc": "Tous les gardiens d’enfants ont fait l’objet d’une sélection et d’une vérification",
+        "languagesCount": "+11",
+        "languagesLabel": "Plus de 15 langues"
+      }
+    },
+    "features": {
+      "badge": "CARACTÉRISTIQUES",
+      "title": "Tout ce dont vous avez besoin pour avoir l’esprit tranquille",
+      "subtitle": "Nous avons repensé les services de garde pour les familles d’aujourd’hui. Des services sécuritaires, éducatifs et adaptés à la culture locale.",
+      "smartMatching": {
+        "title": "Appariement intelligent",
+        "desc": "Trouvez des gardiennes qui correspondent à vos exigences en matière de langue, d’origine culturelle et de besoins particuliers.",
+        "tags": {
+          "tag1": "Correspondance linguistique",
+          "tag2": "Besoins particuliers",
+          "tag3": "Soutien à l'éducation"
+        }
+      },
+      "culturalMatch": {
+        "title": "Compatibilité culturelle",
+        "desc": "Trouvez des gardiennes qui parlent votre langue et comprennent vos traditions culturelles.",
+        "languagesAvailable": "Plus de 15 langues disponibles"
+      },
+      "verified": {
+        "title": "100 % vérifié",
+        "desc": "Chaque gardienne fait l’objet d’une vérification rigoureuse de ses antécédents, d’une vérification de son identité et d’une vérification de ses références."
+      },
+      "microAdventures": {
+        "title": "Micro-aventures",
+        "desc": "Transformez la garde d'enfants en moments d'apprentissage grâce à des expériences scientifiques, des activités artistiques et créatives, ainsi que des ateliers de cuisine."
+      }
+    },
+    "comparisonTable": {
+      "badge": "COMPARAISON",
+      "title": "Le choix judicieux pour les nouveaux arrivants",
+      "subtitle": "Découvrez comment nous nous comparons aux options traditionnelles de garde d’enfants",
+      "headers": {
+        "feature": "Fonctionnalité",
+        "daycare": "Garderie",
+        "informalSitter": "Gardienne à domicile occasionnelle",
+        "littleHalo": "littleHALO"
+      },
+      "rows": {
+        "waitlist": {
+          "label": "Liste d'attente",
+          "daycare": "9 à 12 mois",
+          "informalSitter": "Aucun",
+          "littleHalo": "Aucun (instantané)"
+        },
+        "backgroundChecks": {
+          "label": "Vérification des antécédents",
+          "littleHalo": "Vérifié"
+        },
+        "culturalMatch": {
+          "label": "Compatibilité culturelle",
+          "daycare": "Au hasard",
+          "informalSitter": "Basé sur la chance",
+          "littleHalo": "Disponible"
+        },
+        "insurance": {
+          "label": "Assurance",
+          "daycare": "Oui",
+          "informalSitter": "De",
+          "littleHalo": "À venir"
+        },
+        "cost": {
+          "label": "Coût",
+          "daycare": "Élevé (mensuel)",
+          "informalSitter": "15 à 25 $/h",
+          "littleHalo": "18 à 28 $/h"
+        }
+      }
+    },
+    "howItWorks": {
+      "badge": "COMMENT ÇA FONCTIONNE",
+      "title": "C'est facile de commencer",
+      "subtitle": "Trouver des services de garde fiables n’a jamais été aussi simple. Trouvez la solution qui vous convient en quelques minutes.",
+      "steps": {
+        "step1": {
+          "title": "Créez votre profil",
+          "desc": "Faites-nous part des besoins de votre famille, de vos préférences linguistiques et de toute exigence particulière.",
+          "note": "Ça prend 3 minutes"
+        },
+        "step2": {
+          "title": "Trouvez votre partenaire idéal",
+          "desc": "Parcourez la liste des gardiennes vérifiées et issues de la même culture que vous dans votre région. Lisez les commentaires et vérifiez leur disponibilité.",
+          "note": "Des gardiens d'enfants vérifiés à 100 %"
+        },
+        "step3": {
+          "title": "Réservez en toute confiance",
+          "desc": "Prenez rendez-vous et détendez-vous en sachant que vos enfants sont entre des mains sûres et bienveillantes. Suivez tout depuis l’application.",
+          "note": "Réservation sécurisée"
+        }
+      }
+    },
+    "forParents": {
+      "badge": "POUR LES PARENTS",
+      "title": "Trouvez votre village en un clin d’œil.",
+      "desc": "Cessez d'appeler les garderies qui affichent complet. Parcourez les profils, consultez les avis et réservez les services d'une gardienne vérifiée pour ce soir ou le mois prochain.",
+      "points": {
+        "point1": "Possibilité de prendre rendez-vous le jour même en cas d’urgence.",
+        "point2": "Soutien adapté aux besoins particuliers grâce à des filtres spécialisés."
+      },
+      "cta": "Créer un profil familial"
+    },
+    "forSitters": {
+      "badge": "POUR LES GARDE-ENFANTS",
+      "title": "Gagnez un revenu qui compte vraiment.",
+      "desc": "Transformez votre expérience en matière de garde d’enfants en source de revenus flexible. Fixez vos tarifs, choisissez vos horaires et aidez les familles de nouveaux arrivants à s’épanouir.",
+      "rate": "18 à 28 $",
+      "rateUnit": "/hr",
+      "cta": "Devenez gardien d’enfants"
+    },
+    "footer": {
+      "logoAlt": "Petit Halo",
+      "description": "Mettre en relation les familles de nouveaux arrivants avec des services de garde d’enfants adaptés à leur culture et vérifiés dans le Canada atlantique.",
+      "columns": {
+        "product": {
+          "title": "Produit",
+          "features": "Caractéristiques",
+          "howItWorks": "Comment ça fonctionne"
+        },
+        "forFamilies": {
+          "title": "Pour les familles",
+          "findSitter": "Trouver une gardienne",
+          "reviews": "Commentaires"
+        },
+        "forSitters": {
+          "title": "Pour les gardiennes d'enfants",
+          "becomeSitter": "Devenez gardien d’enfants"
+        },
+        "company": {
+          "title": "Entreprise",
+          "aboutUs": "À propos de nous",
+          "contact": "Contact"
+        }
+      },
+      "copyright": "© 2026 littleHALO. Tous droits réservés.",
+      "privacyPolicy": "Politique de confidentialité",
+      "termsOfService": "Conditions d'utilisation"
+    }
+  },
+  "activityLibrary": {
+    "header": {
+      "eyebrow": "Micro-aventures",
+      "title": "Des activités éducatives pour chaque enfant",
+      "description": "Des activités structurées et approuvées par des éducateurs, conçues pour faire de chaque séance une occasion d’apprentissage. Chaque aventure cible une compétence de développement — les parents les attribuent avant la séance; les gardiennes les mettent en pratique.",
+      "badges": {
+        "activityCount": "{count} Activités",
+        "specialNeedsReviewed": "Tous les cas de besoins particuliers ont été examinés",
+        "sitterTested": "Testé en position assise"
+      }
+    },
+    "search": {
+      "placeholder": "Recherche par titre, compétence ou objectif…",
+      "filtersButton": "Filtres"
+    },
+    "filters": {
+      "ageRange": {
+        "label": "Tranche d'âge",
+        "options": {
+          "under3": "0 à 3 ans",
+          "threeToSix": "3 à 6 ans",
+          "sixToNine": "6 à 9 ans",
+          "ninePlus": "9 ans et plus"
+        }
+      },
+      "duration": {
+        "label": "Durée",
+        "options": {
+          "under15": "Moins de 15 min",
+          "fifteenToThirty": "15 à 30 minutes",
+          "thirtyPlus": "Plus de trente minutes"
+        }
+      },
+      "difficulty": {
+        "label": "Difficulté"
+      },
+      "specialNeeds": {
+        "label": "Besoins particuliers",
+        "options": {
+          "autismFriendly": "Adapté aux personnes autistes",
+          "sensorySafe": "Sans risque pour les sens",
+          "adhdSuitable": "Adapté aux personnes atteintes de TDAH",
+          "nonVerbalOk": "OK (non verbal)",
+          "lowStimulation": "Faible stimulation"
+        }
+      },
+      "resetAll": "Réinitialiser tous les filtres"
+    },
+    "categoryCount": "({count})",
+    "booking": {
+      "activeMessage": "<strong>Mode de réservation actif :</strong> Sélectionnez les activités ci-dessous pour les ajouter à votre réservation.",
+      "confirmButton": "Confirmer {count} Aventures"
+    },
+    "states": {
+      "networkError": "Erreur de réseau",
+      "noMatches": "Aucune aventure ne correspond à vos critères.",
+      "noMatchesHint": "Essayez d'élargir vos filtres ou vos critères de recherche.",
+      "clearFilters": "Effacer tous les filtres"
+    },
+    "pagination": {
+      "showing": "Affichage {count} de {total, plural, one {# activité} other {# activités}}",
+      "loadMore": "Charger plus"
+    }
+  },
+  "activityCard": {
+    "removeBookmark": "Supprimer le signet",
+    "bookmarkActivity": "Activité « Signets »",
+    "viewDetails": "Voir les détails",
+    "added": "✓ Ajouté",
+    "addToSession": "Ajouter à la séance"
+  },
+  "featuredCarousel": {
+    "heading": "Aventures à ne pas manquer"
+  },
+  "activityModal": {
+    "close": "Fermer",
+    "stats": {
+      "ageRange": "Tranche d'âge",
+      "duration": "Durée",
+      "savedBySitters": "Sauvés par des gardiennes et gardiens"
+    },
+    "sections": {
+      "learningGoals": "Objectifs d'apprentissage",
+      "materialsNeeded": "Matériel nécessaire",
+      "stepByStepGuide": "Guide étape par étape",
+      "accessibility": "Accessibilité"
+    },
+    "actions": {
+      "saveActivity": "Enregistrer l'activité",
+      "addedToSession": "✓ Ajouté à la séance",
+      "addToSession": "Ajouter à la séance"
+    }
+  },
+  "adventuresBenefits": {
+    "heading": "Qu'est-ce qui rend nos activités si spéciales?",
+    "intro": "Les micro-aventures sont des activités structurées et éducatives conçues pour stimuler l’esprit, le corps et la créativité des enfants. On les appelle <strong>« micro »</strong> parce qu’elles s’inscrivent dans des plages horaires de 20 à 60 minutes, et <strong>« aventures »</strong> parce qu’elles transforment l’apprentissage en une expérience passionnante, loin de l’image des devoirs.",
+    "exampleLabel": "Exemple",
+    "items": {
+      "realLearning": {
+        "title": "Un véritable apprentissage, de véritables compétences",
+        "description": "Chaque activité vise des objectifs de développement précis — allant de la motricité fine et de la résolution de problèmes à la sensibilisation culturelle et à l’intelligence émotionnelle. Votre enfant progresse à chaque séance.",
+        "example": "Les expériences scientifiques permettent d'acquérir une compréhension des relations de cause à effet et des principes fondamentaux de la méthode scientifique"
+      },
+      "perfectForStage": {
+        "title": "Idéal pour l’étape de développement de votre enfant",
+        "description": "Chaque activité est accompagnée d’une indication de la tranche d’âge et du niveau de difficulté appropriés. Que votre enfant ait 2 ou 12 ans, nous proposons des activités captivantes qui le mettront au défi sans le frustrer.",
+        "example": "Heure du conte pour les enfants de 2 à 5 ans, notions de base en programmation pour les enfants de 8 à 12 ans"
+      },
+      "includedInBooking": {
+        "title": "Inclus dans votre réservation",
+        "description": "Tout le matériel, les fournitures et la planification sont inclus dans le tarif horaire de votre gardienne. Pas de frais imprévus. Pas de frais cachés. Juste des activités de qualité qui vous permettent de tirer le meilleur parti de votre investissement dans la garde d’enfants.",
+        "example": "Les expériences scientifiques font appel à des articles ménagers; le matériel de bricolage est fourni par la gardienne."
+      },
+      "tailoredToInterests": {
+        "title": "Adapté aux intérêts de votre enfant",
+        "description": "Faites votre choix parmi notre sélection, demandez des activités précises ou laissez les gardiennes imaginer des aventures sur mesure en fonction des intérêts particuliers de votre enfant. Il est passionné par les dinosaures? L’espace? Les princesses? Nous avons des activités pour ça.",
+        "example": "Fouilles archéologiques à la recherche de dinosaures, construction de fusées, bricolage sur le thème des châteaux royaux"
+      },
+      "heritageHonored": {
+        "title": "Votre patrimoine, mis à l’honneur",
+        "description": "De nombreuses activités intègrent des éléments culturels — contes traditionnels, cuisine traditionnelle, artisanat traditionnel, pratique de la langue — qui aident votre enfant à préserver son identité culturelle tout en acquérant de nouvelles compétences.",
+        "example": "La préparation des boulettes permet d'apprendre à la fois les mesures et les traditions culturelles"
+      },
+      "handsOnNotScreenTime": {
+        "title": "Des activités pratiques, pas du temps passé devant l'écran",
+        "description": "Chaque micro-aventure privilégie la participation active plutôt que le divertissement passif. De vrais matériaux, de vraies expériences, un véritable apprentissage — bien plus qu’une simple vidéo YouTube.",
+        "example": "Construire de vraies structures ou regarder des vidéos sur la construction"
+      }
+    },
+    "difference": {
+      "heading": "La différence",
+      "traditionalLabel": "Garde d'enfants traditionnelle",
+      "traditionalDescription": "Assurer la sécurité des enfants lorsqu’ils s’amusent devant un écran ou avec des jouets. Surveillance passive.",
+      "haloLabel": "Micro-aventures littlëHALO",
+      "haloDescription": "Des expériences d'apprentissage actives et guidées qui permettent de développer des compétences, d'acquérir des connaissances et de créer des souvenirs inoubliables."
+    }
+  },
+  "adventuresCTA": {
+    "badge": "Commencez dès aujourd’hui le parcours d’apprentissage de votre enfant",
+    "heading": "Prêt à transformer la garde d'enfants en moment d'apprentissage?",
+    "description": "Joignez-vous aux centaines de parents qui ont découvert ce qui fait la différence chez littlëHALO. Réservez une gardienne et choisissez votre première micro-aventure dès aujourd’hui.",
+    "actions": {
+      "getStartedFree": "Commencez gratuitement",
+      "browseSitters": "Parcourir les gardiennes d'enfants"
+    },
+    "sitterCta": {
+      "question": "Vous êtes une gardienne d'enfants et vous souhaitez vous démarquer en proposant des activités originales?",
+      "link": "Apprenez comment ajouter des activités à votre profil"
+    }
+  },
+  "activityUtils": {
+    "categories": {
+      "allActivities": "Toutes les activités",
+      "empathy": "Empathie",
+      "creativity": "Créativité",
+      "problemSolving": "Résolution de problèmes",
+      "language": "Langue",
+      "physical": "Physique",
+      "nature": "Nature",
+      "socialSkills": "Compétences sociales",
+      "general": "Généralités"
+    },
+    "difficulty": {
+      "easy": "Facile",
+      "moderate": "Modéré",
+      "advanced": "Avancé"
+    },
+    "allAges": "Pour tous les âges",
+    "upToYears": "Jusqu’à {max} yrs",
+    "yearsSingle": "{age} yrs",
+    "yearsRange": "{min}–{max} yrs",
+    "durationMinutes": "{minutes} J'ai",
+    "durationUnknown": "—"
+  },
+  "profileParentPreferences": {
+    "title": "Vos préférences",
+    "editPreferences": "Modifier les préférences",
+    "view": {
+      "budget": "Budget",
+      "budgetValue": "Jusqu'à ${amount}/heure",
+      "languages": "Langues",
+      "any": "Là-bas",
+      "location": "Emplacement",
+      "notSet": "Non défini",
+      "specialNeeds": "Besoins particuliers",
+      "noneNoted": "Aucune remarque"
+    },
+    "form": {
+      "location": "Emplacement",
+      "locationPlaceholder": "e.g. Fredericton, NB",
+      "maxBudget": "Budget horaire maximal (CAD)",
+      "preferredLanguages": "Langues préférées",
+      "languagesPlaceholder": "p. ex. anglais, yoruba, français",
+      "languagesHint": "Séparez les langues par des virgules",
+      "languagesError": "Entrez au moins une langue",
+      "saving": "Enregistrement en cours...",
+      "saveChanges": "Enregistrer les modifications",
+      "cancel": "Annuler"
+    }
+  },
+  "scheduleParent": {
+    "header": {
+      "greeting": "Bonjour {name}",
+      "subtitle": "Voici votre horaire"
+    },
+    "days": {
+      "sun": "Dim",
+      "mon": "Lun",
+      "tue": "Mar",
+      "wed": "Mer",
+      "thu": "Jeu",
+      "fri": "Ven",
+      "sat": "Sam"
+    },
+    "months": {
+      "january": "Janvier",
+      "february": "Février",
+      "march": "Mars",
+      "april": "Avril",
+      "may": "Mai",
+      "june": "Juin",
+      "july": "Juillet",
+      "august": "Août",
+      "september": "Septembre",
+      "october": "Octobre",
+      "november": "Novembre",
+      "december": "Décembre"
+    },
+    "status": {
+      "pending": "En attente",
+      "confirmed": "Confirmé",
+      "completed": "Terminé",
+      "cancelledDeclined": "Annulé/Refusé"
+    },
+    "viewToggle": {
+      "month": "Mois",
+      "week": "Semaine"
+    },
+    "time": {
+      "am": "Pour l'instant",
+      "pm": "Premier ministre"
+    },
+    "fallback": {
+      "parent": "Parent",
+      "sitter": "Assis"
+    },
+    "details": {
+      "title": "Détails de la réservation",
+      "sitter": "Assis",
+      "dateTime": "Date et heure",
+      "child": "Enfant",
+      "yearsOld": "{age} ans",
+      "microAdventure": "Micro-aventure",
+      "leaveReview": "Laisser un commentaire",
+      "reviewSubmitted": "Avis soumis ✓"
+    }
+  },
+  "parentSidebar": {
+    "logoAlt": "Petit logo Halo",
+    "brandName": "Petit Halo",
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "schedule": "Horaire",
+      "activities": "Activités",
+      "settings": "Paramètres"
+    },
+    "loggingOut": "Déconnexion…",
+    "logOut": "Se déconnecter"
+  },
+  "myChildren": {
+    "title": "Mes enfants",
+    "noChildrenYet": "Aucun enfant n'a encore été ajouté.",
+    "addAnotherChild": "Ajouter un autre enfant",
+    "yearsOld": "{age} ans",
+    "noSpecialNeeds": "Aucun besoin particulier n'a été signalé",
+    "form": {
+      "name": "Nom",
+      "age": "Âge",
+      "specialNeeds": "Besoins particuliers",
+      "saving": "Enregistrement en cours...",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
+    },
+    "specialNeeds": {
+      "autism": "Autisme",
+      "adhd": "TDAH",
+      "languageBarrier": "Barrière linguistique",
+      "hearingImpairment": "Déficience auditive",
+      "visualImpairment": "Déficience visuelle",
+      "downSyndrome": "Syndrome de Down",
+      "cerebralPalsy": "Paralysie cérébrale",
+      "speechDelay": "Retard de la parole",
+      "anxiety": "Anxiété",
+      "sensoryProcessing": "Traitement sensoriel"
+    }
+  },
+  "childProgress": {
+    "title": "{name}Les progrès de […]",
+    "totalSessions": "Nombre total de séances",
+    "adventuresCompleted": "Aventures terminées",
+    "skillsPracticed": "Compétences mises en pratique",
+    "viewFullReport": "Consulter le rapport complet"
+  },
+  "parentReviewForm": {
+    "titleWithSitter": "Comment s'est passée ta séance avec {sitterName}?",
+    "completed": "Terminé",
+    "overallQuality": "Qualité globale de la séance",
+    "adventureExecution": "Mise en œuvre des micro-aventures",
+    "yourReview": "Votre avis",
+    "reviewPlaceholder": "Qu’est-ce qui t’a plu? Qu’est-ce qui pourrait être amélioré?",
+    "sessionInfo": "Séance · {date}",
+    "sessionInfoWithHours": "Séance · {date} · {hours} heures",
+    "wouldYouRebook": "Souhaitez-vous modifier votre réservation? {sitterName}?",
+    "rebookOptions": {
+      "yes": "Oui, tout à fait",
+      "maybe": "Peut-être",
+      "no": "De"
+    },
+    "submitting": "Envoi en cours…",
+    "submitReview": "Soumettre un avis",
+    "submittedThanks": "Avis envoyé. Merci!",
+    "errors": {
+      "rateRequired": "Veuillez évaluer la qualité de la séance.",
+      "submitFailed": "Échec de l'envoi de l'avis.",
+      "generic": "Une erreur s'est produite. Veuillez réessayer."
+    }
+  },
+  "profileParent": {
+    "loading": "Chargement en cours...",
+    "quickActions": {
+      "comingSoon": "À venir",
+      "findSitters": {
+        "label": "Trouver des gardiennes",
+        "desc": "Rechercher de nouveaux gardiens d'enfants"
+      },
+      "adventures": {
+        "label": "Aventures",
+        "desc": "Parcourir les activités"
+      },
+      "messages": {
+        "label": "Messages",
+        "desc": "Discuter avec les gardiennes"
+      },
+      "payments": {
+        "label": "Paiements",
+        "desc": "Consulter l'historique des factures"
+      }
+    },
+    "matchPriorities": {
+      "title": "Priorités de correspondance",
+      "learnedWeightsActive": "🧠 poids appris actifs",
+      "subtitle": "Ajustez ce qui compte le plus — les gardiennes sont reclassées instantanément",
+      "hide": "▲ Masquer",
+      "show": "▼ Afficher",
+      "resetToDefaults": "Rétablir les paramètres par défaut"
+    },
+    "topMatches": {
+      "title": "Les gardiennes qui vous correspondent le mieux",
+      "searchSitters": "Rechercher des gardiennes",
+      "filterByDistance": "Filtrer par distance :",
+      "kmLabel": "{km} km",
+      "clear": "Effacer",
+      "noneWithinRadius": "Aucune gardienne trouvée dans {radiusKm} km. Essayez un rayon plus grand.",
+      "noneFound": "Aucun gardien correspondant n'a été trouvé. Essayez de modifier vos critères de recherche."
+    },
+    "bookings": {
+      "title": "Mes réservations",
+      "viewAll": "Tout afficher",
+      "empty": "Aucune réservation pour l'instant.",
+      "findASitter": "Trouver une gardienne →",
+      "statusBadges": {
+        "confirmed": "Confirmé",
+        "awaitingSitter": "En attente d'une gardienne",
+        "declined": "Refusé",
+        "cancelled": "Annulé",
+        "completed": "Terminé"
+      },
+      "statusMessages": {
+        "pendingSitter": "En attendant {sitterName} pour confirmer votre réservation.",
+        "confirmed": "{sitterName} a confirmé votre réservation. Tout est prêt!",
+        "declined": "{sitterName} Je ne peux pas accepter cette réservation. Essaie de trouver une autre gardienne."
+      },
+      "forChild": "Pour",
+      "microAdventure": "Micro-aventure :",
+      "markedCompleteWaiting": "✓ Vous avez indiqué que cette tâche était terminée — en attente de la confirmation de la gardienne.",
+      "marking": "Marquage…",
+      "markComplete": "Marquer la séance comme terminée",
+      "reviewSubmitted": "Avis soumis ✓"
+    }
+  },
+  "profileSitter": {
+    "completionBanner": {
+      "title": "Complétez votre profil",
+      "description": "Indiquez vos disponibilités pour que les familles puissent vous réserver",
+      "setAvailability": "Définir la disponibilité"
+    },
+    "verificationBanner": {
+      "incomplete": {
+        "title": "Terminez votre vérification pour commencer à recevoir des réservations",
+        "cta": "Vérification complète"
+      },
+      "pending": {
+        "title": "Vos documents sont en cours d'examen. Nous vous tiendrons au courant d'ici 2 à 3 jours ouvrables."
+      },
+      "rejected": {
+        "title": "Votre vérification a échoué. Veuillez soumettre à nouveau vos documents.",
+        "cta": "Soumettre à nouveau"
+      }
+    },
+    "stats": {
+      "monthlyEarnings": "Revenus du mois",
+      "totalSessions": "Nombre total de séances",
+      "averageRating": "Note moyenne{hasReviews, select, yes { ({totalReviews})} other {}}",
+      "activeFamilies": "Familles actives"
+    },
+    "quickActions": {
+      "schedule": {
+        "label": "Mon horaire",
+        "desc": "Voir les disponibilités"
+      },
+      "messages": {
+        "label": "Messages",
+        "desc": "Discuter avec les familles"
+      },
+      "earnings": {
+        "label": "Résultats financiers",
+        "desc": "Historique des paiements"
+      },
+      "profile": {
+        "label": "Profil",
+        "desc": "Modifier votre profil"
+      }
+    },
+    "sessions": {
+      "title": "Mes séances",
+      "viewAll": "Tout afficher",
+      "empty": "Aucune réservation pour l'instant."
+    },
+    "sessionCard": {
+      "status": {
+        "confirmed": "Confirmé",
+        "declined": "Refusé",
+        "awaitingResponse": "Dans l'attente de votre réponse"
+      },
+      "age": "Âge {age}",
+      "microAdventure": "Micro-aventure :",
+      "noteFromParent": "Note d'un parent :",
+      "acceptBooking": "Accepter la réservation",
+      "accepting": "Acceptation…",
+      "decline": "Baisse",
+      "declining": "En baisse…",
+      "markComplete": "Marquer la séance comme terminée",
+      "marking": "Marquage…",
+      "markedCompleteNotice": "✓ Vous avez indiqué que cette tâche était terminée — en attente de la confirmation du parent.",
+      "feedbackSubmitted": "Commentaire soumis ✓",
+      "reportIssue": "Signaler un problème",
+      "viewDetails": "Voir les détails",
+      "getDirections": "Obtenir l'itinéraire",
+      "errors": {
+        "failedUpdate": "Échec de la mise à jour de la réservation",
+        "generic": "Une erreur s'est produite. Veuillez réessayer."
+      }
+    },
+    "reviews": {
+      "title": "Critiques récentes",
+      "empty": "Aucun commentaire pour l'instant.",
+      "defaultParentName": "Parent"
+    },
+    "profileCompletion": {
+      "title": "Compléter le profil",
+      "percentComplete": "{percentage}% terminé",
+      "almostThere": "On y est presque!",
+      "items": {
+        "backgroundCheck": "Vérification des antécédents effectuée",
+        "profilePhoto": "Photo de profil téléchargée",
+        "certifications": "Ajouter d'autres certifications"
+      }
+    },
+    "earningsBreakdown": {
+      "title": "Répartition des bénéfices",
+      "thisWeek": "Cette semaine",
+      "completedSessions": "Séances terminées",
+      "tipsReceived": "Pourboires reçus",
+      "totalThisMonth": "Total ce mois-ci",
+      "requestPayout": "Demander un versement"
+    },
+    "thisMonth": {
+      "title": "Ce mois-ci",
+      "sessions": "Séances",
+      "completedCount": "{count} terminé",
+      "adventures": "Aventures",
+      "facilitatedCount": "{count} facilité",
+      "newReviews": "Nouvelles critiques",
+      "reviewsThisMonthCount": "{count} ce mois-ci"
+    },
+    "topSkills": {
+      "title": "Compétences clés",
+      "sessionsCount": "{count} séances",
+      "items": {
+        "empathyBuilding": "Développement de l'empathie",
+        "problemSolving": "Résolution de problèmes",
+        "creativeExpression": "Expression créative"
+      }
+    }
+  },
+  "search": {
+    "loading": "Chargement en cours...",
+    "header": {
+      "title": "Trouvez la gardienne idéale"
+    },
+    "resultsAvailable": "{count, plural, one {# assis} other {# sièges}} disponible dans votre région",
+    "searchPlaceholder": "Recherche par nom…",
+    "filters": {
+      "title": "Filtres",
+      "clearAll": "Tout effacer",
+      "hourlyRate": "Taux horaire",
+      "minPlaceholder": "J'ai",
+      "maxPlaceholder": "Max",
+      "experienceYears": "Expérience (années)",
+      "zero": "0",
+      "yearsPlus": "{count}+ ans",
+      "maxExperienceLabel": "10 et plus",
+      "specialNeeds": "Besoins particuliers",
+      "specialNeedsOptions": {
+        "autism": "Autisme",
+        "adhd": "TDAH",
+        "sensory": "Sensoriel",
+        "languageSupport": "Prise en charge linguistique",
+        "anxiety": "Anxiété",
+        "speechDelay": "Retard de la parole",
+        "downSyndrome": "Syndrome de Down"
+      },
+      "languages": "Langues",
+      "languageOptions": {
+        "english": "Anglais",
+        "french": "Français",
+        "spanish": "Espagnol",
+        "mandarin": "mandarin",
+        "asl": "Toutes sortes de bagages"
+      },
+      "availability": "Disponibilité",
+      "availabilityOptions": {
+        "weekdays": "Jours de semaine",
+        "weekends": "Les fins de semaine"
+      },
+      "matchPriorities": "Priorités de correspondance",
+      "learned": "appris",
+      "criteria": {
+        "language": "Correspondance linguistique",
+        "price": "Prix",
+        "rating": "Cote",
+        "experience": "Expérience"
+      },
+      "resetDefaults": "Rétablir les paramètres par défaut"
+    },
+    "emptyState": {
+      "title": "Aucune gardienne ne correspond à vos critères de recherche",
+      "subtitle": "Essayez de modifier vos critères de recherche",
+      "clearFilters": "Effacer tous les filtres"
+    }
+  },
+  "searchMatchingButton": {
+    "sitterFallbackAlt": "Assis",
+    "scoreMatch": "{percent}% de correspondance",
+    "reviewsCount": "({count, plural, one {# critique} other {# commentaires}})",
+    "experienceYears": "{count, plural, one {# années d'expérience} other {# années d'expérience}}",
+    "hourlyRate": "${rate}/heure",
+    "viewProfile": "Voir le profil"
+  },
+  "sitters": {
+    "header": {
+      "title": "Parcourir les gardiennes d'enfants"
+    },
+    "resultsFound": "{count, plural, one {# assis} other {# sièges}} trouvé",
+    "resultsFoundWithinRadius": "{count, plural, one {# assis} other {# sièges}} que l'on trouve à l'intérieur de {km} km",
+    "radiusLabel": "Rayon :",
+    "radiusKmOption": "{km} km",
+    "clearRadius": "Effacer",
+    "yourLocationTitle": "Votre emplacement",
+    "hourlyRate": "${rate}/hr",
+    "viewProfile": "Voir le profil",
+    "setNeighbourhoodPrompt": "Indiquez votre quartier lors de votre inscription pour connaître les distances.",
+    "locationNotSet": "Lieu non défini",
+    "distanceUnavailable": "Distance non disponible",
+    "emptyState": {
+      "title": "Aucune gardienne n'a été trouvée dans ce rayon.",
+      "clearRadius": "Effacer le filtre de rayon"
+    }
+  },
+  "settingsParent": {
+    "nav": {
+      "back": "Retour",
+      "profile": "Profil",
+      "children": "Enfants",
+      "preferences": "Préférences",
+      "account": "Compte"
+    },
+    "common": {
+      "settings": "Paramètres",
+      "saveChanges": "Enregistrer les modifications",
+      "saving": "Enregistrement en cours…",
+      "cancel": "Annuler",
+      "selectCountry": "Sélectionnez un pays…",
+      "search": "Rechercher…",
+      "noResults": "Aucun résultat",
+      "province": "Province",
+      "city": "Ville",
+      "selectProvince": "Sélectionnez une province…",
+      "selectCity": "Choisissez une ville…",
+      "dash": "—",
+      "neighbourhood": "Quartier",
+      "optional": "facultatif",
+      "clear": "Effacer",
+      "searchOrSelectNeighbourhood": "Recherchez ou sélectionnez un quartier…",
+      "typeToFilter": "Tapez pour filtrer…",
+      "noNeighbourhoodsFound": "Aucun quartier trouvé",
+      "days": {
+        "Mon": "Lun",
+        "Tue": "Mar",
+        "Wed": "Mer",
+        "Thu": "Jeu",
+        "Fri": "Ven",
+        "Sat": "Sam",
+        "Sun": "Dim"
+      },
+      "slots": {
+        "morning": "le matin",
+        "afternoon": "après-midi",
+        "evening": "soir"
+      },
+      "languages": {
+        "english": "Anglais",
+        "french": "Français",
+        "mandarin": "mandarin",
+        "arabic": "Arabe",
+        "spanish": "Espagnol",
+        "yoruba": "Écrire",
+        "hindi": "Non",
+        "portuguese": "portugais"
+      },
+      "countries": {
+        "canada": "Canada",
+        "unitedStates": "États-Unis",
+        "nigeria": "Nigéria",
+        "ghana": "Ghana",
+        "unitedKingdom": "Royaume-Uni",
+        "india": "Inde",
+        "china": "Chine",
+        "philippines": "Philippines",
+        "jamaica": "Jamaïque",
+        "kenya": "Entrer",
+        "ethiopia": "Éthiopie",
+        "southAfrica": "Afrique du Sud",
+        "pakistan": "Pakistan",
+        "bangladesh": "Bangladesh",
+        "sriLanka": "Sri Lanka",
+        "mexico": "Mexique",
+        "brazil": "Brésil",
+        "france": "France",
+        "germany": "Allemagne",
+        "italy": "Italie",
+        "spain": "Espagne",
+        "portugal": "Portugal",
+        "australia": "Australie",
+        "newZealand": "Nouvelle-Zélande",
+        "haiti": "Haïti",
+        "somalia": "Somalie",
+        "sudan": "Soudan",
+        "egypt": "Égypte",
+        "trinidadAndTobago": "Trinité-et-Tobago",
+        "barbados": "La Barbade",
+        "guyana": "Guyane",
+        "senegal": "Sénégal",
+        "cameroon": "Cameroun",
+        "uganda": "Ouganda",
+        "tanzania": "Tanzanie"
+      },
+      "specialNeeds": {
+        "autism": "Autisme",
+        "adhd": "TDAH",
+        "developmentalDelays": "Retards de développement",
+        "none": "Aucun"
+      }
+    },
+    "toasts": {
+      "profileUpdated": "Le profil a été mis à jour avec succès",
+      "profileUpdateFailed": "Échec de l'enregistrement du profil",
+      "childAdded": "Enfant ajouté",
+      "childUpdated": "Mise à jour de l'enfant",
+      "childSaveFailed": "Échec de l'enregistrement de l'élément enfant",
+      "childRemoveFailed": "Échec de la suppression de l'élément enfant",
+      "childRemoved": "Enfant retiré",
+      "preferencesUpdated": "Les préférences ont été mises à jour avec succès",
+      "preferencesUpdateFailed": "Échec de l'enregistrement des préférences"
+    },
+    "tabs": {
+      "profile": {
+        "title": "Profil",
+        "subtitle": "Les renseignements que vous rendez publics et qui sont présentés aux gardiennes.",
+        "avatarAlt": "avatar",
+        "changePhoto": "Changer de photo",
+        "uploadPhoto": "Téléverser une photo",
+        "previewHint": "Aperçu — enregistrer pour appliquer",
+        "photoRequirements": "JPG, PNG ou WEBP · 2 Mo maximum",
+        "fullNameLabel": "Nom complet",
+        "fullNamePlaceholder": "Jane Doe",
+        "nameRequired": "Le nom est obligatoire.",
+        "phoneLabel": "Numéro de téléphone",
+        "phonePlaceholder": "(506) 555-0100",
+        "countryLabel": "Pays d'origine",
+        "locationLabel": "Emplacement",
+        "locationHint": "Sélectionnez votre province et votre ville. Le choix du quartier est facultatif et permet de déterminer automatiquement vos coordonnées.",
+        "languagesLabel": "Langues parlées",
+        "noteLabel": "Petite note à l'intention des gardiennes et gardiens d'enfants",
+        "noteCounterHint": "{count}/300",
+        "notePlaceholder": "Parlez aux gardiennes de votre famille, de vos habitudes quotidiennes ou de tout ce qui pourrait leur être utile…",
+        "photoUploadFailed": "Échec du téléchargement de la photo : {message}"
+      },
+      "children": {
+        "title": "Enfants",
+        "subtitle": "Gérez les enfants dont vous avez la charge.",
+        "addChild": "Ajouter un enfant",
+        "noChildrenYet": "Aucun enfant n'a encore été ajouté. Cliquez sur « Ajouter un enfant » pour commencer.",
+        "childNameLabel": "Nom de l’enfant",
+        "childNamePlaceholder": "Mais",
+        "nameRequired": "Le nom est obligatoire.",
+        "dobLabel": "Date de naissance",
+        "dobRequired": "La date de naissance est obligatoire.",
+        "specialNeedsLabel": "Besoins particuliers",
+        "medicalNotesLabel": "Allergies / notes médicales",
+        "medicalNotesPlaceholder": "Allergie aux arachides, EpiPen dans un sac rouge…",
+        "saveChild": "Sauvegarder l'enfant",
+        "yearsOld": "{age, plural, one {# ans} other {# ans}}",
+        "removeConfirm": "Supprimer {name}? Il est impossible de revenir en arrière.",
+        "remove": "Supprimer"
+      },
+      "preferences": {
+        "title": "Préférences",
+        "subtitle": "Aidez les gardiennes à comprendre ce que vous recherchez.",
+        "budgetLabel": "Fourchette budgétaire ($/h)",
+        "budgetMinPlaceholder": "J'ai",
+        "budgetMaxPlaceholder": "Max",
+        "to": "à",
+        "availabilityLabel": "Disponibilité souhaitée",
+        "availabilityHint": "Choisissez les horaires qui conviennent le mieux à votre famille"
+      },
+      "account": {
+        "title": "Compte",
+        "subtitle": "Gérez vos informations d'identification et l'état de votre compte.",
+        "emailLabel": "Adresse courriel",
+        "emailCannotChange": "Il n'est pas possible de modifier l'adresse courriel ici. Communiquez avec le service de soutien au besoin.",
+        "changePasswordTitle": "Changer le mot de passe",
+        "currentPasswordLabel": "Mot de passe actuel",
+        "newPasswordLabel": "Nouveau mot de passe",
+        "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+        "passwordsNoMatch": "Les mots de passe ne correspondent pas.",
+        "passwordTooShort": "Le mot de passe doit comporter au moins 6 caractères.",
+        "passwordUpdated": "Le mot de passe a été mis à jour avec succès.",
+        "updatePassword": "Mettre à jour le mot de passe",
+        "dangerZoneTitle": "Danger zone",
+        "deleteWarning": "La suppression de votre compte est définitive. Toutes vos données, votre historique de réservations et les profils de vos enfants seront supprimés.",
+        "deleteAccountButton": "Supprimer mon compte",
+        "areYouSure": "Tu en es sûr?",
+        "deleteConfirmInstructions": "Cette action est irréversible. Tapez <strong>DELETE</strong> pour confirmer.",
+        "typeDeletePlaceholder": "Tapez DELETE",
+        "deleteAccountConfirmBtn": "Supprimer le compte",
+        "deleting": "Suppression…",
+        "deleteAccountFailed": "Échec de la suppression du compte. Veuillez réessayer."
+      }
+    }
+  },
+  "settingsSitter": {
+    "common": {
+      "saving": "Enregistrement en cours…",
+      "saveChanges": "Enregistrer les modifications"
+    },
+    "nav": {
+      "back": "Retour",
+      "settingsTitle": "Paramètres",
+      "profile": "Profil",
+      "availability": "Disponibilité",
+      "verification": "Vérification",
+      "account": "Compte"
+    },
+    "shared": {
+      "languages": {
+        "English": "Anglais",
+        "French": "Français",
+        "Mandarin": "mandarin",
+        "Arabic": "Arabe",
+        "Spanish": "Espagnol",
+        "Yoruba": "Écrire",
+        "Hindi": "Non",
+        "Portuguese": "portugais"
+      }
+    },
+    "toasts": {
+      "profileUpdated": "Le profil a été mis à jour avec succès",
+      "profileSaveFailed": "Échec de l'enregistrement du profil"
+    },
+    "tabs": {
+      "profile": {
+        "title": "Profil",
+        "subtitle": "Les renseignements que vous rendez publics et qui sont présentés aux familles.",
+        "avatarAlt": "avatar",
+        "changePhoto": "Changer de photo",
+        "uploadPhoto": "Téléverser une photo",
+        "previewHint": "Aperçu — enregistrer pour appliquer",
+        "fileHint": "JPG, PNG ou WEBP · 2 Mo maximum",
+        "fullNameLabel": "Nom complet",
+        "fullNamePlaceholder": "Votre nom",
+        "phoneLabel": "Numéro de téléphone",
+        "phonePlaceholder": "(506) 555-0100",
+        "bioLabel": "Brève biographie",
+        "bioHint": "{count}/300",
+        "bioPlaceholder": "Parle un peu de toi aux familles…",
+        "hourlyRateLabel": "Taux horaire (CAD $)",
+        "hourlyRatePlaceholder": "p. ex. 20",
+        "languagesLabel": "Langues parlées",
+        "locationLabel": "Votre emplacement",
+        "locationHint": "Sélectionnez votre quartier — cela permettra de placer votre repère sur la carte principale.",
+        "errors": {
+          "nameRequired": "Le nom est obligatoire.",
+          "photoUploadFailed": "Échec du téléchargement de la photo : {message}"
+        },
+        "location": {
+          "provinceLabel": "Province",
+          "selectProvince": "Sélectionnez une province…",
+          "cityLabel": "Ville",
+          "selectCity": "Choisissez une ville…",
+          "dash": "—",
+          "neighbourhoodLabel": "Quartier",
+          "optionalLabel": "(facultatif)",
+          "clearButton": "Effacer",
+          "searchPlaceholder": "Recherchez ou sélectionnez un quartier…",
+          "typeToFilter": "Tapez pour filtrer…",
+          "noResults": "Aucun quartier trouvé",
+          "pinnedTo": "Emplacement épinglé à {neighbourhood}"
+        }
+      },
+      "availability": {
+        "title": "Disponibilité",
+        "subtitle": "Indiquez les jours et les heures où vous êtes disponible pour les réservations. Cela aidera les familles à trouver des horaires qui vous conviennent.",
+        "saveSuccess": "La mise à jour de la disponibilité s'est déroulée avec succès",
+        "errors": {
+          "loadFailed": "Échec du chargement des disponibilités"
+        }
+      },
+      "account": {
+        "title": "Compte",
+        "subtitle": "Gérez vos informations d'identification et l'état de votre compte.",
+        "emailLabel": "Adresse courriel",
+        "emailHint": "Il n'est pas possible de modifier l'adresse courriel ici. Communiquez avec le service de soutien au besoin.",
+        "changePasswordTitle": "Changer le mot de passe",
+        "newPasswordLabel": "Nouveau mot de passe",
+        "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+        "updatePasswordButton": "Mettre à jour le mot de passe",
+        "passwordUpdated": "Le mot de passe a été mis à jour avec succès.",
+        "dangerZoneTitle": "Danger zone",
+        "dangerZoneText": "La suppression de votre compte est définitive. Toutes vos données et votre historique de réservations seront supprimés.",
+        "deleteAccountButton": "Supprimer mon compte",
+        "confirmDeleteTitle": "Tu en es sûr?",
+        "deleteConfirmBefore": "Cette action est irréversible. Tapez",
+        "deleteConfirmAfter": "pour confirmer.",
+        "deleteInputPlaceholder": "Tapez DELETE",
+        "deletingLabel": "Suppression…",
+        "deleteAccountConfirmButton": "Supprimer le compte",
+        "cancelButton": "Annuler",
+        "deleteFailed": "Échec de la suppression du compte. Veuillez réessayer.",
+        "errors": {
+          "passwordMismatch": "Les mots de passe ne correspondent pas.",
+          "passwordTooShort": "Le mot de passe doit comporter au moins 6 caractères."
+        }
+      }
+    }
+  },
+  "signupParent": {
+    "back": "Retour",
+    "title": "Créez votre compte de parent",
+    "subtitle": "Parlez-nous de vous et de votre famille pour que nous puissions trouver la gardienne idéale",
+    "sections": {
+      "account": {
+        "title": "Détails du compte",
+        "fullName": "Nom complet",
+        "fullNamePlaceholder": "Votre nom complet",
+        "phone": "Numéro de téléphone",
+        "phonePlaceholder": "(506) 555-0100",
+        "email": "Adresse courriel",
+        "emailPlaceholder": "your@email.com",
+        "password": "Mot de passe",
+        "passwordPlaceholder": "Au moins 6 caractères"
+      },
+      "family": {
+        "title": "Votre famille",
+        "neighbourhood": "Quartier",
+        "neighbourhoodPlaceholder": "Sélectionnez un quartier…",
+        "neighbourhoodSelected": "{neighbourhood} zone sélectionnée",
+        "maxBudget": "Budget horaire maximal (CAD)",
+        "maxBudgetPlaceholder": "p. ex. 25",
+        "aboutFamily": "À propos de votre famille",
+        "aboutFamilyPlaceholder": "Parlez un peu aux gardiennes de votre famille, de vos valeurs, de vos habitudes et de ce que vous recherchez…",
+        "preferredLanguages": "Langues préférées",
+        "preferredLanguagesHint": "Langues que vous aimeriez que votre gardienne parle",
+        "languageRequired": "Veuillez choisir au moins une langue"
+      },
+      "children": {
+        "title": "Vos enfants",
+        "addButton": "Ajouter un enfant",
+        "childLabel": "Enfant {number}",
+        "name": "Nom",
+        "namePlaceholder": "Nom de l’enfant",
+        "age": "Âge",
+        "agePlaceholder": "Âge",
+        "specialNeeds": "Besoins particuliers",
+        "optional": "(facultatif)"
+      }
+    },
+    "languageOptions": {
+      "English": "Anglais",
+      "French": "Français",
+      "Spanish": "Espagnol",
+      "Mandarin": "mandarin",
+      "Arabic": "Arabe",
+      "Hindi": "Non",
+      "Yoruba": "Écrire",
+      "Igbo": "Les gens",
+      "Hausa": "Chèvre",
+      "Swahili": "swahili",
+      "Portuguese": "portugais",
+      "Punjabi": "pendjabi",
+      "Tagalog": "tagalog",
+      "Urdu": "ourdou",
+      "Bengali": "bengali",
+      "Tamil": "tamoul",
+      "Somali": "somalien",
+      "Amharic": "amharique"
+    },
+    "specialNeedsOptions": {
+      "Autism": "Autisme",
+      "ADHD": "TDAH",
+      "Language Barrier": "Barrière linguistique",
+      "Hearing Impairment": "Déficience auditive",
+      "Visual Impairment": "Déficience visuelle",
+      "Down Syndrome": "Syndrome de Down",
+      "Cerebral Palsy": "Paralysie cérébrale",
+      "Speech Delay": "Retard de la parole",
+      "Anxiety": "Anxiété",
+      "Sensory Processing": "Traitement sensoriel"
+    },
+    "submit": {
+      "creating": "Création d'un compte...",
+      "createAccount": "Créer un compte"
+    },
+    "footer": {
+      "alreadyHaveAccount": "Vous avez déjà un compte?",
+      "signIn": "Ouvrir une session"
+    }
+  },
+  "signupSitter": {
+    "common": {
+      "back": "Retour",
+      "continue": "Continuer"
+    },
+    "progress": {
+      "account": "Compte",
+      "personal": "Personnel",
+      "credentials": "Références"
+    },
+    "header": {
+      "title": "Devenez gardien d’enfants",
+      "subtitle": "Partagez votre culture et vos compétences avec des familles qui accordent de l’importance à la préservation authentique du patrimoine"
+    },
+    "stepIndicator": "Étape {step} — {title}",
+    "stepTitles": {
+      "account": "Compte de base",
+      "personal": "Renseignements personnels",
+      "credentials": "Qualifications des aidants naturels",
+      "availability": "Disponibilité"
+    },
+    "steps": {
+      "account": {
+        "nameLabel": "Nom complet",
+        "namePlaceholder": "Votre nom complet",
+        "emailLabel": "Adresse courriel",
+        "emailPlaceholder": "your@email.com",
+        "passwordLabel": "Mot de passe",
+        "passwordPlaceholder": "Au moins 6 caractères"
+      },
+      "personal": {
+        "photoLabel": "Photo de profil",
+        "photoPreviewAlt": "Aperçu",
+        "choosePhoto": "Choisissez une photo",
+        "photoHint": "JPG ou PNG, jusqu’à 5 Mo",
+        "phoneLabel": "Numéro de téléphone",
+        "phonePlaceholder": "(506) 555-0100",
+        "areaLabel": "Superficie",
+        "areaPlaceholder": "Sélectionnez votre région…",
+        "areaSet": "Emplacement défini sur {neighbourhood} région",
+        "languagesLabel": "Langues parlées",
+        "languagesPlaceholder": "Rechercher et ajouter des langues…",
+        "countryLabel": "Pays d'origine",
+        "countryPlaceholder": "Rechercher un pays…",
+        "bioLabel": "Brève biographie",
+        "bioPlaceholder": "Parlez aux familles de vous, de votre parcours et de votre expérience en matière de garde d’enfants…"
+      },
+      "credentials": {
+        "experienceLabel": "Années d'expérience",
+        "experiencePlaceholder": "p. ex. 3",
+        "hourlyRateLabel": "Taux horaire (CAD)",
+        "hourlyRatePlaceholder": "p. ex. 20",
+        "ageGroupsLabel": "Tranches d'âge",
+        "specialNeedsLabel": "Expérience en matière de besoins particuliers",
+        "certificationsLabel": "Certifications"
+      }
+    },
+    "buttons": {
+      "completeProfile": "Profil complet",
+      "savingProfile": "Enregistrement du profil…"
+    },
+    "footer": {
+      "haveAccount": "Vous avez déjà un compte?",
+      "signIn": "Ouvrir une session"
+    },
+    "errors": {
+      "nameRequired": "Le nom est obligatoire.",
+      "emailRequired": "Une adresse courriel est obligatoire.",
+      "emailInvalid": "Entrez une adresse courriel valide.",
+      "passwordRequired": "Un mot de passe est requis.",
+      "passwordTooShort": "Le mot de passe doit comporter au moins 6 caractères.",
+      "phoneRequired": "Un numéro de téléphone est obligatoire.",
+      "neighbourhoodRequired": "Choisissez votre quartier.",
+      "languagesRequired": "Sélectionnez au moins une langue.",
+      "countryRequired": "Le pays d'origine est un champ obligatoire.",
+      "experienceRequired": "Indiquez le nombre d'années d'expérience (vous pouvez mettre « 0 »).",
+      "ageGroupsRequired": "Sélectionnez au moins une tranche d'âge.",
+      "hourlyRateRequired": "Le taux horaire est obligatoire.",
+      "genericSubmit": "Une erreur s'est produite. Veuillez réessayer."
+    }
+  },
+  "profileSitterPublic": {
+    "days": {
+      "monday": "Lundi",
+      "tuesday": "Mardi",
+      "wednesday": "Mercredi",
+      "thursday": "Jeudi",
+      "friday": "Vendredi",
+      "saturday": "Samedi",
+      "sunday": "Dimanche"
+    },
+    "noAvailabilitySet": "Cette gardienne n’a pas encore indiqué ses disponibilités.",
+    "loading": "Chargement du profil de la gardienne...",
+    "errors": {
+      "fetchFailed": "Échec de la recherche d'une gardienne",
+      "loadFailed": "Impossible de charger le profil de la gardienne",
+      "notFound": "Aucun gardien trouvé"
+    },
+    "backToSearch": "Retour à la recherche",
+    "backgroundChecked": "Antécédents vérifiés",
+    "reviewsCount": "({count, plural, one {# critique} other {# commentaires}})",
+    "bookNow": "Réservez dès maintenant",
+    "stats": {
+      "experience": "Expérience",
+      "experienceYears": "{count, plural, one {# année} other {# années}}",
+      "reviews": "Commentaires"
+    },
+    "sections": {
+      "aboutMe": "À propos de moi",
+      "languages": "Langues",
+      "specialNeeds": "Expérience en matière de besoins particuliers",
+      "certifications": "Certifications",
+      "location": "Emplacement",
+      "availability": "Disponibilité",
+      "contact": "Contact"
+    },
+    "perHourShort": "/hr",
+    "perHour": "/heure",
+    "readyToBook": "Prêt à réserver?",
+    "scheduleSessionWith": "Prenez rendez-vous avec {firstName} aujourd’hui!"
+  },
+  "scheduleSitter": {
+    "greeting": "Bonjour, {name}",
+    "subtitle": "Voici votre horaire",
+    "editAvailability": "Modifier la disponibilité",
+    "defaultName": "Assis",
+    "errors": {
+      "notAuthenticated": "Non authentifié",
+      "saveToDatabaseFailed": "Échec de l'enregistrement de la disponibilité dans la base de données",
+      "saveFailed": "Échec de l'enregistrement de la disponibilité"
+    }
+  },
+  "sessionsSitter": {
+    "header": {
+      "title": "Toutes les séances",
+      "subtitle": "Gérer et consulter toutes vos réservations"
+    },
+    "filters": {
+      "statusLabel": "Statut",
+      "searchLabel": "Recherche",
+      "searchPlaceholder": "Recherche par nom de famille...",
+      "status": {
+        "all": "Tout",
+        "pending": "En attente",
+        "confirmed": "Confirmé",
+        "completed": "Terminé",
+        "declined": "Refusé"
+      }
+    },
+    "empty": {
+      "noSessions": "Il n'y a pas encore de séances.",
+      "noMatches": "Aucune séance ne correspond à vos critères de recherche."
+    },
+    "defaults": {
+      "sitterName": "Assis",
+      "parentName": "Parent",
+      "childName": "Enfant",
+      "adventureNotSpecified": "Non précisé"
+    },
+    "card": {
+      "status": {
+        "confirmed": "Confirmé",
+        "declined": "Refusé",
+        "pendingSitter": "Dans l'attente de votre réponse",
+        "pending": "Dans l'attente de votre réponse",
+        "completed": "Terminé"
+      },
+      "childAge": "{name}, {age} ans",
+      "dateAt": "{date} que {time}",
+      "sessionRate": "{hours}et à ${rate}/hr",
+      "errors": {
+        "updateFailed": "Échec de la mise à jour de la réservation",
+        "generic": "Une erreur s'est produite. Veuillez réessayer."
+      },
+      "accept": "Accepter",
+      "accepting": "Acceptation…",
+      "decline": "Baisse",
+      "declining": "En baisse…",
+      "markedCompleteWaiting": "✓ Marqué comme terminé — en attente de confirmation de la part du parent.",
+      "markComplete": "Marquer comme terminé",
+      "markingComplete": "Marquage terminé…",
+      "feedbackSubmitted": "Commentaire soumis ✓",
+      "leaveFeedback": "Donnez votre avis",
+      "reportIssue": "Signaler un problème"
+    }
+  },
+  "sitterSidebar": {
+    "logoAlt": "Petit logo Halo",
+    "brandName": "Petit Halo",
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "schedule": "Horaire",
+      "activities": "Activités",
+      "settings": "Paramètres"
+    },
+    "loggingOut": "Déconnexion…",
+    "logOut": "Se déconnecter"
+  },
+  "sitterCard": {
+    "verified": "Vérifié",
+    "verificationBadge": {
+      "approved": "Identité vérifiée",
+      "pending": "Vérification en attente"
+    },
+    "reviewsCount": "{count, plural, one {# critique} other {# commentaires}}",
+    "atlanticCanada": "Canada atlantique",
+    "respondsUnder": "Répond dans un délai de {time}",
+    "experience": "{count, plural, one {# années d'expérience} other {# années d'expérience}}",
+    "hourlyRate": "Taux horaire",
+    "availableDaysThisWeek": "Disponible cette semaine",
+    "days": {
+      "Mon": "Lun",
+      "Tue": "Mar",
+      "Wed": "Mer",
+      "Thu": "Jeu",
+      "Fri": "Ven",
+      "Sat": "Sam",
+      "Sun": "Dim"
+    },
+    "viewProfile": "Voir le profil",
+    "bookNow": "Réservez dès maintenant"
+  },
+  "sitterVerification": {
+    "title": "Vérification de l'identité",
+    "subtitle": "Suivez ces étapes pour que les familles puissent vous faire confiance et réserver vos services en toute confiance.",
+    "stepIndicator": "Étape {step} de {total}",
+    "back": "Retour",
+    "next": "Suivant",
+    "submit": "Soumettre",
+    "submitting": "Envoi en cours…",
+    "steps": {
+      "1": {
+        "title": "Renseignements personnels",
+        "fullLegalNameLabel": "Nom légal complet",
+        "fullLegalNamePlaceholder": "Comme indiqué sur votre pièce d’identité",
+        "dateOfBirthLabel": "Date de naissance"
+      },
+      "2": {
+        "title": "Pièce d'identité",
+        "documentTypeLabel": "Document type",
+        "documentTypes": {
+          "passport": "Passeport",
+          "driversLicense": "Permis de conduire",
+          "provincialId": "Numéro d'identification provincial"
+        },
+        "frontLabel": "Recto du document",
+        "backLabel": "Retour au document"
+      },
+      "3": {
+        "title": "Preuve d'adresse",
+        "uploadLabel": "Preuve d'adresse",
+        "hint": "Documents acceptés : facture de services publics, relevé bancaire ou lettre d’une autorité gouvernementale datant de moins de trois mois."
+      }
+    },
+    "chooseFile": "Choisissez un fichier",
+    "uploading": "Téléversement en cours…",
+    "uploaded": "Téléversé",
+    "replace": "Remplacer",
+    "fileTypeHint": "JPG, PNG ou PDF · 5 Mo maximum",
+    "rejectedNotice": {
+      "title": "Votre soumission précédente n'a pas été approuvée"
+    },
+    "errors": {
+      "required": "Ce champ est obligatoire.",
+      "invalidFileType": "Veuillez télécharger un fichier JPG, PNG ou PDF.",
+      "fileTooLarge": "La taille du fichier ne doit pas dépasser 5 Mo.",
+      "uploadFailed": "L'envoi a échoué. Veuillez réessayer.",
+      "submitFailed": "L'envoi a échoué. Veuillez réessayer.",
+      "sdkLoadFailed": "Nous n'avons pas pu lancer la séance de vérification. Veuillez réessayer."
+    },
+    "success": {
+      "heading": "Documents soumis avec succès",
+      "subtext": "Nous examinerons vos documents dans un délai de 2 à 3 jours ouvrables. Vous recevrez un avis par courriel une fois l'examen terminé."
+    },
+    "statusScreen": {
+      "pending": {
+        "heading": "Vos documents sont en cours d'examen",
+        "subtext": "Nous vous aviserons dans un délai de 2 à 3 jours ouvrables une fois l'examen terminé."
+      },
+      "approved": {
+        "heading": "Votre compte est vérifié!",
+        "subtext": "Votre identité a été vérifiée. Les familles peuvent désormais voir votre insigne de vérification."
+      }
+    }
+  },
+  "sitterCalendar": {
+    "toast": {
+      "availabilityUpdated": "Mise à jour de la disponibilité",
+      "saveFailed": "Échec de l'enregistrement : {message}",
+      "unknownError": "Erreur inconnue"
+    },
+    "days": {
+      "Sun": "Dim",
+      "Mon": "Lun",
+      "Tue": "Mar",
+      "Wed": "Mer",
+      "Thu": "Jeu",
+      "Fri": "Ven",
+      "Sat": "Sam"
+    },
+    "available": "Disponible",
+    "bookedWith": "Réservé auprès de {name}",
+    "months": {
+      "January": "Janvier",
+      "February": "Février",
+      "March": "Mars",
+      "April": "Avril",
+      "May": "Mai",
+      "June": "Juin",
+      "July": "Juillet",
+      "August": "Août",
+      "September": "Septembre",
+      "October": "Octobre",
+      "November": "Novembre",
+      "December": "Décembre"
+    },
+    "viewModes": {
+      "month": "Mois",
+      "week": "Semaine",
+      "day": "Cela"
+    },
+    "editAvailability": "Modifier la disponibilité",
+    "booked": "Réservé",
+    "panel": {
+      "family": "Famille",
+      "child": "Enfant",
+      "age": "Âge {age}",
+      "date": "Données",
+      "time": "Heure",
+      "status": "Statut",
+      "confirmed": "Confirmé",
+      "pending": "En attente",
+      "microAdventure": "Micro-aventure",
+      "markComplete": "Marquer comme terminé"
+    }
+  },
+  "sitterMapPanel": {
+    "parentPinTitle": "{name}son emplacement",
+    "yourLocation": "Votre emplacement",
+    "hourlyRate": "${rate}/hr",
+    "viewProfile": "Voir le profil"
+  },
+  "sitterReviews": {
+    "reviews": "Commentaires",
+    "reviewsCount": "{count, plural, one {# critique} other {# commentaires}}",
+    "sessionQuality": "Qualité de la séance",
+    "adventureQuality": "Qualité de l'aventure",
+    "noReviewsYet": "Aucun commentaire pour l'instant",
+    "showLess": "Afficher moins",
+    "seeAllReviews": "Voir tout {count, plural, one {# critique} other {# commentaires}}"
+  },
+  "sitterFeedbackForm": {
+    "errors": {
+      "ratingRequired": "Veuillez choisir une note",
+      "submitFailed": "Échec de l'envoi des commentaires",
+      "generic": "Une erreur s'est produite. Veuillez réessayer."
+    },
+    "submittedThanks": "Merci pour vos commentaires!",
+    "sessionQuestion": "Comment s'est passée ta séance avec {firstName}?",
+    "familyLabel": "{firstName}",
+    "sessionInfoWithHours": "{date} · {hours} heures",
+    "sessionInfo": "{date}",
+    "completed": "Terminé",
+    "familyRating": "Donnez une note à cette famille",
+    "yourFeedback": "Vos commentaires",
+    "feedbackPlaceholder": "Partagez votre expérience (facultatif)",
+    "rebookQuestion": "Seriez-vous prêt à travailler de nouveau avec cette famille?",
+    "rebookOptions": {
+      "yes": "Oui",
+      "maybe": "Peut-être",
+      "no": "De"
+    },
+    "submitting": "Envoi en cours...",
+    "submitFeedback": "Envoyer des commentaires"
+  },
+  "availabilityCalendar": {
+    "weekOf": "Semaine du {date}",
+    "copyLastWeek": "Copie de la semaine dernière",
+    "repeatWeekly": "À répéter chaque semaine",
+    "days": {
+      "Monday": "Lundi",
+      "Tuesday": "Mardi",
+      "Wednesday": "Mercredi",
+      "Thursday": "Jeudi",
+      "Friday": "Vendredi",
+      "Saturday": "Samedi",
+      "Sunday": "Dimanche"
+    },
+    "dragInfo": "Cliquez ou faites glisser pour activer ou désactiver la disponibilité.",
+    "repeatInfo": "Se répète chaque semaine."
+  },
+  "simpleAvailabilityCalendar": {
+    "loading": "Chargement en cours...",
+    "toast": {
+      "enableOneDayFirst": "Activez d’abord au moins un jour",
+      "timesCopied": "Heures copiées pour tous les jours activés",
+      "availabilityUpdated": "Mise à jour de la disponibilité",
+      "saveFailed": "Échec de l'enregistrement de la disponibilité"
+    },
+    "setYourAvailability": "Définissez vos disponibilités",
+    "chooseDaysAndHours": "Choisissez les jours et les heures où vous êtes disponible",
+    "copyToAllDays": "Copier sur tous les jours",
+    "repeatWeekly": "À répéter chaque semaine",
+    "repeatWeeklyDescription": "Appliquez cet horaire chaque semaine",
+    "days": {
+      "monday": "Lundi",
+      "tuesday": "Mardi",
+      "wednesday": "Mercredi",
+      "thursday": "Jeudi",
+      "friday": "Vendredi",
+      "saturday": "Samedi",
+      "sunday": "Dimanche"
+    },
+    "from": "De",
+    "to": "À",
+    "saving": "Enregistrement en cours...",
+    "saveAvailability": "Enregistrer la disponibilité"
+  }
+}

@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useActionState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { Plus, Pencil, Check, X } from "lucide-react";
-import { updateChild } from "@/app/actions/parent";
+import { updateChild } from "@/app/[locale]/actions/parent";
 
 const AVATAR_COLORS = [
   "bg-red-100 text-[#ff6b6b]",
@@ -12,13 +13,29 @@ const AVATAR_COLORS = [
   "bg-purple-100 text-purple-600",
 ];
 
+// NOTE: these values are stored/matched against the DB (child.special_needs),
+// so the underlying value must stay in English. Only the displayed label is translated.
 const SPECIAL_NEEDS = [
   "Autism", "ADHD", "Language Barrier", "Hearing Impairment",
   "Visual Impairment", "Down Syndrome", "Cerebral Palsy",
   "Speech Delay", "Anxiety", "Sensory Processing",
 ];
 
+const SPECIAL_NEEDS_KEY_BY_LABEL = {
+  "Autism": "autism",
+  "ADHD": "adhd",
+  "Language Barrier": "languageBarrier",
+  "Hearing Impairment": "hearingImpairment",
+  "Visual Impairment": "visualImpairment",
+  "Down Syndrome": "downSyndrome",
+  "Cerebral Palsy": "cerebralPalsy",
+  "Speech Delay": "speechDelay",
+  "Anxiety": "anxiety",
+  "Sensory Processing": "sensoryProcessing",
+};
+
 function ChildCard({ child, colorClass, onSaved }) {
+  const t = useTranslations("myChildren");
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(child.name);
   const [age, setAge] = useState(child.age);
@@ -64,16 +81,16 @@ function ChildCard({ child, colorClass, onSaved }) {
                 <Pencil className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-sm text-gray-500 mb-2">{child.age} years old</p>
+            <p className="text-sm text-gray-500 mb-2">{t("yearsOld", { age: child.age })}</p>
             <div className="flex flex-wrap gap-1.5">
               {child.special_needs?.length ? (
                 child.special_needs.map((tag, i) => (
                   <span key={i} className="px-2 py-1 bg-white border border-gray-200 text-xs text-gray-600 rounded-md font-medium">
-                    {tag}
+                    {SPECIAL_NEEDS_KEY_BY_LABEL[tag] ? t(`specialNeeds.${SPECIAL_NEEDS_KEY_BY_LABEL[tag]}`) : tag}
                   </span>
                 ))
               ) : (
-                <span className="text-xs text-gray-400">No special needs noted</span>
+                <span className="text-xs text-gray-400">{t("noSpecialNeeds")}</span>
               )}
             </div>
           </div>
@@ -92,7 +109,7 @@ function ChildCard({ child, colorClass, onSaved }) {
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-xs font-medium text-gray-600">Name</label>
+              <label className="text-xs font-medium text-gray-600">{t("form.name")}</label>
               <input
                 name="name" type="text"
                 value={name} onChange={e => setName(e.target.value)}
@@ -101,7 +118,7 @@ function ChildCard({ child, colorClass, onSaved }) {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-medium text-gray-600">Age</label>
+              <label className="text-xs font-medium text-gray-600">{t("form.age")}</label>
               <input
                 name="age" type="number"
                 value={age} onChange={e => setAge(e.target.value)}
@@ -112,7 +129,7 @@ function ChildCard({ child, colorClass, onSaved }) {
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-medium text-gray-600">Special Needs</label>
+            <label className="text-xs font-medium text-gray-600">{t("form.specialNeeds")}</label>
             <div className="flex flex-wrap gap-1.5">
               {SPECIAL_NEEDS.map(need => (
                 <button
@@ -123,7 +140,7 @@ function ChildCard({ child, colorClass, onSaved }) {
                       : "bg-white text-gray-600 border-gray-200 hover:border-[#ff6b6b]/50"
                   }`}
                 >
-                  {need}
+                  {t(`specialNeeds.${SPECIAL_NEEDS_KEY_BY_LABEL[need]}`)}
                 </button>
               ))}
             </div>
@@ -135,13 +152,13 @@ function ChildCard({ child, colorClass, onSaved }) {
               className="flex items-center gap-1.5 bg-[#ff6b6b] text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#ff5252] transition-colors disabled:opacity-60 cursor-pointer"
             >
               <Check className="w-3.5 h-3.5" />
-              {isPending ? "Saving..." : "Save"}
+              {isPending ? t("form.saving") : t("form.save")}
             </button>
             <button
               type="button" onClick={handleCancel}
               className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
             >
-              <X className="w-3.5 h-3.5" /> Cancel
+              <X className="w-3.5 h-3.5" /> {t("form.cancel")}
             </button>
           </div>
         </form>
@@ -151,13 +168,14 @@ function ChildCard({ child, colorClass, onSaved }) {
 }
 
 export default function MyChildren({ children, onChildUpdated }) {
+  const t = useTranslations("myChildren");
   return (
     <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8">
-      <h2 className="text-xl font-bold text-gray-900 mb-6">My Children</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-6">{t("title")}</h2>
       <hr />
       <div className="space-y-4 mb-6 mt-4">
         {children.length === 0 ? (
-          <p className="text-sm text-gray-400 text-center py-4">No children added yet.</p>
+          <p className="text-sm text-gray-400 text-center py-4">{t("noChildrenYet")}</p>
         ) : (
           children.map((child, i) => (
             <ChildCard
@@ -173,7 +191,7 @@ export default function MyChildren({ children, onChildUpdated }) {
         href="/children/add"
         className="w-full py-3 border-2 border-dashed border-gray-200 rounded-xl text-gray-500 font-bold flex items-center justify-center gap-2 hover:border-[#ff6b6b] hover:text-[#ff6b6b] transition-colors"
       >
-        <Plus className="w-5 h-5" /> Add Another Child
+        <Plus className="w-5 h-5" /> {t("addAnotherChild")}
       </Link>
     </div>
   );

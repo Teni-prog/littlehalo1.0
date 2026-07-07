@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { ChevronLeft, ChevronRight, Copy } from "lucide-react";
 
 // Hours from 6 AM to 10 PM (6, 7, 8, ..., 22)
@@ -57,6 +58,9 @@ export default function AvailabilityCalendar({
   showRepeatToggle = true,
   dateRange = null // { start: Date, end: Date } for which week to show
 }) {
+  const t = useTranslations("availabilityCalendar");
+  const locale = useLocale();
+  const dateLocale = locale === "fr" ? "fr-CA" : "en-US";
   const recurring = value?.recurring_availability || {
     monday: [], tuesday: [], wednesday: [], thursday: [],
     friday: [], saturday: [], sunday: []
@@ -176,10 +180,10 @@ export default function AvailabilityCalendar({
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
           <p className="text-sm font-semibold text-gray-900">
-            Week of {startOfWeek.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+            {t("weekOf", { date: startOfWeek.toLocaleDateString(dateLocale, { month: "short", day: "numeric" }) })}
           </p>
         </div>
-        
+
         <div className="flex items-center gap-3">
           <button
             type="button"
@@ -187,9 +191,9 @@ export default function AvailabilityCalendar({
             className="flex items-center gap-2 px-3 py-2 text-sm font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
           >
             <Copy className="w-4 h-4" />
-            Copy last week
+            {t("copyLastWeek")}
           </button>
-          
+
           {showRepeatToggle && (
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -198,7 +202,7 @@ export default function AvailabilityCalendar({
                 onChange={handleRepeatToggle}
                 className="w-4 h-4 rounded border-gray-300 text-teal-500 cursor-pointer"
               />
-              <span className="text-sm font-medium text-gray-700">Repeat weekly</span>
+              <span className="text-sm font-medium text-gray-700">{t("repeatWeekly")}</span>
             </label>
           )}
         </div>
@@ -216,7 +220,7 @@ export default function AvailabilityCalendar({
                 i >= 5 ? 'bg-amber-50' : ''
               }`}
             >
-              {day}
+              {t(`days.${day}`)}
             </div>
           ))}
         </div>
@@ -264,7 +268,7 @@ export default function AvailabilityCalendar({
 
       {/* Info text */}
       <p className="text-xs text-gray-500">
-        Click or drag across slots to toggle availability. {showRepeatToggle && "When 'Repeat weekly' is on, this pattern applies to all future weeks."}
+        {t("dragInfo")} {showRepeatToggle && t("repeatInfo")}
       </p>
     </div>
   );

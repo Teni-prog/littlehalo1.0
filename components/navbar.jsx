@@ -1,26 +1,23 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { Link, useRouter, usePathname } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import Logo from "@/public/Logo1.png";
 import Image from "next/image";
 import { UserCircle, Settings } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import SignupPage from "@/app/signup/page";
-
-const NAV_LINKS = [
-  // { label: "Features", href: "/#features" },
-  // { label: "How It Works", href: "/#how-it-works" },
-  // { label: "For Parents", href: "/#for-parents" },
-  // { label: "For Sitters", href: "/#for-sitters" },
-  { label: "Activities", href: "/microadventure" },
-];
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 export function Navbar() {
+  const t = useTranslations("navbar");
   const router = useRouter();
   const pathname = usePathname();
+
+  const NAV_LINKS = [
+    { label: t("activities"), href: "/microadventure" },
+  ];
   const [user, setUser] = useState(null);
   const [hasAvailability, setHasAvailability] = useState(true); // true = no notification
 
@@ -110,12 +107,13 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
+          <LanguageSwitcher />
           {user ? (
             <>
               {(userType === "parent" || userType === "sitter") && (
                 <Link
                   href={userType === "sitter" ? "/settings/sitter" : "/settings/parent"}
-                  aria-label="Settings"
+                  aria-label={t("settingsAriaLabel")}
                   className="relative"
                 >
                   <Settings className="w-5 h-5 text-gray-500 hover:text-primary transition-colors cursor-pointer" />
@@ -124,11 +122,11 @@ export function Navbar() {
                   )}
                 </Link>
               )}
-              <Link href={profileHref} aria-label="Go to profile">
+              <Link href={profileHref} aria-label={t("profileAriaLabel")}>
                 <UserCircle className="w-8 h-8 text-gray-500 hover:text-primary transition-colors cursor-pointer" />
               </Link>
               <Button onClick={handleLogout} variant="outline" className="cursor-pointer">
-                Log Out
+                {t("logOut")}
               </Button>
             </>
           ) : (
@@ -137,11 +135,11 @@ export function Navbar() {
                 href="/login"
                 className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
               >
-                Log in
+                {t("logIn")}
               </Link>
               <Link href="/signup">
                 <Button className="cursor-pointer bg-primary hover:bg-primary/90 text-white">
-                  Sign Up
+                  {t("signUp")}
                 </Button>
               </Link>
             </>

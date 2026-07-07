@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import {
   GoogleMap,
   useJsApiLoader,
@@ -8,7 +9,7 @@ import {
   InfoWindow,
   Circle,
 } from "@react-google-maps/api";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Star, DollarSign } from "lucide-react";
 
 const MAP_CONTAINER_STYLE = { width: "100%", height: "100%" };
@@ -41,6 +42,7 @@ const CIRCLE_OPTIONS = {
 // parent     — parent object with latitude/longitude/name
 // radiusKm   — selected radius in km (null = no filter / no circle)
 export default function SitterMapPanel({ sitters = [], parent = null, radiusKm = null }) {
+  const t = useTranslations("sitterMapPanel");
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
@@ -104,7 +106,7 @@ export default function SitterMapPanel({ sitters = [], parent = null, radiusKm =
         <Marker
           position={{ lat: parent.latitude, lng: parent.longitude }}
           icon={parentIcon}
-          title={`${parent.name || "Your location"} (you)`}
+          title={t("parentPinTitle", { name: parent.name || t("yourLocation") })}
           zIndex={10}
         />
       )}
@@ -138,14 +140,14 @@ export default function SitterMapPanel({ sitters = [], parent = null, radiusKm =
               </span>
               <span className="flex items-center gap-0.5">
                 <DollarSign className="w-3 h-3 text-gray-400" />
-                ${activePin.hourly_rate}/hr
+                {t("hourlyRate", { rate: activePin.hourly_rate })}
               </span>
             </div>
             <Link
               href={`/profile/Sitter/${activePin.id}`}
               className="block text-center text-xs font-semibold bg-[#ff6b6b] text-white px-3 py-1.5 rounded-lg hover:bg-[#ff5252] transition-colors"
             >
-              View Profile
+              {t("viewProfile")}
             </Link>
           </div>
         </InfoWindow>

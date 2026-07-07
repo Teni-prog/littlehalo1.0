@@ -2,25 +2,27 @@
 
 import { useState } from "react";
 import { AlertTriangle, X } from "lucide-react";
-
-const ISSUE_TYPES = [
-  { value: "no-show", label: "No-show" },
-  { value: "safety-concern", label: "Safety concern" },
-  { value: "payment-issue", label: "Payment issue" },
-  { value: "other", label: "Other" },
-];
+import { useTranslations } from "next-intl";
 
 export default function ReportIssueForm({ bookingId, onSubmitted = () => {}, onCancel = () => {} }) {
+  const t = useTranslations("reportIssueForm");
   const [issueType, setIssueType] = useState("");
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [submitted, setSubmitted] = useState(false);
 
+  const ISSUE_TYPES = [
+    { value: "no-show", label: t("issueTypes.noShow") },
+    { value: "safety-concern", label: t("issueTypes.safetyConcern") },
+    { value: "payment-issue", label: t("issueTypes.paymentIssue") },
+    { value: "other", label: t("issueTypes.other") },
+  ];
+
   async function handleSubmit(e) {
     e.preventDefault();
     if (!issueType || !description.trim()) {
-      setError("Please select an issue type and provide a description.");
+      setError(t("errors.selectIssueAndDescription"));
       return;
     }
 
@@ -40,7 +42,7 @@ export default function ReportIssueForm({ bookingId, onSubmitted = () => {}, onC
 
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || "Failed to submit report.");
+        setError(data.error || t("errors.failedToSubmit"));
         return;
       }
 
@@ -49,7 +51,7 @@ export default function ReportIssueForm({ bookingId, onSubmitted = () => {}, onC
         onSubmitted();
       }, 2000);
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      setError(t("errors.somethingWentWrong"));
     } finally {
       setSubmitting(false);
     }
@@ -59,7 +61,7 @@ export default function ReportIssueForm({ bookingId, onSubmitted = () => {}, onC
     return (
       <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
         <p className="text-sm font-medium text-green-700">
-          ✓ Issue reported. Our team will review this shortly.
+          ✓ {t("successMessage")}
         </p>
       </div>
     );
@@ -71,9 +73,9 @@ export default function ReportIssueForm({ bookingId, onSubmitted = () => {}, onC
         <div className="flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
           <div>
-            <h3 className="text-sm font-bold text-gray-900">Report an issue</h3>
+            <h3 className="text-sm font-bold text-gray-900">{t("title")}</h3>
             <p className="text-xs text-gray-500 mt-0.5">
-              Let us know if something went wrong with this session
+              {t("subtitle")}
             </p>
           </div>
         </div>
@@ -90,14 +92,14 @@ export default function ReportIssueForm({ bookingId, onSubmitted = () => {}, onC
         {/* Issue Type */}
         <div>
           <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-            Issue Type
+            {t("issueTypeLabel")}
           </label>
           <select
             value={issueType}
             onChange={(e) => setIssueType(e.target.value)}
             className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:border-teal-500 focus:outline-none cursor-pointer"
           >
-            <option value="">Select an issue type...</option>
+            <option value="">{t("selectIssueTypePlaceholder")}</option>
             {ISSUE_TYPES.map((type) => (
               <option key={type.value} value={type.value}>
                 {type.label}
@@ -109,18 +111,18 @@ export default function ReportIssueForm({ bookingId, onSubmitted = () => {}, onC
         {/* Description */}
         <div>
           <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-            Description
+            {t("descriptionLabel")}
           </label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Please explain what happened..."
+            placeholder={t("descriptionPlaceholder")}
             maxLength={500}
             rows={3}
             className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:border-teal-500 focus:bg-white resize-none outline-none transition-colors"
           />
           <div className="text-xs text-gray-400 text-right mt-1">
-            {description.length}/500
+            {t("charCount", { count: description.length, max: 500 })}
           </div>
         </div>
 
@@ -138,14 +140,14 @@ export default function ReportIssueForm({ bookingId, onSubmitted = () => {}, onC
             onClick={onCancel}
             className="flex-1 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer"
           >
-            Cancel
+            {t("cancel")}
           </button>
           <button
             type="submit"
             disabled={submitting}
             className="flex-1 px-3 py-2 text-sm font-medium text-white bg-amber-500 hover:bg-amber-600 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
-            {submitting ? "Submitting..." : "Report Issue"}
+            {submitting ? t("submitting") : t("submit")}
           </button>
         </div>
       </form>

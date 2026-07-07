@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { Star } from "lucide-react";
 
 const AVATAR_COLORS = [
@@ -46,6 +47,9 @@ function MetricCard({ label, value }) {
 
 // sitterId: sitter's auth user ID
 export default function SitterReviews({ sitterId }) {
+  const t = useTranslations("sitterReviews");
+  const locale = useLocale();
+  const dateLocale = locale === "fr" ? "fr-CA" : "en-US";
   const [data,     setData]     = useState(null);
   const [loading,  setLoading]  = useState(true);
   const [expanded, setExpanded] = useState(false);
@@ -86,13 +90,13 @@ export default function SitterReviews({ sitterId }) {
     <div>
       {/* Header row */}
       <div className="flex items-center justify-between mb-5">
-        <h2 className="text-xl font-bold text-gray-900">Reviews</h2>
+        <h2 className="text-xl font-bold text-gray-900">{t("reviews")}</h2>
         {overall_rating != null && (
           <div className="flex items-center gap-1.5 text-sm text-gray-600">
             <span className="text-2xl font-bold text-gray-900">{overall_rating}</span>
             <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
             <span className="text-gray-400">
-              ({total_reviews} {total_reviews === 1 ? "review" : "reviews"})
+              {t("reviewsCount", { count: total_reviews })}
             </span>
           </div>
         )}
@@ -102,17 +106,17 @@ export default function SitterReviews({ sitterId }) {
       {(avg_session_rating != null || avg_adventure_rating != null) && (
         <div className="flex gap-3 mb-6">
           {avg_session_rating != null && (
-            <MetricCard label="Session quality" value={avg_session_rating} />
+            <MetricCard label={t("sessionQuality")} value={avg_session_rating} />
           )}
           {avg_adventure_rating != null && (
-            <MetricCard label="Adventure quality" value={avg_adventure_rating} />
+            <MetricCard label={t("adventureQuality")} value={avg_adventure_rating} />
           )}
         </div>
       )}
 
       {/* Review list */}
       {reviews.length === 0 ? (
-        <p className="text-sm text-gray-400">No reviews yet.</p>
+        <p className="text-sm text-gray-400">{t("noReviewsYet")}</p>
       ) : (
         <>
           <div className="space-y-5">
@@ -140,7 +144,7 @@ export default function SitterReviews({ sitterId }) {
                         {review.reviewer_name}
                       </p>
                       <span className="text-xs text-gray-400 shrink-0 ml-2">
-                        {new Date(review.created_at).toLocaleDateString("en-US", {
+                        {new Date(review.created_at).toLocaleDateString(dateLocale, {
                           month: "short",
                           day: "numeric",
                           year: "numeric",
@@ -169,7 +173,7 @@ export default function SitterReviews({ sitterId }) {
               onClick={() => setExpanded((v) => !v)}
               className="mt-4 text-sm font-semibold text-teal-600 hover:text-teal-700 transition-colors"
             >
-              {expanded ? "Show less" : `See all ${total_reviews} reviews`}
+              {expanded ? t("showLess") : t("seeAllReviews", { count: total_reviews })}
             </button>
           )}
         </>

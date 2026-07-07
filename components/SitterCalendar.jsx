@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { ChevronLeft, ChevronRight, X, Check, AlertCircle } from "lucide-react";
 import { isHourAvailable, setHourRangeAvailability, toggleHourAvailability } from "@/lib/availabilityHelpers";
@@ -50,6 +51,9 @@ export default function SitterCalendar({
   onEditAvailability,
   onAvailabilityChange,
 }) {
+  const t = useTranslations("sitterCalendar");
+  const locale = useLocale();
+  const dateLocale = locale === "fr" ? "fr-CA" : "en-US";
   const [bookings, setBookings] = useState([]);
   const [viewMode, setViewMode] = useState("week");
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -171,11 +175,11 @@ export default function SitterCalendar({
     if (onAvailabilityChange) {
       try {
         await onAvailabilityChange(newAvailability);
-        setToast({ message: "Availability updated", type: "success", visible: true });
+        setToast({ message: t("toast.availabilityUpdated"), type: "success", visible: true });
         setTimeout(() => setToast((p) => ({ ...p, visible: false })), 3000);
       } catch (error) {
         setToast({
-          message: `Failed to save: ${error?.message || "Unknown error"}`,
+          message: t("toast.saveFailed", { message: error?.message || t("toast.unknownError") }),
           type: "error",
           visible: true,
         });
@@ -258,7 +262,7 @@ export default function SitterCalendar({
         <div className="bg-gray-50 border-r border-gray-200 p-4" />
         {weekDates.map((date, idx) => (
           <div key={idx} className="bg-gray-50 border-r border-gray-200 p-4 text-center">
-            <p className="text-xs font-semibold text-gray-600">{DAYS[date.getDay()]}</p>
+            <p className="text-xs font-semibold text-gray-600">{t(`days.${DAYS[date.getDay()]}`)}</p>
             <p className="text-lg font-bold text-gray-900">{date.getDate()}</p>
           </div>
         ))}
@@ -320,7 +324,7 @@ export default function SitterCalendar({
                     {/* "Available" label */}
                     {isAvailable && !isBooked && (
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <span style={{ fontSize: "11px", color: "#085041" }}>Available</span>
+                        <span style={{ fontSize: "11px", color: "#085041" }}>{t("available")}</span>
                       </div>
                     )}
 
@@ -346,7 +350,7 @@ export default function SitterCalendar({
                         className="rounded-lg border-l-4 border-l-[#993C1D] bg-[#FAECE7] p-1.5 cursor-pointer hover:shadow-md flex flex-col justify-center overflow-hidden"
                       >
                         <div className="font-bold text-[10px] leading-tight truncate text-[#993C1D]">
-                          Booked — {startingBooking.parentName}
+                          {t("bookedWith", { name: startingBooking.parentName })}
                         </div>
                         <div className="text-[9px] leading-tight truncate text-[#993C1D] opacity-70">
                           {startingBooking.time} – {startingBooking.endTime}
@@ -378,9 +382,9 @@ export default function SitterCalendar({
     return (
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div className="bg-gray-50 border-b border-gray-200 p-6">
-          <p className="text-sm font-semibold text-gray-600">{DAYS[currentDate.getDay()]}</p>
+          <p className="text-sm font-semibold text-gray-600">{t(`days.${DAYS[currentDate.getDay()]}`)}</p>
           <p className="text-2xl font-bold text-gray-900">
-            {currentDate.toLocaleDateString("en-US", {
+            {currentDate.toLocaleDateString(dateLocale, {
               month: "long",
               day: "numeric",
               year: "numeric",
@@ -424,7 +428,7 @@ export default function SitterCalendar({
                   >
                     {isAvailable && !isBooked && (
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <span style={{ fontSize: "11px", color: "#085041" }}>Available</span>
+                        <span style={{ fontSize: "11px", color: "#085041" }}>{t("available")}</span>
                       </div>
                     )}
 
@@ -437,7 +441,7 @@ export default function SitterCalendar({
                         className="absolute inset-1 rounded-lg border-l-4 border-l-[#993C1D] bg-[#FAECE7] p-2 cursor-pointer hover:shadow-md flex flex-col justify-center overflow-hidden"
                       >
                         <div className="font-bold text-xs leading-tight truncate text-[#993C1D]">
-                          Booked — {startingBooking.parentName}
+                          {t("bookedWith", { name: startingBooking.parentName })}
                         </div>
                         <div className="text-[11px] leading-tight truncate text-[#993C1D] opacity-70">
                           {startingBooking.time} – {startingBooking.endTime}
@@ -467,7 +471,7 @@ export default function SitterCalendar({
       <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-200">
         {DAYS.map((day) => (
           <div key={day} className="p-4 text-center font-semibold text-gray-600 text-sm">
-            {day}
+            {t(`days.${day}`)}
           </div>
         ))}
       </div>
@@ -501,7 +505,7 @@ export default function SitterCalendar({
                     <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[#FAECE7]">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#993C1D] inline-block" />
                       <span style={{ fontSize: "9px", color: "#993C1D", fontWeight: 600 }}>
-                        Booked
+                        {t("booked")}
                       </span>
                     </span>
                   )}
@@ -539,11 +543,11 @@ export default function SitterCalendar({
           </button>
           <h2 className="text-xl font-bold text-gray-900 min-w-40 text-center">
             {viewMode === "month" &&
-              `${MONTHS[currentDate.getMonth()]} ${currentDate.getFullYear()}`}
+              `${t(`months.${MONTHS[currentDate.getMonth()]}`)} ${currentDate.getFullYear()}`}
             {viewMode === "week" &&
               `${weekDates[0].toLocaleDateString()} – ${weekDates[6].toLocaleDateString()}`}
             {viewMode === "day" &&
-              currentDate.toLocaleDateString("en-US", {
+              currentDate.toLocaleDateString(dateLocale, {
                 weekday: "long",
                 month: "long",
                 day: "numeric",
@@ -568,7 +572,7 @@ export default function SitterCalendar({
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
-              {mode}
+              {t(`viewModes.${mode}`)}
             </button>
           ))}
         </div>
@@ -577,7 +581,7 @@ export default function SitterCalendar({
           onClick={() => onEditAvailability?.()}
           className="px-4 py-2 bg-teal-500 text-white rounded-lg font-medium hover:bg-teal-600 transition-colors"
         >
-          Edit availability
+          {t("editAvailability")}
         </button>
       </div>
 
@@ -598,32 +602,32 @@ export default function SitterCalendar({
 
           <div className="space-y-6 mt-4">
             <div>
-              <p className="text-sm text-gray-500">Family</p>
+              <p className="text-sm text-gray-500">{t("panel.family")}</p>
               <p className="text-lg font-bold text-gray-900">{selectedBooking.parentName}</p>
             </div>
 
             <div>
-              <p className="text-sm text-gray-500">Child</p>
+              <p className="text-sm text-gray-500">{t("panel.child")}</p>
               <p className="text-lg font-bold text-gray-900">{selectedBooking.childName}</p>
               {selectedBooking.childAge != null && (
-                <p className="text-sm text-gray-500">Age {selectedBooking.childAge}</p>
+                <p className="text-sm text-gray-500">{t("panel.age", { age: selectedBooking.childAge })}</p>
               )}
             </div>
 
             <div>
-              <p className="text-sm text-gray-500">Date</p>
+              <p className="text-sm text-gray-500">{t("panel.date")}</p>
               <p className="text-base font-semibold text-gray-900">{selectedBooking.date}</p>
             </div>
 
             <div>
-              <p className="text-sm text-gray-500">Time</p>
+              <p className="text-sm text-gray-500">{t("panel.time")}</p>
               <p className="text-base font-semibold text-gray-900">
                 {selectedBooking.time} – {selectedBooking.endTime}
               </p>
             </div>
 
             <div>
-              <p className="text-sm text-gray-500">Status</p>
+              <p className="text-sm text-gray-500">{t("panel.status")}</p>
               <span
                 className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
                   selectedBooking.status === "confirmed"
@@ -631,13 +635,13 @@ export default function SitterCalendar({
                     : "bg-yellow-50 text-yellow-700"
                 }`}
               >
-                {selectedBooking.status === "confirmed" ? "Confirmed" : "Pending"}
+                {selectedBooking.status === "confirmed" ? t("panel.confirmed") : t("panel.pending")}
               </span>
             </div>
 
             {selectedBooking.adventure && (
               <div>
-                <p className="text-sm text-gray-500">Micro-Adventure</p>
+                <p className="text-sm text-gray-500">{t("panel.microAdventure")}</p>
                 <p className="text-base font-semibold text-gray-900">
                   {selectedBooking.adventure}
                 </p>
@@ -646,7 +650,7 @@ export default function SitterCalendar({
 
             {selectedBooking.status === "confirmed" && (
               <button className="w-full py-3 bg-teal-500 text-white rounded-lg font-bold hover:bg-teal-600 transition-colors">
-                Mark Complete
+                {t("panel.markComplete")}
               </button>
             )}
           </div>

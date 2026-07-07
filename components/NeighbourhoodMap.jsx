@@ -1,6 +1,7 @@
 "use client";
 
 import { useJsApiLoader, GoogleMap, Marker } from "@react-google-maps/api";
+import { useTranslations } from "next-intl";
 
 const MAP_CONTAINER_STYLE = { width: "100%", height: "200px" };
 
@@ -14,6 +15,7 @@ const SITTER_ICON_URL =
   );
 
 export default function NeighbourhoodMap({ latitude, longitude, neighbourhood }) {
+  const t = useTranslations("neighbourhoodMap");
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
@@ -51,12 +53,12 @@ export default function NeighbourhoodMap({ latitude, longitude, neighbourhood })
           ],
         }}
       >
-        <Marker position={center} icon={sitterIcon} title={neighbourhood || "Sitter location"} />
+        <Marker position={center} icon={sitterIcon} title={neighbourhood || t("defaultLocation")} />
       </GoogleMap>
       {neighbourhood && (
         <div className="bg-gray-50 px-3 py-2 text-xs text-gray-500 flex items-center gap-1 border-t border-gray-100">
           <span className="inline-block w-2 h-2 rounded-full bg-teal-500 mr-1" />
-          {neighbourhood} area
+          {t("areaLabel", { neighbourhood })}
         </div>
       )}
     </div>

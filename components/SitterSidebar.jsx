@@ -1,20 +1,21 @@
 "use client";
 
-import Link from "next/link";
+import { Link, useRouter, usePathname } from "@/i18n/navigation";
 import Image from "next/image";
-import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { LayoutGrid, Calendar, Settings, Lightbulb, LogOut } from "lucide-react";
 import Logo from "@/public/Logo1.png";
 
 const NAV_ITEMS = [
-  { id: "dashboard", label: "Dashboard", href: "/profile/Sitter", Icon: LayoutGrid },
-  { id: "schedule", label: "Schedule", href: "/schedule/sitter", Icon: Calendar },
-  { id: "activities", label: "Activities", href: "/microadventure", Icon: Lightbulb },
-  { id: "settings", label: "Settings", href: "/settings/sitter", Icon: Settings },
+  { id: "dashboard", href: "/profile/Sitter", Icon: LayoutGrid },
+  { id: "schedule", href: "/schedule/sitter", Icon: Calendar },
+  { id: "activities", href: "/microadventure", Icon: Lightbulb },
+  { id: "settings", href: "/settings/sitter", Icon: Settings },
 ];
 
 export default function SitterSidebar({ children, userName }) {
+  const t = useTranslations("sitterSidebar");
   const router = useRouter();
   const pathname = usePathname();
   const [loggingOut, setLoggingOut] = useState(false);
@@ -47,18 +48,18 @@ export default function SitterSidebar({ children, userName }) {
           <Link href="/" className="flex items-center gap-3">
             <Image
               src={Logo}
-              alt="Little Halo Logo"
+              alt={t("logoAlt")}
               width={40}
               height={40}
               className="rounded-lg"
             />
-            <span className="font-bold text-gray-900">Little Halo</span>
+            <span className="font-bold text-gray-900">{t("brandName")}</span>
           </Link>
         </div>
 
         {/* Navigation */}
         <nav className="flex-1 px-4 py-8 space-y-2">
-          {NAV_ITEMS.map(({ id, label, href, Icon }) => {
+          {NAV_ITEMS.map(({ id, href, Icon }) => {
             const active = isActive(href);
             return (
               <Link
@@ -71,7 +72,7 @@ export default function SitterSidebar({ children, userName }) {
                 }`}
               >
                 <Icon className="w-5 h-5" />
-                {label}
+                {t(`nav.${id}`)}
               </Link>
             );
           })}
@@ -85,7 +86,7 @@ export default function SitterSidebar({ children, userName }) {
             className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <LogOut className="w-5 h-5" />
-            {loggingOut ? "Logging out…" : "Log Out"}
+            {loggingOut ? t("loggingOut") : t("logOut")}
           </button>
         </div>
       </div>

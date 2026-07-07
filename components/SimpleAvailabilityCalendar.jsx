@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Copy, Check, AlertCircle } from "lucide-react";
 import { timeRangeToHourFlags, hourFlagsToTimeRange } from "@/lib/availabilityHelpers";
 
 const DAYS = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-const DAY_LABELS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 // Generate time options (e.g., "06:00", "06:30", ..., "22:00")
 function generateTimeOptions() {
@@ -44,6 +44,7 @@ function Toast({ message, type, visible }) {
 }
 
 export default function SimpleAvailabilityCalendar({ initialData, onSave }) {
+  const t = useTranslations("simpleAvailabilityCalendar");
   const [availability, setAvailability] = useState(null);
   const [repeatWeekly, setRepeatWeekly] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -74,7 +75,7 @@ export default function SimpleAvailabilityCalendar({ initialData, onSave }) {
     setAvailability(newAvailability);
   }, [initialData]);
 
-  if (!availability) return <div className="animate-pulse">Loading...</div>;
+  if (!availability) return <div className="animate-pulse">{t("loading")}</div>;
 
   const handleToggleDay = (day) => {
     setAvailability(prev => {
@@ -100,7 +101,7 @@ export default function SimpleAvailabilityCalendar({ initialData, onSave }) {
     // Find first enabled day and copy to all enabled days
     const firstEnabledDay = DAYS.find(day => availability[day]?.available);
     if (!firstEnabledDay) {
-      setToast({ message: "Enable at least one day first", type: "error", visible: true });
+      setToast({ message: t("toast.enableOneDayFirst"), type: "error", visible: true });
       setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 3000);
       return;
     }
@@ -115,7 +116,7 @@ export default function SimpleAvailabilityCalendar({ initialData, onSave }) {
       }
     });
     setAvailability(newAvailability);
-    setToast({ message: "Times copied to all enabled days", type: "success", visible: true });
+    setToast({ message: t("toast.timesCopied"), type: "success", visible: true });
     setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 2000);
   };
 
@@ -136,10 +137,10 @@ export default function SimpleAvailabilityCalendar({ initialData, onSave }) {
       });
 
       await onSave(hourlyAvailability, repeatWeekly);
-      setToast({ message: "Availability updated ✓", type: "success", visible: true });
+      setToast({ message: t("toast.availabilityUpdated"), type: "success", visible: true });
       setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 2000);
     } catch (error) {
-      const errorMsg = error?.message || "Failed to save availability. Please try again.";
+      const errorMsg = error?.message || t("toast.saveFailed");
       setToast({ message: errorMsg, type: "error", visible: true });
       setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 4000);
     } finally {
@@ -151,8 +152,8 @@ export default function SimpleAvailabilityCalendar({ initialData, onSave }) {
     <div className="space-y-6 max-h-[80vh] overflow-y-auto">
       {/* Header */}
       <div>
-        <h3 className="text-lg font-bold text-gray-900 mb-2">Set Your Availability</h3>
-        <p className="text-sm text-gray-600">Choose which days and hours you're available for bookings</p>
+        <h3 className="text-lg font-bold text-gray-900 mb-2">{t("setYourAvailability")}</h3>
+        <p className="text-sm text-gray-600">{t("chooseDaysAndHours")}</p>
       </div>
 
       {/* Controls */}
@@ -162,7 +163,7 @@ export default function SimpleAvailabilityCalendar({ initialData, onSave }) {
           className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-xl text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
         >
           <Copy className="w-4 h-4" />
-          Copy to all days
+          {t("copyToAllDays")}
         </button>
 
         {/* Repeat Weekly Toggle */}
@@ -174,10 +175,10 @@ export default function SimpleAvailabilityCalendar({ initialData, onSave }) {
               onChange={() => setRepeatWeekly(!repeatWeekly)}
               className="w-4 h-4 rounded border-gray-300 text-teal-500"
             />
-            <span className="font-semibold text-gray-900">Repeat weekly</span>
+            <span className="font-semibold text-gray-900">{t("repeatWeekly")}</span>
           </label>
           <p className="text-sm text-gray-600 mt-0.5">
-            This schedule repeats every week until you change it
+            {t("repeatWeeklyDescription")}
           </p>
         </div>
       </div>
@@ -185,7 +186,7 @@ export default function SimpleAvailabilityCalendar({ initialData, onSave }) {
       {/* Day Cards */}
       <div className="space-y-3">
         {DAYS.map((day, idx) => {
-          const dayLabel = DAY_LABELS[idx];
+          const dayLabel = t(`days.${day}`);
           const dayAvail = availability[day] || { available: false, from: "09:00", to: "17:00" };
           const isAvailable = dayAvail?.available ?? false;
 
@@ -223,7 +224,7 @@ export default function SimpleAvailabilityCalendar({ initialData, onSave }) {
                 <div className="flex gap-3 items-end">
                   {/* From Time */}
                   <div className="flex-1">
-                    <label className="block text-xs font-semibold text-gray-600 mb-2">From</label>
+                    <label className="block text-xs font-semibold text-gray-600 mb-2">{t("from")}</label>
                     <select
                       value={dayAvail?.from || "09:00"}
                       onChange={(e) => handleTimeChange(day, "from", e.target.value)}
@@ -239,7 +240,7 @@ export default function SimpleAvailabilityCalendar({ initialData, onSave }) {
 
                   {/* To Time */}
                   <div className="flex-1">
-                    <label className="block text-xs font-semibold text-gray-600 mb-2">To</label>
+                    <label className="block text-xs font-semibold text-gray-600 mb-2">{t("to")}</label>
                     <select
                       value={dayAvail?.to || "17:00"}
                       onChange={(e) => handleTimeChange(day, "to", e.target.value)}
@@ -266,7 +267,7 @@ export default function SimpleAvailabilityCalendar({ initialData, onSave }) {
           disabled={saving}
           className="w-full bg-teal-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {saving ? "Saving…" : "Save Availability"}
+          {saving ? t("saving") : t("saveAvailability")}
         </button>
       </div>
 

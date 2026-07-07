@@ -1,25 +1,27 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { Clock } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function AdventureCard({ adventure }) {
+    const t = useTranslations("adventureCard");
     return (
         <Card className="overflow-hidden flex flex-col h-full hover:shadow-lg transition-all group">
             <div className="relative h-40 w-full bg-secondary/50 overflow-hidden">
                 {/* Placeholder for image */}
                 <div className="absolute inset-0 bg-secondary flex items-center justify-center text-secondary-foreground opacity-50">
-                    Micro-Adventure
+                    {t("placeholderLabel")}
                 </div>
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
             </div>
             <CardHeader>
                 <CardTitle className="line-clamp-1">{adventure.title}</CardTitle>
-                <CardDescription>by {adventure.sitter_name}</CardDescription>
+                <CardDescription>{t("by", { name: adventure.sitter_name })}</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                     <Clock className="w-4 h-4" />
-                    {adventure.duration_minutes} mins
+                    {t("durationMinutes", { minutes: adventure.duration_minutes })}
                 </div>
                 <p className="text-sm line-clamp-3 mb-4">{adventure.description}</p>
                 <div className="flex flex-wrap gap-1">
@@ -34,7 +36,7 @@ export function AdventureCard({ adventure }) {
                 <div className="font-bold text-lg">
                     ${adventure.price}
                 </div>
-                <Button size="sm" variant="secondary">Details</Button>
+                <Button size="sm" variant="secondary">{t("details")}</Button>
             </CardFooter>
         </Card>
     );

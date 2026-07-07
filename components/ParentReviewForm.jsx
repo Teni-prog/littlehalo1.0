@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Star, Clock, Check } from "lucide-react";
 
 const REBOOK_OPTIONS = [
-  { value: "yes",   label: "Yes, definitely" },
-  { value: "maybe", label: "Maybe" },
-  { value: "no",    label: "No" },
+  { value: "yes",   labelKey: "yes" },
+  { value: "maybe", labelKey: "maybe" },
+  { value: "no",    labelKey: "no" },
 ];
 
 function StarInput({ value, onChange }) {
@@ -39,6 +40,7 @@ function StarInput({ value, onChange }) {
 // sitterName: string
 // onSubmitted?: () => void
 export default function ParentReviewForm({ booking, sitterName, onSubmitted }) {
+  const t = useTranslations("parentReviewForm");
   const [sessionRating,   setSessionRating]   = useState(0);
   const [adventureRating, setAdventureRating] = useState(0);
   const [reviewText,      setReviewText]      = useState("");
@@ -52,7 +54,7 @@ export default function ParentReviewForm({ booking, sitterName, onSubmitted }) {
     : "?";
 
   async function handleSubmit() {
-    if (!sessionRating) { setError("Please rate the session quality."); return; }
+    if (!sessionRating) { setError(t("errors.rateRequired")); return; }
     setError(null);
     setSubmitting(true);
     try {
@@ -71,11 +73,11 @@ export default function ParentReviewForm({ booking, sitterName, onSubmitted }) {
         }),
       });
       const data = await res.json();
-      if (!res.ok) { setError(data.error || "Failed to submit review."); return; }
+      if (!res.ok) { setError(data.error || t("errors.submitFailed")); return; }
       setSubmitted(true);
       onSubmitted?.();
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError(t("errors.generic"));
     } finally {
       setSubmitting(false);
     }
@@ -85,7 +87,7 @@ export default function ParentReviewForm({ booking, sitterName, onSubmitted }) {
     return (
       <div className="flex items-center gap-2 py-3 px-4 bg-teal-50 rounded-xl border border-teal-100">
         <Check className="w-4 h-4 text-teal-500 shrink-0" />
-        <span className="text-sm text-teal-700 font-medium">Review submitted. Thank you!</span>
+        <span className="text-sm text-teal-700 font-medium">{t("submittedThanks")}</span>
       </div>
     );
   }
@@ -94,7 +96,7 @@ export default function ParentReviewForm({ booking, sitterName, onSubmitted }) {
     <div className="bg-white rounded-2xl border border-gray-100 p-6 mt-4">
       {/* Title */}
       <h3 className="text-base font-bold text-gray-900 mb-4">
-        How was your session with {sitterName}?
+        {t("titleWithSitter", { sitterName })}
       </h3>
 
       {/* Sitter info row */}
@@ -106,35 +108,37 @@ export default function ParentReviewForm({ booking, sitterName, onSubmitted }) {
           <div>
             <p className="font-semibold text-sm text-gray-900">{sitterName}</p>
             <p className="text-xs text-gray-400">
-              Session · {booking.date}{booking.hours ? ` · ${booking.hours} hrs` : ""}
+              {booking.hours
+                ? t("sessionInfoWithHours", { date: booking.date, hours: booking.hours })
+                : t("sessionInfo", { date: booking.date })}
             </p>
           </div>
         </div>
         <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-green-50 text-green-700 border border-green-100">
-          Completed
+          {t("completed")}
         </span>
       </div>
 
       {/* Session quality rating */}
       <div className="mb-4">
-        <p className="text-sm text-gray-600 mb-2">Overall session quality</p>
+        <p className="text-sm text-gray-600 mb-2">{t("overallQuality")}</p>
         <StarInput value={sessionRating} onChange={setSessionRating} />
       </div>
 
       {/* Adventure rating */}
       <div className="mb-4">
-        <p className="text-sm text-gray-600 mb-2">Micro-adventure execution</p>
+        <p className="text-sm text-gray-600 mb-2">{t("adventureExecution")}</p>
         <StarInput value={adventureRating} onChange={setAdventureRating} />
       </div>
 
       {/* Review text */}
       <div className="mb-4">
-        <p className="text-sm text-gray-600 mb-2">Your review</p>
+        <p className="text-sm text-gray-600 mb-2">{t("yourReview")}</p>
         <div className="relative">
           <textarea
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
-            placeholder="What did you love? What could be better?"
+            placeholder={t("reviewPlaceholder")}
             rows={3}
             maxLength={500}
             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:bg-white resize-none transition-colors"
@@ -149,7 +153,7 @@ export default function ParentReviewForm({ booking, sitterName, onSubmitted }) {
 
       {/* Would rebook */}
       <div className="mb-5">
-        <p className="text-sm text-gray-600 mb-2">Would you rebook {sitterName}?</p>
+        <p className="text-sm text-gray-600 mb-2">{t("wouldYouRebook", { sitterName })}</p>
         <div className="flex gap-2">
           {REBOOK_OPTIONS.map((opt) => (
             <button
@@ -162,7 +166,7 @@ export default function ParentReviewForm({ booking, sitterName, onSubmitted }) {
                   : "border-gray-200 text-gray-600 hover:border-teal-300 hover:text-teal-600"
               }`}
             >
-              {opt.label}
+              {t(`rebookOptions.${opt.labelKey}`)}
             </button>
           ))}
         </div>
@@ -178,7 +182,7 @@ export default function ParentReviewForm({ booking, sitterName, onSubmitted }) {
           disabled={!sessionRating || submitting}
           className="px-6 py-2.5 bg-teal-500 text-white rounded-xl font-semibold text-sm hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
-          {submitting ? "Submitting…" : "Submit review"}
+          {submitting ? t("submitting") : t("submitReview")}
         </button>
       </div>
     </div>

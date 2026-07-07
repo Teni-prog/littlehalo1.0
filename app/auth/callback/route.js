@@ -1,9 +1,16 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { routing } from '@/i18n/routing'
+
+function resolveLocale(request) {
+  const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value
+  return routing.locales.includes(cookieLocale) ? cookieLocale : routing.defaultLocale
+}
 
 export async function GET(request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
+  const locale = resolveLocale(request)
 
   if (code) {
     const supabase = await createClient()
@@ -21,12 +28,12 @@ export async function GET(request) {
           .single()
 
         if (profile?.user_type === 'sitter') {
-          return NextResponse.redirect(`${origin}/profile/Sitter`)
+          return NextResponse.redirect(`${origin}/${locale}/profile/Sitter`)
         }
-        return NextResponse.redirect(`${origin}/profile/Parents`)
+        return NextResponse.redirect(`${origin}/${locale}/profile/Parents`)
       }
     }
   }
 
-  return NextResponse.redirect(`${origin}/login?error=auth_callback_failed`)
+  return NextResponse.redirect(`${origin}/${locale}/login?error=auth_callback_failed`)
 }

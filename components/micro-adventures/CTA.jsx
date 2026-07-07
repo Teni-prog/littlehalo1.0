@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Sparkles, UserPlus } from "lucide-react";
 
 const DOTTED_PATTERN_STYLE = {
@@ -7,6 +8,8 @@ const DOTTED_PATTERN_STYLE = {
 };
 
 export function ActivitiesCTA() {
+  const t = useTranslations("adventuresCTA");
+
   return (
     <section className="py-20 bg-[#1F2937] relative overflow-hidden">
       {/* Background Pattern */}
@@ -20,18 +23,16 @@ export function ActivitiesCTA() {
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-6">
             <Sparkles className="w-4 h-4 text-white" />
             <span className="text-sm font-medium text-white">
-              Start Your Child's Learning Journey Today
+              {t("badge")}
             </span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
-            Ready to Turn Babysitting Into Learning Time?
+            {t("heading")}
           </h2>
 
           <p className="text-lg sm:text-xl text-white/90 mb-10 max-w-2xl mx-auto">
-            Join hundreds of parents who've discovered the littlëHALO
-            difference. Book a sitter and choose your first micro-adventure
-            today.
+            {t("description")}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
@@ -40,26 +41,26 @@ export function ActivitiesCTA() {
               className="w-full sm:w-auto px-8 py-4 bg-linear-to-r from-primary to-primary-dark text-white font-bold rounded-lg hover:shadow-xl hover:shadow-primary/25 transition-all flex items-center justify-center gap-2 group"
             >
               <UserPlus className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              <span>Get Started Free</span>
+              <span>{t("actions.getStartedFree")}</span>
             </Link>
             <Link
               href="/search"
               className="w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/20 text-white font-bold rounded-lg hover:bg-white/20 transition-all"
             >
-              Browse Sitters
+              {t("actions.browseSitters")}
             </Link>
           </div>
 
           {/* For Sitters CTA */}
           <div className="pt-8 border-t border-white/20">
             <p className="text-white/80 mb-4">
-              Are you a babysitter looking to stand out with unique activities?
+              {t("sitterCta.question")}
             </p>
             <Link
               href="/for-sitters"
               className="text-white font-semibold hover:underline inline-flex items-center gap-2"
             >
-              Learn how to add activities to your profile
+              {t("sitterCta.link")}
               <span className="group-hover:translate-x-1 transition-transform">
                 →
               </span>

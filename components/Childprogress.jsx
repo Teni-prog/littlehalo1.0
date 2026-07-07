@@ -1,12 +1,14 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 export default function ChildProgress({ stats, selectedChild, children }) {
+    const t = useTranslations("childProgress");
     return (
         <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8">
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-900">{selectedChild}'s Progress</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("title", { name: selectedChild })}</h2>
                 <select className="text-sm border border-gray-200 rounded-lg px-3 py-2 text-gray-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#ff6b6b]/20 focus:border-[#ff6b6b]">
                     {children.map((child) => (
                         <option key={child.id} value={child.name}>
@@ -19,7 +21,7 @@ export default function ChildProgress({ stats, selectedChild, children }) {
             <div className="grid grid-cols-2 gap-4 mb-6 mt-4">
                 <div className="bg-teal-50 p-4 rounded-2xl">
                     <p className="text-sm text-teal-600 font-medium mb-1">
-                        Total Sessions
+                        {t("totalSessions")}
                     </p>
                     <p className="text-3xl font-bold text-teal-700">
                         {stats.totalSessions}
@@ -27,7 +29,7 @@ export default function ChildProgress({ stats, selectedChild, children }) {
                 </div>
                 <div className="bg-yellow-50 p-4 rounded-2xl">
                     <p className="text-sm text-yellow-600 font-medium mb-1">
-                        Adventures Completed
+                        {t("adventuresCompleted")}
                     </p>
                     <p className="text-3xl font-bold text-yellow-700">
                         {stats.adventuresCompleted}
@@ -36,7 +38,7 @@ export default function ChildProgress({ stats, selectedChild, children }) {
             </div>
 
             <div>
-                <h3 className="font-bold text-gray-900 mb-4">Skills Practiced</h3>
+                <h3 className="font-bold text-gray-900 mb-4">{t("skillsPracticed")}</h3>
                 <div className="space-y-4 mb-6">
                     {stats.skills.map((skill, index) => (
                         <div key={index}>
@@ -57,7 +59,7 @@ export default function ChildProgress({ stats, selectedChild, children }) {
                     href="/progress/full-report"
                     className="w-full py-3 border border-[#ff6b6b] text-[#ff6b6b] rounded-xl font-bold hover:bg-red-50 transition-colors flex items-center justify-center"
                 >
-                    View Full Report
+                    {t("viewFullReport")}
                 </Link>
             </div>
         </div>
