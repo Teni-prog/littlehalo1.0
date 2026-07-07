@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Suspense } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
@@ -39,7 +39,7 @@ function formatSlotHour(h, t) {
   return `${n - 12} ${t("time.pm")}`;
 }
 
-export default function BookingPage() {
+function BookingPageContent() {
   const t = useTranslations("booking");
   const locale = useLocale();
   const dateLocale = locale === "fr" ? "fr-CA" : "en-US";
@@ -977,5 +977,14 @@ export default function BookingPage() {
         )}
       </div>
     </div>
+  );
+}
+
+// useSearchParams() requires a Suspense boundary in the App Router.
+export default function BookingPage() {
+  return (
+    <Suspense fallback={null}>
+      <BookingPageContent />
+    </Suspense>
   );
 }

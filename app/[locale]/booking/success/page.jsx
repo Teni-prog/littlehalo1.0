@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
@@ -20,7 +20,7 @@ import { CheckCircle, ThumbsUp, ThumbsDown, Star } from "lucide-react";
 // This feeds the logistic regression model that adjusts TOPSIS weights over time.
 // ─────────────────────────────────────────────────────────────────────────────
 
-export default function BookingSuccessPage() {
+function BookingSuccessContent() {
   const t = useTranslations("bookingSuccess");
   const locale = useLocale();
   const dateLocale = locale === "fr" ? "fr-CA" : "en-US";
@@ -289,5 +289,14 @@ export default function BookingSuccessPage() {
         )}
       </div>
     </div>
+  );
+}
+
+// useSearchParams() requires a Suspense boundary in the App Router.
+export default function BookingSuccessPage() {
+  return (
+    <Suspense fallback={null}>
+      <BookingSuccessContent />
+    </Suspense>
   );
 }

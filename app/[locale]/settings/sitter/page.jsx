@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
@@ -634,7 +634,7 @@ function AvailabilitySection({ userId, showToast, onSaved }) {
 
 // ── Main page ──────────────────────────────────────────────────────────────────
 
-export default function SitterSettings() {
+function SitterSettingsContent() {
   const t = useTranslations("settingsSitter");
   const router   = useRouter();
   const supabase = createClient();
@@ -773,5 +773,14 @@ export default function SitterSettings() {
 
       {toast && <Toast msg={toast.msg} type={toast.type} />}
     </div>
+  );
+}
+
+// useSearchParams() requires a Suspense boundary in the App Router.
+export default function SitterSettings() {
+  return (
+    <Suspense fallback={null}>
+      <SitterSettingsContent />
+    </Suspense>
   );
 }

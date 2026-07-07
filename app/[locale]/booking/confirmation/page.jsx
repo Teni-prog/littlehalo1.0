@@ -577,13 +577,7 @@ function BookingConfirmationContent() {
 // forcing every caller of this page to provide one.
 export default function BookingConfirmationPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-gray-50 flex justify-center items-center">
-          <div className="w-10 h-10 border-4 border-gray-200 border-t-[#ff6b6b] rounded-full animate-spin" />
-        </div>
-      }
-    >
+    <Suspense fallback={null}>
       <BookingConfirmationContent />
     </Suspense>
   );
