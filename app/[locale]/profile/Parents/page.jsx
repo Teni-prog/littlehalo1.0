@@ -24,7 +24,7 @@ import sitter2 from "@/assets/sitter2.png";
 import MyChildren from "@/components/Mychildren";
 import ChildProgress from "@/components/Childprogress";
 import { useEffect, useState, useMemo } from "react";
-import MatchedSitterCard from "@/app/search/matching-button/page";
+import MatchedSitterCard from "@/app/[locale]/search/matching-button/page";
 import ParentPreferences from "../ParentPreferences/page";
 import { runTOPSIS, CRITERIA_REGISTRY, DEFAULT_WEIGHTS } from "@/lib/matchingData";
 import { createClient } from "@/lib/supabase/client";
