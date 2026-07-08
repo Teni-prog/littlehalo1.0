@@ -171,7 +171,7 @@ function SessionCard({
         </div>
 
         {/* Session details */}
-        <div className="grid grid-cols-2 gap-3 text-sm text-gray-600">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-600">
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4 text-gray-400" />
             <span>{session.date}</span>
@@ -715,7 +715,7 @@ export default function SitterDashboard() {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8">
         {quickActions.map((action, index) => (
           <Link
             key={index}

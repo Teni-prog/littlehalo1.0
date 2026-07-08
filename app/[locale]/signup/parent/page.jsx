@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useActionState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -63,6 +63,7 @@ export default function ParentSignupPage() {
   const [selectedLanguages, setSelectedLanguages] = useState(["English"]);
   const [neighbourhood, setNeighbourhood] = useState("");
   const [state, formAction, isPending] = useActionState(signupParent, null);
+  const submittingRef = useRef(false);
 
   function handleNeighbourhood(name) {
     setNeighbourhood(name);
@@ -71,6 +72,18 @@ export default function ParentSignupPage() {
   useEffect(() => {
     if (state?.error) window.scrollTo({ top: 0, behavior: "smooth" });
   }, [state?.error]);
+
+  useEffect(() => {
+    if (!isPending) submittingRef.current = false;
+  }, [isPending]);
+
+  function handleSubmit(e) {
+    if (submittingRef.current) {
+      e.preventDefault();
+      return;
+    }
+    submittingRef.current = true;
+  }
 
   function addChild() {
     setChildren((prev) => [...prev, { ...emptyChild }]);
@@ -132,7 +145,7 @@ export default function ParentSignupPage() {
           </div>
         )}
 
-        <form action={formAction} className="space-y-6">
+        <form action={formAction} onSubmit={handleSubmit} className="space-y-6">
           {/* Hidden inputs for arrays and location */}
           <input type="hidden" name="child_count" value={children.length} />
           <input type="hidden" name="neighbourhood" value={neighbourhood} />
@@ -362,7 +375,7 @@ export default function ParentSignupPage() {
                   )}
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1">
                     <label className="text-xs font-medium text-gray-600">
                       {t("sections.children.name")}

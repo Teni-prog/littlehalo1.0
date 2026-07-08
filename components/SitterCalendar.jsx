@@ -257,6 +257,8 @@ export default function SitterCalendar({
 
   const renderWeekView = () => (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+    <div className="overflow-x-auto">
+    <div className="min-w-[700px]">
       {/* Column headers */}
       <div className="grid" style={{ gridTemplateColumns: "80px repeat(7, 1fr)" }}>
         <div className="bg-gray-50 border-r border-gray-200 p-4" />
@@ -372,6 +374,8 @@ export default function SitterCalendar({
         </div>
       </div>
     </div>
+    </div>
+    </div>
   );
 
   // ── Day View ─────────────────────────────────────────────────────────────────
@@ -468,6 +472,8 @@ export default function SitterCalendar({
 
   const renderMonthView = () => (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+    <div className="overflow-x-auto">
+    <div className="min-w-[560px]">
       <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-200">
         {DAYS.map((day) => (
           <div key={day} className="p-4 text-center font-semibold text-gray-600 text-sm">
@@ -515,6 +521,8 @@ export default function SitterCalendar({
           );
         })}
       </div>
+    </div>
+    </div>
     </div>
   );
 
@@ -592,7 +600,7 @@ export default function SitterCalendar({
 
       {/* Booking Detail Side Panel */}
       {selectedBooking && (
-        <div className="fixed inset-y-0 right-0 w-80 bg-white border-l border-gray-200 shadow-xl p-6 flex flex-col z-50">
+        <div className="fixed inset-y-0 right-0 w-full sm:w-80 bg-white border-l border-gray-200 shadow-xl p-6 flex flex-col z-50 overflow-y-auto">
           <button
             onClick={() => setSelectedBooking(null)}
             className="absolute top-4 right-4 p-1 hover:bg-gray-100 rounded transition-colors"

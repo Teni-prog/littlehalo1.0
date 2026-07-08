@@ -39,8 +39,8 @@ export default function ParentSidebar({ children, userName }) {
 
   return (
     <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
-      <div className="w-64 bg-white border-r border-gray-200 flex flex-col fixed h-screen z-40">
+      {/* Sidebar (desktop only) */}
+      <div className="hidden md:flex w-64 bg-white border-r border-gray-200 flex-col fixed h-screen z-40">
         {/* Logo */}
         <div className="p-6 border-b border-gray-200">
           <Link href="/" className="flex items-center gap-3">
@@ -81,8 +81,44 @@ export default function ParentSidebar({ children, userName }) {
         </div>
       </div>
 
+      {/* Mobile top bar (logo only) */}
+      <div className="md:hidden fixed top-0 inset-x-0 z-40 h-14 bg-white border-b border-gray-200 flex items-center px-4">
+        <Link href="/" className="flex items-center gap-2.5">
+          <Image src={Logo} alt={t("logoAlt")} width={32} height={32} className="rounded-lg" />
+          <span className="font-bold text-gray-900">{t("brandName")}</span>
+        </Link>
+      </div>
+
+      {/* Mobile bottom tab bar */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-gray-200 flex items-stretch">
+        {NAV_ITEMS.map(({ id, labelKey, href, Icon }) => {
+          const active = pathname === href;
+          return (
+            <Link
+              key={id}
+              href={href}
+              className={`flex-1 flex flex-col items-center justify-center gap-0.5 min-h-[56px] py-1.5 text-[11px] font-medium transition-colors ${
+                active ? "text-teal-600" : "text-gray-500"
+              }`}
+            >
+              <Icon className="w-5 h-5" />
+              {t(`nav.${labelKey}`)}
+            </Link>
+          );
+        })}
+        <button
+          type="button"
+          onClick={handleLogout}
+          disabled={loggingOut}
+          className="flex-1 flex flex-col items-center justify-center gap-0.5 min-h-[56px] py-1.5 text-[11px] font-medium text-red-600 disabled:opacity-50"
+        >
+          <LogOut className="w-5 h-5" />
+          {loggingOut ? t("loggingOut") : t("logOut")}
+        </button>
+      </nav>
+
       {/* Main Content */}
-      <div className="ml-64 flex-1 overflow-auto">
+      <div className="md:ml-64 flex-1 overflow-auto pt-14 pb-16 md:pt-0 md:pb-0">
         <main className="flex flex-col min-h-screen">
           {children}
         </main>

@@ -147,7 +147,7 @@ function SessionCard({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 text-sm">
         <div className="flex items-center gap-2 text-gray-600">
           <Clock className="w-4 h-4 text-teal-500" />
           <span>{t("card.dateAt", { date: session.date, time: session.time })}</span>
@@ -402,7 +402,7 @@ export default function SitterSessionsPage() {
     <div className="flex justify-center min-h-screen bg-gray-50">
       <SitterSidebar />
 
-      <div className="flex-1 ml-64 p-6 md:p-8 items-center">
+      <div className="flex-1 md:ml-64 p-4 pt-20 pb-20 md:p-8 md:pt-8 md:pb-8 items-center">
         <div className="w-full max-w-4xl">
           {/* Header */}
           <div className="mb-8">
@@ -416,7 +416,7 @@ export default function SitterSessionsPage() {
 
           {/* Filter Bar */}
           <div className="bg-white rounded-2xl border border-gray-100 p-6 mb-6">
-            <div className="flex flex-row items-start justify-between gap-6">
+            <div className="flex flex-col md:flex-row items-start justify-between gap-6">
               {/* Status Filter */}
               <div className="flex-1 ">
                 <label className="block text-sm font-semibold text-gray-700 mb-3">
@@ -440,7 +440,7 @@ export default function SitterSessionsPage() {
               </div>
 
               {/* Search Bar */}
-              <div className="w-64 shrink-0">
+              <div className="w-full md:w-64 shrink-0">
                 <label className="block text-sm font-semibold text-gray-700 mb-3">
                   {t("filters.searchLabel")}
                 </label>

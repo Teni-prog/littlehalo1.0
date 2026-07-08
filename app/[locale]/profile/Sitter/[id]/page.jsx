@@ -172,7 +172,7 @@ export default function SitterProfilePage() {
         </Link>
 
         {/* Profile Header */}
-        <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8 mb-6 w-[80%]">
+        <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8 mb-6 w-full">
           <div className="flex flex-col md:flex-row gap-6">
             {/* Profile Image */}
             <div className="relative h-48 w-48 shrink-0 mx-auto md:mx-0">
@@ -229,7 +229,7 @@ export default function SitterProfilePage() {
               </div>
 
               {/* Quick Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-4 w-[50%]">
+              <div className="grid grid-cols-2 gap-4 mb-4 w-full">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-5 h-5 text-[#ff6b6b]" />
                   <div>

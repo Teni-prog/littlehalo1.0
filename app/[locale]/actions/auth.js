@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from '@/i18n/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, getLocale } from 'next-intl/server'
 
 export async function loginParent(_prevState, formData) {
   const t = await getTranslations('authErrors')
@@ -25,7 +25,7 @@ export async function loginParent(_prevState, formData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/profile/Parents')
+  redirect({ href: '/profile/Parents', locale: await getLocale() })
 }
 
 export async function loginSitter(_prevState, formData) {
@@ -47,7 +47,7 @@ export async function loginSitter(_prevState, formData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/profile/Sitter')
+  redirect({ href: '/profile/Sitter', locale: await getLocale() })
 }
 
 export async function signupParent(_prevState, formData) {
@@ -119,7 +119,7 @@ export async function signupParent(_prevState, formData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/profile/Parents')
+  redirect({ href: '/profile/Parents', locale: await getLocale() })
 }
 
 export async function signupSitter(_prevState, formData) {
@@ -172,7 +172,7 @@ export async function signupSitter(_prevState, formData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/profile/Sitter')
+  redirect({ href: '/profile/Sitter', locale: await getLocale() })
 }
 
 export async function completeSitterSignup(_prevState, formData) {
@@ -299,5 +299,5 @@ export async function logout() {
   const supabase = await createClient()
   await supabase.auth.signOut()
   revalidatePath('/', 'layout')
-  redirect('/login')
+  redirect({ href: '/login', locale: await getLocale() })
 }

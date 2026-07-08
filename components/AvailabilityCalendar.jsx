@@ -209,7 +209,8 @@ export default function AvailabilityCalendar({
       </div>
 
       {/* Calendar grid */}
-      <div className="border border-gray-200 rounded-xl overflow-hidden bg-white">
+      <div className="overflow-x-auto">
+      <div className="border border-gray-200 rounded-xl overflow-hidden bg-white min-w-[640px]">
         {/* Header row with days */}
         <div className="grid grid-cols-8 bg-gray-50 border-b border-gray-200">
           <div className="px-3 py-3 text-xs font-semibold text-gray-600 border-r border-gray-200" />
@@ -264,6 +265,7 @@ export default function AvailabilityCalendar({
             </div>
           ))}
         </div>
+      </div>
       </div>
 
       {/* Info text */}

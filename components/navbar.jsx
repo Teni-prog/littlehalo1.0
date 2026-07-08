@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import Logo from "@/public/Logo1.png";
 import Image from "next/image";
-import { UserCircle, Settings } from "lucide-react";
+import { UserCircle, Settings, Menu, X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
@@ -20,6 +20,7 @@ export function Navbar() {
   ];
   const [user, setUser] = useState(null);
   const [hasAvailability, setHasAvailability] = useState(true); // true = no notification
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
@@ -56,10 +57,15 @@ export function Navbar() {
   }, [user]);
 
   async function handleLogout() {
+    setMobileMenuOpen(false);
     const supabase = createClient();
     await supabase.auth.signOut();
     router.push("/login");
     router.refresh();
+  }
+
+  function closeMobileMenu() {
+    setMobileMenuOpen(false);
   }
 
   // Hide navbar on pages that use a sidebar layout (sitter or parent)
@@ -106,7 +112,8 @@ export function Navbar() {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* Desktop controls */}
+        <div className="hidden md:flex items-center gap-4">
           <LanguageSwitcher />
           {user ? (
             <>
@@ -145,7 +152,83 @@ export function Navbar() {
             </>
           )}
         </div>
+
+        {/* Mobile hamburger toggle */}
+        <button
+          type="button"
+          onClick={() => setMobileMenuOpen((v) => !v)}
+          aria-label={mobileMenuOpen ? t("closeMenuAriaLabel") : t("openMenuAriaLabel")}
+          className="md:hidden flex items-center justify-center w-11 h-11 -mr-2 text-gray-700"
+        >
+          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
+
+      {/* Mobile menu panel */}
+      {mobileMenuOpen && (
+        <div className="md:hidden border-t border-gray-100 bg-white px-4 py-4 space-y-4">
+          <div className="flex flex-col gap-1">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={closeMobileMenu}
+                className="py-3 text-base font-medium text-gray-700 hover:text-gray-900 transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          <LanguageSwitcher />
+
+          <div className="flex flex-col gap-2 pt-2 border-t border-gray-100">
+            {user ? (
+              <>
+                {(userType === "parent" || userType === "sitter") && (
+                  <Link
+                    href={userType === "sitter" ? "/settings/sitter" : "/settings/parent"}
+                    onClick={closeMobileMenu}
+                    className="flex items-center gap-2 py-3 text-base font-medium text-gray-700"
+                  >
+                    <Settings className="w-5 h-5 text-gray-500" />
+                    {t("settingsAriaLabel")}
+                    {userType === "sitter" && !hasAvailability && (
+                      <div className="w-2 h-2 bg-red-500 rounded-full" />
+                    )}
+                  </Link>
+                )}
+                <Link
+                  href={profileHref}
+                  onClick={closeMobileMenu}
+                  className="flex items-center gap-2 py-3 text-base font-medium text-gray-700"
+                >
+                  <UserCircle className="w-5 h-5 text-gray-500" />
+                  {t("profileAriaLabel")}
+                </Link>
+                <Button onClick={handleLogout} variant="outline" className="w-full cursor-pointer min-h-[44px]">
+                  {t("logOut")}
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  onClick={closeMobileMenu}
+                  className="py-3 text-base font-medium text-gray-700 hover:text-gray-900 transition-colors"
+                >
+                  {t("logIn")}
+                </Link>
+                <Link href="/signup" onClick={closeMobileMenu}>
+                  <Button className="w-full cursor-pointer bg-primary hover:bg-primary/90 text-white min-h-[44px]">
+                    {t("signUp")}
+                  </Button>
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

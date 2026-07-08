@@ -175,7 +175,7 @@ function BookingSuccessContent() {
                   </p>
 
                   {/* Thumbs up / down */}
-                  <div className="grid grid-cols-2 gap-3 mb-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
                     <button
                       onClick={() => setSelectedLabel(1)}
                       className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all cursor-pointer ${

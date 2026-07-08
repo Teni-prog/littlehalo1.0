@@ -5,7 +5,9 @@
     "signUp": "S'inscrire",
     "logOut": "Se déconnecter",
     "settingsAriaLabel": "Paramètres",
-    "profileAriaLabel": "Aller au profil"
+    "profileAriaLabel": "Aller au profil",
+    "openMenuAriaLabel": "Ouvrir le menu",
+    "closeMenuAriaLabel": "Fermer le menu"
   },
   "footer": {
     "tagline": "Mettre en relation les familles de nouveaux arrivants avec des services de garde d’enfants adaptés à leur culture et vérifiés dans le Canada atlantique.",
@@ -94,7 +96,7 @@
     "startOver": "Recommencer"
   },
   "signinParent": {
-    "welcomeBack": "Bon retour!",
+    "welcomeBack": "Bon retour parmi nous!",
     "welcomeMessage": "Ouvrez une session pour accéder à votre tableau de bord, gérer vos réservations et interagir avec votre communauté.",
     "safeSecure": "Sûr et sécurisé",
     "safeSecureDesc": "Vos données sont protégées par des mesures de sécurité à la fine pointe de l'industrie",
@@ -206,7 +208,7 @@
       "greatMatch": "Super match!",
       "wouldBookAgain": "Je réserverais de nouveau",
       "notRightFit": "Ce n'est pas ce qu'il me faut",
-      "wouldntBookAgain": "Je ne réserverais plus ici",
+      "wouldntBookAgain": "Je ne réserverais plus là-bas",
       "noteLabel": "Quelque chose en particulier?",
       "noteOptional": "(facultatif)",
       "notePlaceholderGood": "p. ex. : super avec les enfants, très ponctuel…",
@@ -219,7 +221,7 @@
     },
     "thankYou": {
       "title": "Merci pour vos commentaires!",
-      "description": "Votre évaluation nous aide à vous proposer, au fil du temps, des choix encore plus adaptés à votre famille.",
+      "description": "Votre évaluation nous aide à vous proposer, au fil du temps, des choix mieux adaptés à votre famille.",
       "prioritizeNote": "Nous donnerons la priorité aux gardiennes comme <strong>{sitterName}</strong> lors des prochains matchs."
     },
     "cta": {
@@ -275,7 +277,7 @@
   "booking": {
     "backToSearch": "← Retour à la recherche",
     "title": "Finalisez votre réservation",
-    "subtitle": "Remplissez le formulaire ci-dessous pour réserver votre gardienne ou votre gardien",
+    "subtitle": "Remplissez le formulaire ci-dessous pour réserver votre gardienne",
     "loading": "Chargement en cours...",
     "accessRestricted": {
       "title": "Accès restreint",
@@ -372,7 +374,8 @@
   },
   "neighbourhoodMap": {
     "defaultLocation": "Lieu de garde",
-    "areaLabel": "{neighbourhood} région"
+    "areaLabel": "{neighbourhood} zone",
+    "mapUnavailable": "Carte indisponible"
   },
   "reportIssueForm": {
     "issueTypes": {
@@ -409,7 +412,7 @@
     "hero": {
       "titleLine1": "Adapté à la culture locale",
       "titleLine2": "Services de garde d'enfants",
-      "subtitle": "Entrez en contact avec des gardiennes d’enfants vérifiées qui comprennent la culture et la langue de votre famille. Réservez des services de garde fiables en moins de deux heures — sans liste d’attente.",
+      "subtitle": "Entrez en contact avec des gardiennes de enfants vérifiées qui comprennent la culture et la langue de votre famille. Réservez des services de garde fiables en moins de 2 heures — sans liste d’attente.",
       "searchPlaceholder": "Entrez votre emplacement ou votre code postal",
       "searchButton": "Rechercher des gardiennes",
       "imageAlt": "Une gardienne qui joue avec un enfant",
@@ -432,7 +435,7 @@
       "subtitle": "Nous avons repensé les services de garde pour les familles d’aujourd’hui. Des services sécuritaires, éducatifs et adaptés à la culture locale.",
       "smartMatching": {
         "title": "Appariement intelligent",
-        "desc": "Trouvez des gardiennes qui correspondent à vos exigences en matière de langue, d’origine culturelle et de besoins particuliers.",
+        "desc": "Trouvez des gardiennes qui correspondent à vos exigences en matière de langue, de contexte culturel et de besoins particuliers.",
         "tags": {
           "tag1": "Correspondance linguistique",
           "tag2": "Besoins particuliers",
@@ -450,13 +453,13 @@
       },
       "microAdventures": {
         "title": "Micro-aventures",
-        "desc": "Transformez la garde d'enfants en moments d'apprentissage grâce à des expériences scientifiques, des activités artistiques et créatives, ainsi que des ateliers de cuisine."
+        "desc": "Transformez la garde d'enfants en moment d'apprentissage grâce à des expériences scientifiques, des activités artistiques et créatives, ainsi que des ateliers de cuisine."
       }
     },
     "comparisonTable": {
       "badge": "COMPARAISON",
       "title": "Le choix judicieux pour les nouveaux arrivants",
-      "subtitle": "Découvrez comment nous nous comparons aux options traditionnelles de garde d’enfants",
+      "subtitle": "Découvrez comment nous nous comparons aux options traditionnelles de garde d'enfants",
       "headers": {
         "feature": "Fonctionnalité",
         "daycare": "Garderie",
@@ -506,12 +509,12 @@
         },
         "step2": {
           "title": "Trouvez votre partenaire idéal",
-          "desc": "Parcourez la liste des gardiennes vérifiées et issues de la même culture que vous dans votre région. Lisez les commentaires et vérifiez leur disponibilité.",
+          "desc": "Parcourez les profils de gardiennes vérifiés et dont la culture correspond à la vôtre dans votre région. Lisez les commentaires et vérifiez leur disponibilité.",
           "note": "Des gardiens d'enfants vérifiés à 100 %"
         },
         "step3": {
           "title": "Réservez en toute confiance",
-          "desc": "Prenez rendez-vous et détendez-vous en sachant que vos enfants sont entre des mains sûres et bienveillantes. Suivez tout depuis l’application.",
+          "desc": "Prenez rendez-vous et détendez-vous en sachant que vos enfants sont entre des mains sûres et attentionnées. Suivez tout depuis l’application.",
           "note": "Réservation sécurisée"
         }
       }
@@ -612,6 +615,9 @@
       "resetAll": "Réinitialiser tous les filtres"
     },
     "categoryCount": "({count})",
+    "auth": {
+      "loginRequired": "Veuillez vous connecter pour ajouter des activités à votre séance."
+    },
     "booking": {
       "activeMessage": "<strong>Mode de réservation actif :</strong> Sélectionnez les activités ci-dessous pour les ajouter à votre réservation.",
       "confirmButton": "Confirmer {count} Aventures"
@@ -642,7 +648,7 @@
     "stats": {
       "ageRange": "Tranche d'âge",
       "duration": "Durée",
-      "savedBySitters": "Sauvés par des gardiennes et gardiens"
+      "savedBySitters": "Sauvés par des gardiennes d’enfants"
     },
     "sections": {
       "learningGoals": "Objectifs d'apprentissage",
@@ -663,8 +669,8 @@
     "items": {
       "realLearning": {
         "title": "Un véritable apprentissage, de véritables compétences",
-        "description": "Chaque activité vise des objectifs de développement précis — allant de la motricité fine et de la résolution de problèmes à la sensibilisation culturelle et à l’intelligence émotionnelle. Votre enfant progresse à chaque séance.",
-        "example": "Les expériences scientifiques permettent d'acquérir une compréhension des relations de cause à effet et des principes fondamentaux de la méthode scientifique"
+        "description": "Chaque activité vise des objectifs de développement précis, allant de la motricité fine et de la résolution de problèmes à la sensibilisation culturelle et à l’intelligence émotionnelle. Votre enfant progresse à chaque séance.",
+        "example": "Les expériences scientifiques permettent d'acquérir une réflexion axée sur les relations de cause à effet et les principes fondamentaux de la méthode scientifique"
       },
       "perfectForStage": {
         "title": "Idéal pour l’étape de développement de votre enfant",
@@ -673,12 +679,12 @@
       },
       "includedInBooking": {
         "title": "Inclus dans votre réservation",
-        "description": "Tout le matériel, les fournitures et la planification sont inclus dans le tarif horaire de votre gardienne. Pas de frais imprévus. Pas de frais cachés. Juste des activités de qualité qui vous permettent de tirer le meilleur parti de votre investissement dans la garde d’enfants.",
-        "example": "Les expériences scientifiques font appel à des articles ménagers; le matériel de bricolage est fourni par la gardienne."
+        "description": "Tout le matériel, les fournitures et la planification sont inclus dans le tarif horaire de votre gardienne. Pas de frais imprévus. Pas de frais cachés. Simplement des activités de qualité qui vous permettent de tirer le meilleur parti de votre investissement dans la garde d’enfants.",
+        "example": "Les expériences scientifiques font appel à des articles ménagers; le matériel de bricolage est fourni par la gardienne"
       },
       "tailoredToInterests": {
         "title": "Adapté aux intérêts de votre enfant",
-        "description": "Faites votre choix parmi notre sélection, demandez des activités précises ou laissez les gardiennes imaginer des aventures sur mesure en fonction des intérêts particuliers de votre enfant. Il est passionné par les dinosaures? L’espace? Les princesses? Nous avons des activités pour ça.",
+        "description": "Faites votre choix parmi notre sélection, demandez des activités précises ou laissez les gardiennes imaginer des aventures sur mesure en fonction des intérêts particuliers de votre enfant. Il est passionné par les dinosaures? L’espace? Les princesses? Nous avons des activités qui lui plairont à coup sûr.",
         "example": "Fouilles archéologiques à la recherche de dinosaures, construction de fusées, bricolage sur le thème des châteaux royaux"
       },
       "heritageHonored": {
@@ -1036,7 +1042,7 @@
       "percentComplete": "{percentage}% terminé",
       "almostThere": "On y est presque!",
       "items": {
-        "backgroundCheck": "Vérification des antécédents effectuée",
+        "backgroundCheck": "Vérification des antécédents confirmée",
         "profilePhoto": "Photo de profil téléchargée",
         "certifications": "Ajouter d'autres certifications"
       }
@@ -1079,7 +1085,7 @@
       "title": "Filtres",
       "clearAll": "Tout effacer",
       "hourlyRate": "Taux horaire",
-      "minPlaceholder": "J'ai",
+      "minPlaceholder": "I",
       "maxPlaceholder": "Max",
       "experienceYears": "Expérience (années)",
       "zero": "0",
@@ -1101,7 +1107,7 @@
         "french": "Français",
         "spanish": "Espagnol",
         "mandarin": "mandarin",
-        "asl": "Toutes sortes de bagages"
+        "asl": "Cordialement"
       },
       "availability": "Disponibilité",
       "availabilityOptions": {
@@ -1116,7 +1122,9 @@
         "rating": "Cote",
         "experience": "Expérience"
       },
-      "resetDefaults": "Rétablir les paramètres par défaut"
+      "resetDefaults": "Rétablir les paramètres par défaut",
+      "close": "Fermer les filtres",
+      "showResults": "{count, plural, one {Afficher # résultat} other {Afficher # résultats}}"
     },
     "emptyState": {
       "title": "Aucune gardienne ne correspond à vos critères de recherche",
@@ -1126,7 +1134,7 @@
   },
   "searchMatchingButton": {
     "sitterFallbackAlt": "Assis",
-    "scoreMatch": "{percent}% de correspondance",
+    "scoreMatch": "{percent}pourcentage de correspondance",
     "reviewsCount": "({count, plural, one {# critique} other {# commentaires}})",
     "experienceYears": "{count, plural, one {# années d'expérience} other {# années d'expérience}}",
     "hourlyRate": "${rate}/heure",
@@ -1147,6 +1155,9 @@
     "setNeighbourhoodPrompt": "Indiquez votre quartier lors de votre inscription pour connaître les distances.",
     "locationNotSet": "Lieu non défini",
     "distanceUnavailable": "Distance non disponible",
+    "mapButton": "Carte",
+    "closeMap": "Fermer la carte",
+    "mapUnavailable": "Carte indisponible",
     "emptyState": {
       "title": "Aucune gardienne n'a été trouvée dans ce rayon.",
       "clearRadius": "Effacer le filtre de rayon"
@@ -1274,7 +1285,7 @@
         "phonePlaceholder": "(506) 555-0100",
         "countryLabel": "Pays d'origine",
         "locationLabel": "Emplacement",
-        "locationHint": "Sélectionnez votre province et votre ville. Le choix du quartier est facultatif et permet de déterminer automatiquement vos coordonnées.",
+        "locationHint": "Sélectionnez votre province et votre ville. Le choix du quartier est facultatif; vos coordonnées sont déterminées automatiquement.",
         "languagesLabel": "Langues parlées",
         "noteLabel": "Petite note à l'intention des gardiennes et gardiens d'enfants",
         "noteCounterHint": "{count}/300",
@@ -1303,7 +1314,7 @@
         "title": "Préférences",
         "subtitle": "Aidez les gardiennes à comprendre ce que vous recherchez.",
         "budgetLabel": "Fourchette budgétaire ($/h)",
-        "budgetMinPlaceholder": "J'ai",
+        "budgetMinPlaceholder": "I",
         "budgetMaxPlaceholder": "Max",
         "to": "à",
         "availabilityLabel": "Disponibilité souhaitée",
@@ -1643,7 +1654,7 @@
     "scheduleSessionWith": "Prenez rendez-vous avec {firstName} aujourd’hui!"
   },
   "scheduleSitter": {
-    "greeting": "Bonjour, {name}",
+    "greeting": "Bonjour {name}",
     "subtitle": "Voici votre horaire",
     "editAvailability": "Modifier la disponibilité",
     "defaultName": "Assis",
@@ -1861,7 +1872,8 @@
     "parentPinTitle": "{name}son emplacement",
     "yourLocation": "Votre emplacement",
     "hourlyRate": "${rate}/hr",
-    "viewProfile": "Voir le profil"
+    "viewProfile": "Voir le profil",
+    "mapUnavailable": "Carte indisponible"
   },
   "sitterReviews": {
     "reviews": "Commentaires",
@@ -1887,7 +1899,7 @@
     "familyRating": "Donnez une note à cette famille",
     "yourFeedback": "Vos commentaires",
     "feedbackPlaceholder": "Partagez votre expérience (facultatif)",
-    "rebookQuestion": "Seriez-vous prêt à travailler de nouveau avec cette famille?",
+    "rebookQuestion": "Travailleriez-vous de nouveau avec cette famille?",
     "rebookOptions": {
       "yes": "Oui",
       "maybe": "Peut-être",

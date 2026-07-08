@@ -206,7 +206,7 @@ function BookingConfirmationContent() {
                       </div>
 
                       {/* Date and Time */}
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <p className="text-sm text-gray-500 mb-1">{t("bookingDetails.dateLabel")}</p>
                           <p className="font-medium">
@@ -379,7 +379,7 @@ function BookingConfirmationContent() {
                                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff6b6b]"
                               />
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div>
                                 <label className="block text-sm font-medium mb-2">
                                   {t("paymentMethod.expiryDateLabel")}

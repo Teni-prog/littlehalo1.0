@@ -159,6 +159,8 @@ export default function ParentSchedule() {
   // ── Month view ────────────────────────────────────────────────────────────────
   const renderMonthView = () => (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+    <div className="overflow-x-auto">
+    <div className="min-w-[560px]">
       {/* Day-of-week headers */}
       <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-200">
         {DAYS_KEYS.map((d) => (
@@ -207,6 +209,8 @@ export default function ParentSchedule() {
         })}
       </div>
     </div>
+    </div>
+    </div>
   );
 
   // ── Week view ─────────────────────────────────────────────────────────────────
@@ -214,6 +218,8 @@ export default function ParentSchedule() {
     const todayStr = localDateStr(new Date());
     return (
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+      <div className="overflow-x-auto">
+      <div className="min-w-[700px]">
         {/* Header row */}
         <div
           className="grid border-b border-gray-200"
@@ -304,6 +310,8 @@ export default function ParentSchedule() {
             })}
           </div>
         </div>
+      </div>
+      </div>
       </div>
     );
   };

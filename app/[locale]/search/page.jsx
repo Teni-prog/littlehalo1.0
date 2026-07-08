@@ -106,6 +106,7 @@ export default function SearchPage() {
   const [showPriorities,   setShowPriorities]   = useState(false);
   const [showSpecialNeeds, setShowSpecialNeeds] = useState(false);
   const [showLanguages,    setShowLanguages]    = useState(false);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   const [filters, setFilters] = useState({
     minRate: "",
@@ -252,10 +253,8 @@ export default function SearchPage() {
     );
   }
 
-  return (
-    <div className="flex min-h-screen bg-gray-50">
-      {/* ── Sidebar ─────────────────────────────────────────────────── */}
-      <aside className="w-72 shrink-0 bg-white border-r border-gray-100 sticky top-0 h-screen overflow-y-auto hidden md:flex flex-col">
+  const filterPanel = (
+    <>
         <div className="p-6 border-b border-gray-100">
           <div className="flex items-center gap-2">
             <SlidersHorizontal className="w-5 h-5 text-gray-700" />
@@ -489,18 +488,67 @@ export default function SearchPage() {
             )}
           </div>
         </div>
+    </>
+  );
+
+  return (
+    <div className="flex min-h-screen bg-gray-50">
+      {/* ── Sidebar (desktop only) ─────────────────────────────────── */}
+      <aside className="w-72 shrink-0 bg-white border-r border-gray-100 sticky top-0 h-screen overflow-y-auto hidden md:flex flex-col">
+        {filterPanel}
       </aside>
+
+      {/* ── Mobile filters drawer ─────────────────────────────────── */}
+      {mobileFiltersOpen && (
+        <div className="md:hidden fixed inset-0 z-50 bg-white flex flex-col">
+          <div className="flex items-center justify-between p-4 border-b border-gray-100">
+            <h2 className="text-lg font-bold text-gray-900">{t("filters.title")}</h2>
+            <button
+              type="button"
+              onClick={() => setMobileFiltersOpen(false)}
+              aria-label={t("filters.close")}
+              className="flex items-center justify-center w-11 h-11 text-gray-500"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto">{filterPanel}</div>
+          <div className="p-4 border-t border-gray-100">
+            <Button
+              onClick={() => setMobileFiltersOpen(false)}
+              className="w-full min-h-[44px] bg-[#ff6b6b] hover:bg-[#ff5252] text-white"
+            >
+              {t("filters.showResults", { count: filteredSitters.length })}
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* ── Main content ─────────────────────────────────────────────── */}
       <main className="flex-1 min-w-0 p-6 lg:p-8">
         {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-1">
-            {t("header.title")}
-          </h1>
-          <p className="text-gray-500 text-sm">
-            {t("resultsAvailable", { count: filteredSitters.length })}
-          </p>
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">
+              {t("header.title")}
+            </h1>
+            <p className="text-gray-500 text-sm">
+              {t("resultsAvailable", { count: filteredSitters.length })}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setMobileFiltersOpen(true)}
+            className="md:hidden flex items-center gap-2 min-h-[44px] px-4 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-700 shrink-0"
+          >
+            <SlidersHorizontal className="w-4 h-4" />
+            {t("filters.title")}
+            {hasActiveFilters && (
+              <span className="w-4 h-4 rounded-full bg-[#ff6b6b] text-white text-xs flex items-center justify-center font-bold">
+                !
+              </span>
+            )}
+          </button>
         </div>
 
         {/* Name search */}
@@ -552,7 +600,7 @@ export default function SearchPage() {
                   onClick={() => currentPage > 1 && goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
                   variant="outline"
-                  className="h-10 px-3"
+                  className="h-11 min-w-[44px] px-3"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
@@ -570,7 +618,7 @@ export default function SearchPage() {
                           key={p}
                           onClick={() => goToPage(p)}
                           variant={currentPage === p ? "default" : "outline"}
-                          className={`h-10 w-10 ${currentPage === p ? "bg-[#ff6b6b] hover:bg-[#ff5252] text-white" : ""}`}
+                          className={`h-11 w-11 ${currentPage === p ? "bg-[#ff6b6b] hover:bg-[#ff5252] text-white" : ""}`}
                         >
                           {p}
                         </Button>
@@ -595,7 +643,7 @@ export default function SearchPage() {
                   }
                   disabled={currentPage === totalPages}
                   variant="outline"
-                  className="h-10 px-3"
+                  className="h-11 min-w-[44px] px-3"
                 >
                   <ChevronRight className="h-4 w-4" />
                 </Button>

@@ -16,13 +16,20 @@ const SITTER_ICON_URL =
 
 export default function NeighbourhoodMap({ latitude, longitude, neighbourhood }) {
   const t = useTranslations("neighbourhoodMap");
-  const { isLoaded } = useJsApiLoader({
+  const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
 
   if (!latitude || !longitude) return null;
 
   const center = { lat: latitude, lng: longitude };
+
+  if (loadError)
+    return (
+      <div className="h-50 bg-gray-100 rounded-xl flex items-center justify-center text-sm text-gray-500">
+        {t("mapUnavailable")}
+      </div>
+    );
 
   if (!isLoaded)
     return (

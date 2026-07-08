@@ -5,7 +5,9 @@
     "signUp": "Sign Up",
     "logOut": "Log Out",
     "settingsAriaLabel": "Settings",
-    "profileAriaLabel": "Go to profile"
+    "profileAriaLabel": "Go to profile",
+    "openMenuAriaLabel": "Open menu",
+    "closeMenuAriaLabel": "Close menu"
   },
   "footer": {
     "tagline": "Connecting newcomer families with culturally-matched, verified childcare in Atlantic Canada.",
@@ -372,7 +374,8 @@
   },
   "neighbourhoodMap": {
     "defaultLocation": "Sitter location",
-    "areaLabel": "{neighbourhood} area"
+    "areaLabel": "{neighbourhood} area",
+    "mapUnavailable": "Map unavailable"
   },
   "reportIssueForm": {
     "issueTypes": {
@@ -612,6 +615,9 @@
       "resetAll": "Reset all filters"
     },
     "categoryCount": "({count})",
+    "auth": {
+      "loginRequired": "Please log in to add activities to your session."
+    },
     "booking": {
       "activeMessage": "<strong>Booking Mode Active:</strong> Select activities below to add them to your reservation.",
       "confirmButton": "Confirm {count} Adventures"
@@ -1116,7 +1122,9 @@
         "rating": "Rating",
         "experience": "Experience"
       },
-      "resetDefaults": "Reset to defaults"
+      "resetDefaults": "Reset to defaults",
+      "close": "Close filters",
+      "showResults": "{count, plural, one {Show # result} other {Show # results}}"
     },
     "emptyState": {
       "title": "No sitters match your filters",
@@ -1147,6 +1155,9 @@
     "setNeighbourhoodPrompt": "Set your neighbourhood during signup to see distances.",
     "locationNotSet": "Location not set",
     "distanceUnavailable": "Distance unavailable",
+    "mapButton": "Map",
+    "closeMap": "Close map",
+    "mapUnavailable": "Map unavailable right now",
     "emptyState": {
       "title": "No sitters found in this radius.",
       "clearRadius": "Clear radius filter"
@@ -1861,7 +1872,8 @@
     "parentPinTitle": "{name}’s location",
     "yourLocation": "Your location",
     "hourlyRate": "${rate}/hr",
-    "viewProfile": "View Profile"
+    "viewProfile": "View Profile",
+    "mapUnavailable": "Map unavailable right now"
   },
   "sitterReviews": {
     "reviews": "Reviews",

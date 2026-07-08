@@ -2,13 +2,14 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { Search, CheckCircle2, SlidersHorizontal, ChevronDown, ChevronUp } from "lucide-react";
 import { ActivityCard } from "./ActivityCard";
 import { FeaturedCarousel } from "./FeaturedCarousel";
 import { ActivityModal } from "./ActivityModal";
 import { getCategory, getCategoryLabel, getDifficultyLabel, getAccessibilityTags, CATEGORY_OPTIONS } from "./activity-utils";
+import { createClient } from "@/lib/supabase/client";
 
 // ─── Filter options ───────────────────────────────────────────────────────────
 // Canonical values/bounds used for matching stay fixed here; the *labels*
@@ -78,6 +79,8 @@ export function ActivityLibrary({ bookingSitterId = "" }) {
   const t = useTranslations("activityLibrary");
   const tUtils = useTranslations("activityUtils");
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const [authToast, setAuthToast] = useState(false);
 
   // Data
   const [activities, setActivities] = useState([]);
@@ -275,10 +278,19 @@ export function ActivityLibrary({ bookingSitterId = "" }) {
   const toggleDifficulty = (v) => setSelectedDifficulties((prev) => toggleInArray(prev, v));
   const toggleNeed = (v) => setSelectedNeeds((prev) => toggleInArray(prev, v));
 
-  const toggleBookingSelection = (id) =>
+  const toggleBookingSelection = async (id) => {
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      setAuthToast(true);
+      setTimeout(() => setAuthToast(false), 4000);
+      setTimeout(() => router.push("/login"), 1500);
+      return;
+    }
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
+  };
 
   const hasActiveFilters =
     Boolean(searchQuery) ||
@@ -496,6 +508,12 @@ export function ActivityLibrary({ bookingSitterId = "" }) {
         isSelected={selectedActivity ? selectedSet.has(selectedActivity.id) : false}
         onToggleSelect={() => selectedActivity && toggleBookingSelection(selectedActivity.id)}
       />
+
+      {authToast && (
+        <div className="fixed bottom-6 right-6 z-[60] flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg text-sm font-semibold text-white bg-[#F96167]">
+          {t("auth.loginRequired")}
+        </div>
+      )}
     </section>
   );
 }

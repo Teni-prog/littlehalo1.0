@@ -11,7 +11,7 @@ import {
 } from "@react-google-maps/api";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
-import { MapPin, Star, DollarSign, Navigation } from "lucide-react";
+import { MapPin, Star, DollarSign, Navigation, Map as MapIcon, X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { haversineDistance, formatDistance } from "@/lib/distance";
 import Sitter from "@/assets/sitter1.png";
@@ -45,7 +45,7 @@ const SITTER_ICON_URL =
 
 function SittersMap({ sitters, parent, activeId, onPinClick, radiusMeters }) {
   const t = useTranslations("sitters");
-  const { isLoaded } = useJsApiLoader({
+  const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
 
@@ -93,6 +93,13 @@ function SittersMap({ sitters, parent, activeId, onPinClick, radiusMeters }) {
   }, [radiusMeters, map]);
 
   const activePin = sitters.find((s) => s.id === activeId);
+
+  if (loadError)
+    return (
+      <div className="flex items-center justify-center h-full bg-gray-50 text-sm text-gray-500">
+        {t("mapUnavailable")}
+      </div>
+    );
 
   if (!isLoaded)
     return (
@@ -199,6 +206,7 @@ export default function SittersPage() {
   const [loading, setLoading] = useState(true);
   const [activeId, setActiveId] = useState(null);
   const [radiusMeters, setRadiusMeters] = useState(null);
+  const [showMobileMap, setShowMobileMap] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -277,10 +285,10 @@ export default function SittersPage() {
           </div>
 
           {/* Radius filter */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 overflow-x-auto">
             <Navigation className="w-4 h-4 text-gray-400 shrink-0" />
-            <span className="text-sm text-gray-600 font-medium whitespace-nowrap">{t("radiusLabel")}</span>
-            <div className="flex gap-1.5">
+            <span className="text-sm text-gray-600 font-medium whitespace-nowrap shrink-0">{t("radiusLabel")}</span>
+            <div className="flex gap-1.5 flex-nowrap shrink-0">
               {RADIUS_OPTIONS.map((opt) => (
                 <button
                   key={opt.value}
@@ -289,7 +297,7 @@ export default function SittersPage() {
                       prev === opt.value ? null : opt.value
                     )
                   }
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+                  className={`px-3 min-h-[44px] rounded-lg text-xs font-semibold border whitespace-nowrap transition-all ${
                     radiusMeters === opt.value
                       ? "bg-[#ff6b6b] text-white border-[#ff6b6b]"
                       : "bg-white text-gray-600 border-gray-200 hover:border-[#ff6b6b]"
@@ -301,15 +309,55 @@ export default function SittersPage() {
               {radiusMeters && (
                 <button
                   onClick={() => setRadiusMeters(null)}
-                  className="px-3 py-1.5 rounded-lg text-xs text-gray-400 border border-gray-200 hover:text-[#ff6b6b] transition-colors"
+                  className="px-3 min-h-[44px] rounded-lg text-xs text-gray-400 border border-gray-200 whitespace-nowrap hover:text-[#ff6b6b] transition-colors"
                 >
                   {t("clearRadius")}
                 </button>
               )}
             </div>
+            <button
+              type="button"
+              onClick={() => setShowMobileMap(true)}
+              className="md:hidden flex items-center gap-1.5 px-3 min-h-[44px] rounded-lg text-xs font-semibold border border-gray-200 bg-white text-gray-600 whitespace-nowrap shrink-0"
+            >
+              <MapIcon className="w-4 h-4" />
+              {t("mapButton")}
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile full-screen map overlay */}
+      {showMobileMap && (
+        <div className="md:hidden fixed inset-0 z-50 bg-white flex flex-col">
+          <div className="flex items-center justify-between p-4 border-b border-gray-100 shrink-0">
+            <h2 className="text-lg font-bold text-gray-900">{t("mapButton")}</h2>
+            <button
+              type="button"
+              onClick={() => setShowMobileMap(false)}
+              aria-label={t("closeMap")}
+              className="flex items-center justify-center w-11 h-11 text-gray-500"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+          <div className="flex-1 relative">
+            <SittersMap
+              sitters={filteredSitters}
+              parent={parent}
+              activeId={activeId}
+              onPinClick={setActiveId}
+              radiusMeters={radiusMeters}
+            />
+            {!parent?.latitude && (
+              <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-600 shadow-sm">
+                <MapPin className="w-4 h-4 text-[#ff6b6b] inline mr-1" />
+                {t("setNeighbourhoodPrompt")}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Two-column body */}
       <div className="flex flex-1 overflow-hidden max-w-7xl mx-auto w-full">
@@ -409,7 +457,7 @@ function SitterRow({ sitter, isActive, onClick }) {
             <Link
               href={`/profile/Sitter/${sitter.id}`}
               onClick={(e) => e.stopPropagation()}
-              className="text-xs font-semibold text-white bg-[#ff6b6b] px-3 py-1 rounded-lg hover:bg-[#ff5252] transition-colors"
+              className="text-xs font-semibold text-white bg-[#ff6b6b] px-3 min-h-[44px] flex items-center rounded-lg hover:bg-[#ff5252] transition-colors"
             >
               {t("viewProfile")}
             </Link>

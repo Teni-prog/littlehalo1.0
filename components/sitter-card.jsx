@@ -31,7 +31,7 @@ export function SitterCard({ sitter, parentLocation = null }) {
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-      <div className="flex gap-5 p-5">
+      <div className="flex flex-col sm:flex-row gap-5 p-5">
         {/* Photo */}
         <div className="relative w-32 h-32 shrink-0 rounded-xl overflow-hidden bg-gray-100">
           <Image
@@ -161,12 +161,12 @@ export function SitterCard({ sitter, parentLocation = null }) {
       {/* Action buttons */}
       <div className="flex gap-2 justify-center px-5 pb-5">
         <Link href={`/profile/Sitter/${sitter.id}`}>
-          <button className="px-5 py-2 border border-gray-200 text-gray-700 rounded-xl font-semibold text-sm hover:bg-gray-100 hover:border-gray-300 transition-colors cursor-pointer">
+          <button className="px-5 py-3 border border-gray-200 text-gray-700 rounded-xl font-semibold text-sm hover:bg-gray-100 hover:border-gray-300 transition-colors cursor-pointer">
             {t("viewProfile")}
           </button>
         </Link>
         <Link href={`/booking?sitterId=${sitter.id}`}>
-          <button className="px-5 py-2 bg-[#ff6b6b] text-white rounded-xl font-bold text-sm hover:bg-[#e85d5d] transition-colors cursor-pointer">
+          <button className="px-5 py-3 bg-[#ff6b6b] text-white rounded-xl font-bold text-sm hover:bg-[#e85d5d] transition-colors cursor-pointer">
             {t("bookNow")}
           </button>
         </Link>

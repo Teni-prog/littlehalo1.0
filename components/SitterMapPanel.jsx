@@ -43,7 +43,7 @@ const CIRCLE_OPTIONS = {
 // radiusKm   — selected radius in km (null = no filter / no circle)
 export default function SitterMapPanel({ sitters = [], parent = null, radiusKm = null }) {
   const t = useTranslations("sitterMapPanel");
-  const { isLoaded } = useJsApiLoader({
+  const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
 
@@ -67,6 +67,14 @@ export default function SitterMapPanel({ sitters = [], parent = null, radiusKm =
     scaledSize: new window.google.maps.Size(28, 36),
     anchor: new window.google.maps.Point(14, 36),
   } : null, [isLoaded]);
+
+  if (loadError) {
+    return (
+      <div className="flex items-center justify-center h-full bg-gray-50 rounded-2xl text-sm text-gray-500">
+        {t("mapUnavailable")}
+      </div>
+    );
+  }
 
   if (!isLoaded) {
     return (

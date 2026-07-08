@@ -74,7 +74,7 @@ export function ActivityModal({ activity, onClose, isSelected, onToggleSelect })
             type="button"
             onClick={onClose}
             aria-label={t("close")}
-            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-white transition-colors"
+            className="absolute top-3 right-3 w-11 h-11 rounded-full bg-white/90 flex items-center justify-center hover:bg-white transition-colors"
           >
             <X className="w-4 h-4 text-gray-700" />
           </button>
@@ -92,7 +92,7 @@ export function ActivityModal({ activity, onClose, isSelected, onToggleSelect })
 
         <div className="p-5 sm:p-6">
           {/* Stat boxes */}
-          <div className="grid grid-cols-3 gap-3 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
             <div className="rounded-xl bg-gray-50 border border-gray-200 p-3 text-center">
               <p className="text-xs text-gray-500 mb-1">{t("stats.ageRange")}</p>
               <p className="font-bold text-gray-900 text-sm">{getAgeRangeLabel(activity, tUtils)}</p>

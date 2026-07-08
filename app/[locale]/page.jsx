@@ -112,7 +112,7 @@ export default function Home() {
             />
 
             {/* Bottom-left badge */}
-            <div className="absolute -bottom-6 -left-4 bg-white rounded-2xl shadow-lg p-4 border border-gray-100 max-w-[210px]">
+            <div className="hidden sm:block absolute -bottom-6 -left-4 bg-white rounded-2xl shadow-lg p-4 border border-gray-100 max-w-[210px]">
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center flex-shrink-0">
                   <Shield className="w-4 h-4 text-white" />
@@ -128,7 +128,7 @@ export default function Home() {
             </div>
 
             {/* Top-right badge – languages */}
-            <div className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-lg p-3 border border-gray-100">
+            <div className="hidden sm:block absolute -top-4 -right-4 bg-white rounded-2xl shadow-lg p-3 border border-gray-100">
               <div className="flex items-center gap-1 mb-1.5">
                 {[
                   { code: "CN", bg: "bg-red-400" },
@@ -294,8 +294,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-gray-200 shadow-lg">
-            <table className="w-full">
+          <div className="overflow-x-auto rounded-2xl border border-gray-200 shadow-lg">
+            <table className="w-full min-w-[640px]">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
                   <th className="text-left py-4 px-6 text-sm font-bold text-gray-700">
@@ -525,7 +525,7 @@ export default function Home() {
             </div>
 
             {/* 4 link columns */}
-            <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
               <div className="space-y-3">
                 <h4 className="text-white font-bold text-sm uppercase tracking-wide">
                   {t("footer.columns.product.title")}

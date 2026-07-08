@@ -566,7 +566,7 @@ function BookingPageContent() {
                         )}
 
                         {/* Slot grid — 4 columns */}
-                        <div className="grid grid-cols-4 gap-2">
+                        <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                           {BOOKING_SLOTS.map((hour) => {
                             const status  = getSlotStatus(hour);
                             const inRange = isSlotInSelectedRange(hour);

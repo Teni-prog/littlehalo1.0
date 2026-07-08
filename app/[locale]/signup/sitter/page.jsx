@@ -356,7 +356,7 @@ function Step3({ data, update, errors }) {
   const t = useTranslations("signupSitter");
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label={t("steps.credentials.experienceLabel")} error={errors.experience} required>
           <TextInput icon={Briefcase} type="number" value={data.experience} error={errors.experience}
             onChange={e => update("experience", e.target.value)}
@@ -463,6 +463,7 @@ export default function SitterSignupPage() {
   // ── Final submit ──────────────────────────────────────────────────────────────
 
   async function handleSubmit() {
+    if (loading) return;
     setLoading(true);
     setSubmitError(null);
     try {

@@ -56,7 +56,7 @@ export function ActivityCard({ activity, isSelected, onToggleSelect, onViewDetai
           type="button"
           onClick={() => setBookmarked((v) => !v)}
           aria-label={bookmarked ? t("removeBookmark") : t("bookmarkActivity")}
-          className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center shadow-sm hover:bg-white transition-colors"
+          className="absolute top-2 right-2 w-11 h-11 rounded-full bg-white/90 flex items-center justify-center shadow-sm hover:bg-white transition-colors"
         >
           <Bookmark className={`w-4 h-4 ${bookmarked ? "fill-[#F96167] text-[#F96167]" : "text-gray-500"}`} />
         </button>
