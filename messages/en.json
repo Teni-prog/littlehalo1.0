@@ -195,38 +195,12 @@
     "termsNotice": "By confirming, you agree to our Terms of Service and Cancellation Policy"
   },
   "bookingSuccess": {
-    "pending": {
-      "title": "Booking Pending",
-      "description": "Waiting for your sitter to confirm. We’ll notify you once they do! In the meantime, feel free to explore more sitters or activities on our platform.",
-      "bookingId": "Booking ID:"
-    },
-    "rating": {
-      "title": "How would you rate this match?",
-      "promptNamed": "How was {sitterName} as a match for your family?",
-      "promptGeneric": "How was your sitter as a match for your family?",
-      "hint": "You can rate now or come back after your session.",
-      "greatMatch": "Great match",
-      "wouldBookAgain": "Would book again",
-      "notRightFit": "Not the right fit",
-      "wouldntBookAgain": "Wouldn’t book again",
-      "noteLabel": "Anything specific?",
-      "noteOptional": "(optional)",
-      "notePlaceholderGood": "e.g. Great with the kids, very punctual…",
-      "notePlaceholderBad": "e.g. Language barrier, different energy with the kids…",
-      "submitError": "Couldn’t save your rating. Please try again.",
-      "saving": "Saving…",
-      "submit": "Submit rating",
-      "skip": "Skip",
-      "privacyNote": "Your rating is private and used only to improve your future matches."
-    },
-    "thankYou": {
-      "title": "Thanks for your feedback!",
-      "description": "Your rating helps us recommend better matches for your family over time.",
-      "prioritizeNote": "We’ll prioritise sitters like <strong>{sitterName}</strong> in future matches."
-    },
+    "logoAlt": "Little Halo",
+    "title": "Booking Confirmed!",
+    "description": "Your booking request has been sent. You'll be notified once your sitter confirms.",
     "cta": {
-      "findAnotherSitter": "Find Another Sitter",
-      "findAnotherSitterArrow": "Find another sitter →"
+      "goToDashboard": "Go to Dashboard",
+      "browseActivities": "Browse Activities"
     }
   },
   "bookingsParent": {

@@ -195,38 +195,12 @@
     "termsNotice": "En confirmant, vous acceptez nos conditions d'utilisation et notre politique d'annulation."
   },
   "bookingSuccess": {
-    "pending": {
-      "title": "Réservation en attente",
-      "description": "Nous attendons la confirmation de votre gardienne. Nous vous aviserons dès qu’elle aura confirmé! En attendant, n’hésitez pas à découvrir d’autres gardiennes ou activités sur notre plateforme.",
-      "bookingId": "Numéro de réservation :"
-    },
-    "rating": {
-      "title": "Comment évalueriez-vous ce match?",
-      "promptNamed": "Comment c'était? {sitterName} pour votre famille?",
-      "promptGeneric": "Votre gardienne correspondait-elle bien à votre famille?",
-      "hint": "Vous pouvez donner votre évaluation dès maintenant ou revenir après votre séance.",
-      "greatMatch": "Super match!",
-      "wouldBookAgain": "Je réserverais de nouveau",
-      "notRightFit": "Ce n'est pas ce qu'il me faut",
-      "wouldntBookAgain": "Je ne réserverais plus là-bas",
-      "noteLabel": "Quelque chose en particulier?",
-      "noteOptional": "(facultatif)",
-      "notePlaceholderGood": "p. ex. : super avec les enfants, très ponctuel…",
-      "notePlaceholderBad": "p. ex. : la barrière linguistique, une dynamique différente avec les enfants…",
-      "submitError": "Impossible d'enregistrer votre évaluation. Veuillez réessayer.",
-      "saving": "Enregistrement en cours…",
-      "submit": "Soumettre une évaluation",
-      "skip": "Navire",
-      "privacyNote": "Votre cote est confidentielle et sert uniquement à améliorer vos appariements futurs."
-    },
-    "thankYou": {
-      "title": "Merci pour vos commentaires!",
-      "description": "Votre évaluation nous aide à vous proposer, au fil du temps, des choix mieux adaptés à votre famille.",
-      "prioritizeNote": "Nous donnerons la priorité aux gardiennes comme <strong>{sitterName}</strong> lors des prochains matchs."
-    },
+    "logoAlt": "Little Halo",
+    "title": "Réservation confirmée!",
+    "description": "Votre demande de réservation a été envoyée. Vous serez averti dès que votre gardienne confirmera.",
     "cta": {
-      "findAnotherSitter": "Trouver une autre gardienne",
-      "findAnotherSitterArrow": "Trouver une autre gardienne →"
+      "goToDashboard": "Aller au tableau de bord",
+      "browseActivities": "Parcourir les activités"
     }
   },
   "bookingsParent": {
